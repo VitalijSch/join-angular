@@ -8,7 +8,7 @@
     @include display-flex(column, center, center, unset);
     position: relative;
 
-    svg {
+    .back-arrow {
         position: absolute;
         top: 64px;
         left: 56px;
@@ -71,41 +71,43 @@ form {
         }
     }
 
-    .checkbox-container {
-        width: 100%;
-        padding-left: 39px;
-        @include display-flex(unset, unset, center, 8px);
+    .checkbox-feedback-container {
 
-        .checkbox {
-            width: 24px;
-            height: 24px;
-            background-image: url(./../../../assets/images/authentification/login/empty_checkbox.png);
-            cursor: pointer;
+        .checkbox-container {
+            @include display-flex(unset, unset, center, 8px);
 
-            &:hover {
-                background-image: url(./../../../assets/images/authentification/login/empty_checkbox_hover.png);
-            }
-        }
-
-        .checked-checkbox {
-            background-image: url(./../../../assets/images/authentification/login/checked_checkbox.png);
-
-            &:hover {
-                background-image: url(./../../../assets/images/authentification/login/checked_checkbox_hover.png);
-            }
-        }
-
-        span {
-            color: $grey-color;
-            line-height: 19.2px;
-
-            span {
-                color: $effect-color;
+            .checkbox {
+                width: 24px;
+                height: 24px;
+                background-image: url(./../../../assets/images/authentification/login/empty_checkbox.png);
                 cursor: pointer;
 
                 &:hover {
-                    font-weight: 500;
-                    text-decoration: underline;
+                    background-image: url(./../../../assets/images/authentification/login/empty_checkbox_hover.png);
+                }
+            }
+
+            .checked-checkbox {
+                background-image: url(./../../../assets/images/authentification/login/checked_checkbox.png);
+
+                &:hover {
+                    background-image: url(./../../../assets/images/authentification/login/checked_checkbox_hover.png);
+                }
+            }
+
+            span {
+                width: 210px;
+                color: $grey-color;
+                line-height: 19.2px;
+
+                span {
+                    color: $effect-color;
+                    cursor: pointer;
+
+                    &:hover {
+                        font-weight: 500;
+                        text-decoration: underline;
+                    }
                 }
             }
         }
@@ -126,8 +128,51 @@ form {
         cursor: pointer;
 
         &:hover {
+            cursor: not-allowed;
+        }
+    }
+
+    .active-button {
+
+        &:hover {
+            cursor: pointer !important;
             background-color: $effect-color;
             box-shadow: 0px 4px 4px 0px #00000040;
         }
     }
+}
+
+.successfully-message-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    background-color: rgba(0, 0, 0, 0.2);
+    @include display-flex(unset, center, center, unset);
+    overflow: hidden;
+
+    span {
+        width: 312px;
+        height: 74px;
+        background-color: $primary-color;
+        color: $secondary-color;
+        padding: 25px;
+        border: unset;
+        border-radius: 20px;
+        box-shadow: 0px 0px 4px 0px #00000026;
+        font-size: 20px;
+        line-height: 24px;
+        text-wrap: nowrap;
+        transform: translateY(100vh);
+    }
+}
+
+.show-message {
+    z-index: 9999;
+}
+
+.show-animation {
+    animation: slideFromBottomToCenter 0.5s ease-out forwards;
 }

@@ -1,3 +1,4 @@
+@import './colors.scss';
 @import './fonts.scss';
 
 * {
@@ -9,4 +10,20 @@
 body {
     height: 100vh;
     font-family: 'Inter';
+}
+
+.error-message {
+    font-size: 13px;
+    line-height: 15.6px;
+    color: $error-color;
+}
+
+@keyframes slideFromBottomToCenter {
+    from {
+        transform: translateY(100vh);
+    }
+
+    to {
+        transform: translateY(0);
+    }
 }

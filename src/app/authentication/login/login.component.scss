@@ -102,8 +102,7 @@ form {
                 border: 2px solid transparent;
 
                 &:hover {
-                    background-color: $effect-color;
-                    box-shadow: 0px 4px 4px 0px #00000040;
+                    cursor: not-allowed;
                 }
             }
 
@@ -118,6 +117,15 @@ form {
                     border: 2px solid #29ABE2;
                     box-shadow: 0px 4px 4px 0px #00000040;
                 }
+            }
+        }
+
+        .active-button {
+
+            &:hover {
+                cursor: pointer !important;
+                background-color: $effect-color;
+                box-shadow: 0px 4px 4px 0px #00000040;
             }
         }
     }

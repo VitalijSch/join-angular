@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +11,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+  public authenticationService: AuthenticationService = inject(AuthenticationService);
   private fb: FormBuilder = inject(FormBuilder);
 
   public userForm!: FormGroup;
@@ -26,6 +28,12 @@ export class LoginComponent {
       password: ['', [Validators.required, Validators.pattern(/^.{8,}$/)]],
       acceptTerms: [false, Validators.requiredTrue]
     });
+  }
+
+  public resetPassword(): void {
+    if (this.userForm.get('password')?.value === '') {
+      this.authenticationService.showPassword = false;
+    }
   }
 
   public toggleCheckbox(): void {
