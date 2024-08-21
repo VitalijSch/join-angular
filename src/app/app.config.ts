@@ -2,7 +2,7 @@ import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { environment } from './environments/environment';
+import { environment } from '../environments/environment';
 import { FirebaseApp, initializeApp } from "firebase/app";
 import { provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore } from 'firebase/firestore';
