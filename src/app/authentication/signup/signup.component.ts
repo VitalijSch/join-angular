@@ -3,7 +3,6 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { FirebaseAuthenticationService } from '../../services/firebase-authentication/firebase-authentication.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -15,7 +14,6 @@ import { Router } from '@angular/router';
 export class SignupComponent {
   public authenticationService: AuthenticationService = inject(AuthenticationService);
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
-  private router: Router = inject(Router);
   private location: Location = inject(Location);
   private fb: FormBuilder = inject(FormBuilder);
 
@@ -24,10 +22,10 @@ export class SignupComponent {
   public passwordsMatch: boolean = false;
   public isChecked: boolean = false;
   public showCheckboxFeedback: boolean = false;
-  public showSuccessfullyMessage: boolean = false;
 
   ngOnInit(): void {
     this.setupUserForm();
+    this.resetPassword();
   }
 
   private setupUserForm(): void {
@@ -68,17 +66,8 @@ export class SignupComponent {
   public async createUser(): Promise<void> {
     this.checkCheckbox();
     if (this.userForm.valid && this.isChecked && this.passwordsMatch) {
-      this.showSuccessfullyMessage = true;
-      await this.firebaseAuthenticationService.registerWithEmailPassword(this.userForm.get('name')?.value, this.userForm.get('email')?.value, this.userForm.get('password')?.value);
-      this.handleAnimationAndNavigation();
+      await this.firebaseAuthenticationService.registerWithEmailPassword(this.userForm.get('email')?.value, this.userForm.get('password')?.value);
     }
-  }
-
-  private handleAnimationAndNavigation(): void {
-    setTimeout(() => {
-      this.showSuccessfullyMessage = false;
-      this.router.navigate(['/authentication/login']);
-    }, 500);
   }
 
   private checkCheckbox(): void {

@@ -27,7 +27,9 @@
                         fill="#A8A8A8" />
                 </g>
             </svg>
-            <input type="text" name="name" id="name" formControlName="name" placeholder="Name">
+            <input
+                [ngStyle]="{'border-color': (userForm.get('name')?.touched && userForm.get('name')?.invalid) ? 'red': ''}"
+                type="text" name="name" id="name" formControlName="name" placeholder="Name">
             @if (userForm.get('name')?.touched && userForm.get('name')?.invalid) {
             @if (userForm.get('name')?.errors?.['required']) {
             <span class="error-message">Please enter a name.</span>
@@ -49,7 +51,9 @@
                         fill="#A8A8A8" />
                 </g>
             </svg>
-            <input type="email" name="email" id="email" formControlName="email" placeholder="Email">
+            <input
+                [ngStyle]="{'border-color': (userForm.get('email')?.touched && userForm.get('email')?.invalid) || firebaseAuthenticationService.showErrorMessage !== '' ? 'red': ''}"
+                type="email" name="email" id="email" formControlName="email" placeholder="Email">
             @if (userForm.get('email')?.touched && userForm.get('email')?.invalid) {
             @if (userForm.get('email')?.errors?.['required']) {
             <span class="error-message">Please enter an email address.</span>
@@ -104,7 +108,9 @@
             </svg>
             }
             }
-            <input [type]="authenticationService.showPassword ? 'text' : 'password'" (input)="resetPassword()"
+            <input
+                [ngStyle]="{'border-color': (userForm.get('password')?.touched && userForm.get('password')?.invalid) || (userForm.get('confirmPassword')?.valid && !passwordsMatch) ? 'red': ''}"
+                [type]="authenticationService.showPassword ? 'text' : 'password'" (input)="resetPassword()"
                 name="password" id="password" formControlName="password" placeholder="Password">
             @if (userForm.get('password')?.touched && userForm.get('password')?.invalid) {
             @if (userForm.get('password')?.errors?.['required']) {
@@ -157,7 +163,9 @@
             </svg>
             }
             }
-            <input [type]="authenticationService.showConfirmPassword ? 'text' : 'password'" (input)="resetPassword()"
+            <input
+                [ngStyle]="{'border-color': (userForm.get('confirmPassword')?.touched && userForm.get('confirmPassword')?.invalid) || (userForm.get('confirmPassword')?.valid && !passwordsMatch) ? 'red': ''}"
+                [type]="authenticationService.showConfirmPassword ? 'text' : 'password'" (input)="resetPassword()"
                 name="confirmPassword" id="confirmPassword" formControlName="confirmPassword"
                 placeholder="Confirm Password">
             @if (userForm.get('confirmPassword')?.touched && userForm.get('confirmPassword')?.invalid) {
@@ -185,6 +193,8 @@
             up</button>
     </form>
 </div>
-<div [ngClass]="{'show-message': showSuccessfullyMessage}" class="successfully-message-container">
-    <span [ngClass]="{'show-animation': showSuccessfullyMessage}">You Signed Up successfully</span>
+<div [ngClass]="{'show-message': firebaseAuthenticationService.showSuccessfullyMessage}"
+    class="successfully-message-container">
+    <span [ngClass]="{'show-animation': firebaseAuthenticationService.showSuccessfullyMessage}">You Signed Up
+        successfully</span>
 </div>

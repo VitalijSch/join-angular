@@ -14,15 +14,17 @@
                         fill="#A8A8A8" />
                 </g>
             </svg>
-            <input type="email" name="email" id="email" formControlName="email" placeholder="Email">
-            <!-- @if (userForm.get('email')?.touched && userForm.get('email')?.invalid) {
+            <input
+                [ngStyle]="{'border-color': (userForm.get('email')?.touched && userForm.get('email')?.invalid) || firebaseAuthenticationService.showErrorMessage !== '' ? 'red': ''}"
+                type="email" name="email" id="email" formControlName="email" placeholder="Email">
+            @if (userForm.get('email')?.touched && userForm.get('email')?.invalid) {
             @if(userForm.get('email')?.errors?.['required']) {
-            <span>Bitte schreiben Sie eine E-Mail</span>
+            <span class="error-message">Please enter an email.</span>
             }
             @if(userForm.get('email')?.errors?.['pattern']){
-            <span>Geben Sie bitte eine gültige E-Mail-Adresse ein.</span>
+            <span class="error-message">Please enter a valid email address.</span>
             }
-            } -->
+            }
         </div>
         <div class="input-container">
             @if(userForm.get('password')?.value === '') {
@@ -39,7 +41,8 @@
             </svg>
             } @else {
             @if(authenticationService.showPassword) {
-            <svg (click)="authenticationService.togglePassword('password')" [ngStyle]="{'cursor': 'pointer'}" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg (click)="authenticationService.togglePassword('password')" [ngStyle]="{'cursor': 'pointer'}" width="25"
+                height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <mask id="mask0_69960_5443" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25"
                     height="25">
                     <rect x="0.144531" y="0.80835" width="24" height="24" fill="#D9D9D9" />
@@ -51,7 +54,8 @@
                 </g>
             </svg>
             } @else {
-            <svg (click)="authenticationService.togglePassword('password')" [ngStyle]="{'cursor': 'pointer'}" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg (click)="authenticationService.togglePassword('password')" [ngStyle]="{'cursor': 'pointer'}" width="25"
+                height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <mask id="mask0_69960_5428" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25"
                     height="25">
                     <rect x="0.144531" y="0.80835" width="24" height="24" fill="#D9D9D9" />
@@ -64,26 +68,31 @@
             </svg>
             }
             }
-            <input [type]="authenticationService.showPassword ? 'text' : 'password'" (input)="resetPassword()" name="password" id="password" formControlName="password" placeholder="Password">
-            <!-- @if (userForm.get('password')?.touched && userForm.get('password')?.invalid) {
+            <input
+                [ngStyle]="{'border-color': (userForm.get('password')?.touched && userForm.get('password')?.invalid) || firebaseAuthenticationService.showErrorMessage !== '' ? 'red': ''}"
+                [type]="authenticationService.showPassword ? 'text' : 'password'" (input)="resetPassword()"
+                name="password" id="password" formControlName="password" placeholder="Password">
+            @if (userForm.get('password')?.touched && userForm.get('password')?.invalid) {
             @if(userForm.get('password')?.errors?.['required']) {
-            <span>Bitte geben Sie ein Passwort ein.</span>
+            <span class="error-message">Please enter a password.</span>
             }
             @if (userForm.get('password')?.errors?.['pattern']) {
-            <span>Passwort muss mindestens 8 Zeichen lang sein.</span>
+            <span class="error-message">Password must be at least 8 characters long.</span>
             }
             }
-            @if (authenticationService.showErrorMessage !== '') {
-            <span>{{authenticationService.showErrorMessage}}</span>
-            } -->
+            @if (firebaseAuthenticationService.showErrorMessage !== '') {
+            <span class="error-message">{{firebaseAuthenticationService.showErrorMessage}}</span>
+            }
         </div>
         <div class="checkbox-container">
-            <div (click)="toggleCheckbox()" [ngClass]="{'checked-checkbox': isChecked}" class="checkbox"></div>
+            <!-- [ngClass]="{'checked-checkbox': firebaseAuthenticationService.rememberMe}" -->
+            <div class="checkbox"></div>
             <span>Remember me</span>
         </div>
         <div class="button-container">
-            <button type="submit" [disabled]="userForm.invalid">Log in</button>
-            <!-- class="inactive-button" [ngClass]="{'active-button': userForm.valid}"  -->
+            <button [ngClass]="{'active-button': userForm.valid}" type="submit">
+                Log in
+            </button>
             <button (click)="loginAsGuest()" type="button">Guest Log in</button>
         </div>
     </form>
