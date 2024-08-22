@@ -11,6 +11,20 @@ import { Router, RouterOutlet } from '@angular/router';
 })
 export class AuthenticationComponent {
   private router: Router = inject(Router);
+  public playAnimation: boolean = false;
+
+  ngOnInit(): void {
+    this.handleAnimation();
+  }
+
+  private handleAnimation(): void {
+    if (this.router.url.includes('login')) {
+      this.playAnimation = true;
+      setTimeout(() => {
+        this.playAnimation = false;
+      }, 2000);
+    }
+  }
 
   public goToSignup(): void {
     this.router.navigate(['/authentication/signup']);

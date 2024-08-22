@@ -149,7 +149,6 @@ form {
     bottom: 0;
     left: 0;
     z-index: -1;
-    background-color: rgba(0, 0, 0, 0.2);
     @include display-flex(unset, center, center, unset);
     overflow: hidden;
 
@@ -170,6 +169,7 @@ form {
 }
 
 .show-message {
+    background-color: rgba(0, 0, 0, 0.2);
     z-index: 9999;
 }
 

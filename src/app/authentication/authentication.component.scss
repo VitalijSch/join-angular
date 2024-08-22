@@ -19,7 +19,7 @@
 
 .top-container {
     width: 100%;
-    @include display-flex(unset, space-between, unset, unset);
+    @include display-flex(unset, flex-end, unset, unset);
 
     .signup-container {
         height: 49px;
@@ -65,4 +65,33 @@
             color: $effect-color;
         }
     }
+}
+
+.start-logo-animation {
+    position: fixed;
+    width: 100px;
+    height: 122px;
+    top: 100px;
+    left: 100px;
+    z-index: 1;
+    transform: translate(0, 0);
+}
+
+.logo-animation {
+    position: fixed;
+    width: 274px;
+    height: 334px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: moveAndShrinkFromCenterToTopLeft 0.4s ease-in 1s forwards;
+}
+
+.start-face-in-animation {
+    opacity: 1;
+}
+
+.fade-in-animation {
+    opacity: 0;
+    animation: fadeIn 0.4s ease-in 1s forwards;
 }

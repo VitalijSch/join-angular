@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { FirebaseAuthenticationService } from '../../services/firebase-authentication/firebase-authentication.service';
+import { FirebaseDatabaseService } from '../../services/firebase-database/firebase-database.service';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ import { FirebaseAuthenticationService } from '../../services/firebase-authentic
 export class LoginComponent {
   public authenticationService: AuthenticationService = inject(AuthenticationService);
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
+  private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
   private fb: FormBuilder = inject(FormBuilder);
 
   public userForm!: FormGroup;
@@ -21,6 +23,11 @@ export class LoginComponent {
   ngOnInit(): void {
     this.setupUserForm();
     this.resetPassword();
+    this.firebaseDatabaseService.user$.subscribe(user => {
+      if (user) {
+        this.checkRememberMe(user);
+      }
+    });
   }
 
   private setupUserForm(): void {
@@ -36,6 +43,14 @@ export class LoginComponent {
     }
     if (this.userForm.get('confirmPassword')?.value === '') {
       this.authenticationService.showConfirmPassword = false;
+    }
+  }
+
+  private checkRememberMe(user: any): void {
+    if(user.email !== '') {
+      this.firebaseAuthenticationService.rememberMe = true;
+      this.userForm.get('email')?.setValue(user.email);
+      this.userForm.get('password')?.setValue(user.password);
     }
   }
 
