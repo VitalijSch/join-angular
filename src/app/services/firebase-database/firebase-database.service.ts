@@ -1,9 +1,8 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { CollectionReference, DocumentData, Firestore } from '@angular/fire/firestore';
 import { User } from '../../interfaces/user';
 import { collection, deleteDoc, doc, onSnapshot, setDoc } from 'firebase/firestore';
 import { Unsubscribe } from 'firebase/auth';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,41 +10,52 @@ import { BehaviorSubject } from 'rxjs';
 export class FirebaseDatabaseService {
   private firestore: Firestore = inject(Firestore);
 
-  private unsubUser!: Unsubscribe;
+  private unsubscribe!: Unsubscribe;
 
-  private userSubject = new BehaviorSubject<User | null>(null);
-  public user$ = this.userSubject.asObservable();
-
-  constructor() {
-    this.getUser();
-  }
+  public user: WritableSignal<User | null> = signal<User | null>(null);
 
   private userCollection(): CollectionReference<DocumentData> {
     return collection(this.firestore, 'user');
   }
 
-  public getUser(): void {
-    this.unsubUser = onSnapshot(this.userCollection(), (querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        this.userSubject.next(doc.data() as User);
-      });
-    })
+  public getUser(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.unsubscribe = onSnapshot(this.userCollection(), (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          this.user.set(doc.data() as User);
+        });
+        resolve();
+      }, reject);
+    });
   }
 
   public async addUser(user: User): Promise<void> {
-    const userDocRef = doc(this.userCollection());
-    user.id = userDocRef.id;
-    await setDoc(userDocRef, user);
+    try {
+      const userDocRef = doc(this.userCollection());
+      user.id = userDocRef.id;
+      await setDoc(userDocRef, user);
+    } catch (error) {
+      console.error('Error adding user:', error);
+    }
   }
 
   public async deleteUser(id: string): Promise<void> {
-    const customerDocRef = doc(this.userCollection(), id);
-    await deleteDoc(customerDocRef);
+    try {
+      const customerDocRef = doc(this.userCollection(), id);
+      await deleteDoc(customerDocRef);
+      const user: User = {
+        email: '',
+        password: ''
+      };
+      this.user.set(user);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
   }
 
-  onNgDestroy(): void {
-    if (this.unsubUser) {
-      this.unsubUser;
+  public ngOnDestroy(): void {
+    if (this.unsubscribe) {
+      this.unsubscribe();
     }
   }
 }

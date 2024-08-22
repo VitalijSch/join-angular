@@ -13,7 +13,7 @@ export class AuthenticationComponent {
   private router: Router = inject(Router);
   public playAnimation: boolean = false;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.handleAnimation();
   }
 
@@ -26,8 +26,8 @@ export class AuthenticationComponent {
     }
   }
 
-  public goToSignup(): void {
-    this.router.navigate(['/authentication/signup']);
+  public async goToSignup(): Promise<void> {
+    await this.router.navigate(['/authentication/signup']);
   }
 
   public checkCurrentRoute(): boolean {

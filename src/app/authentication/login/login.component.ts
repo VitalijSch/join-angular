@@ -20,14 +20,13 @@ export class LoginComponent {
 
   public userForm!: FormGroup;
 
-  ngOnInit(): void {
+  public rememberMe: boolean = false;
+
+  public async ngOnInit(): Promise<void> {
     this.setupUserForm();
     this.resetPassword();
-    this.firebaseDatabaseService.user$.subscribe(user => {
-      if (user) {
-        this.checkRememberMe(user);
-      }
-    });
+    await this.firebaseDatabaseService.getUser();
+    this.checkRememberMe(this.firebaseDatabaseService.user());
   }
 
   private setupUserForm(): void {
@@ -47,20 +46,48 @@ export class LoginComponent {
   }
 
   private checkRememberMe(user: any): void {
-    if(user.email !== '') {
-      this.firebaseAuthenticationService.rememberMe = true;
-      this.userForm.get('email')?.setValue(user.email);
-      this.userForm.get('password')?.setValue(user.password);
+    if (user !== null) {
+      if (user.email !== '') {
+        this.rememberMe = true;
+        this.userForm.get('email')?.setValue(user.email);
+        this.userForm.get('password')?.setValue(user.password);
+      }
+    } else {
+      this.rememberMe = false;
+      this.userForm.get('email')?.setValue('');
+      this.userForm.get('password')?.setValue('');
     }
+  }
+
+  public toggleRememberMe(): void {
+    this.rememberMe = !this.rememberMe;
   }
 
   public async loginAsUser(): Promise<void> {
     if (this.userForm.valid) {
-      this.firebaseAuthenticationService.loginAsUser(this.userForm.get('email')?.value, this.userForm.get('password')?.value);
+      const email = this.userForm.get('email')?.value;
+      const password = this.userForm.get('password')?.value;
+      await this.handleRememberMe(email, password);
+      await this.firebaseAuthenticationService.loginAsUser(email, password);
     }
   }
 
-  public loginAsGuest(): void {
-    this.firebaseAuthenticationService.loginAsGuest();
+  private async handleRememberMe(email: string, password: string): Promise<void> {
+    if (this.rememberMe) {
+      const user = {
+        email,
+        password
+      };
+      await this.firebaseDatabaseService.addUser(user);
+    } else {
+      const user = this.firebaseDatabaseService.user();
+      if (user?.id) {
+        await this.firebaseDatabaseService.deleteUser(user.id);
+      }
+    }
+  }
+
+  public async loginAsGuest(): Promise<void> {
+    await this.firebaseAuthenticationService.loginAsGuest();
   }
 }

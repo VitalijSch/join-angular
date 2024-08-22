@@ -18,6 +18,10 @@ body {
     color: $error-color;
 }
 
+.d-none {
+    display: none;
+}
+
 @keyframes slideFromBottomToCenter {
     from {
         transform: translateY(100vh);
