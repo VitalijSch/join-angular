@@ -1,6 +1,6 @@
 @import './../../../styles/colors.scss';
 
-.help-container {
+.legal-notice-container {
     background-color: $background-color;
     padding: 100px 100px 40px 100px;
     position: relative;
@@ -25,32 +25,22 @@
         line-height: 73.2px;
     }
 
-    span {
-        font-size: 16px;
-        line-height: 19.2px;
-    }
-
-    .join-color {
-        color: $effect-color;
-    }
-
     h2 {
         font-weight: 700;
         font-size: 27px;
         line-height: 32.4px;
     }
 
-    .flex-container {
-        display: flex;
-        gap: 40px;
-
-        div {
-            margin-bottom: 16px;
-        }
+    ul {
+        padding-left: 25px;
     }
 
-    .margin-left {
-        margin-left: 65px;
+    p {
+        font-size: 16px;
+        line-height: 19.2px;
+    }
+
+    span {
+        color: $effect-color;
     }
 }
-

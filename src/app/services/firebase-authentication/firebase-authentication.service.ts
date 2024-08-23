@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, getAuth, signInAnonymously, onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { Auth, getAuth, signInAnonymously, onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, User, updateProfile, UserCredential } from "firebase/auth";
 import { Router } from '@angular/router';
 import { FirebaseError } from 'firebase/app';
 
@@ -16,10 +16,13 @@ export class FirebaseAuthenticationService {
   public showErrorMessage: string = '';
   public showSuccessfullyMessage: boolean = false;
 
-  public async registerWithEmailPassword(email: string, password: string): Promise<void> {
+  public async registerWithEmailPassword(name: string, email: string, password: string): Promise<void> {
     try {
       this.showSuccessfullyMessage = true;
-      await createUserWithEmailAndPassword(this.auth, email, password);
+      const userCredential: UserCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+      await updateProfile(userCredential.user, {
+        displayName: name
+      });
       await this.handleAnimationAndNavigation();
     } catch (error) {
       if (error) {
@@ -51,7 +54,7 @@ export class FirebaseAuthenticationService {
       await signInAnonymously(this.auth);
       await this.router.navigate(['/home/summary']);
     } catch (error) {
-      console.error('Fehler bei der anonymen Anmeldung:', error);
+      console.error('Error during anonymous login:', error);
     }
   }
 
@@ -72,19 +75,55 @@ export class FirebaseAuthenticationService {
 
   public async logout(): Promise<void> {
     try {
-      await signOut(this.auth);
+      this.deleteAnonymUser();
       await this.router.navigate(['/authentication/login']);
+      await signOut(this.auth);
     } catch (error) {
       console.error("Error signing out: ", error);
     }
   }
 
+  private async deleteAnonymUser(): Promise<void> {
+    try {
+      const user = this.auth.currentUser;
+      if (user && user.isAnonymous) {
+        await user.delete();
+        console.log("Anonymous user has been deleted.");
+      }
+    } catch (error) {
+      console.error("Failed to delete anonymous user: ", error);
+    }
+  }
+
+  public getUserName(): string | undefined {
+    const userName = this.auth.currentUser?.displayName;
+    if (userName === null) {
+      return 'Guest';
+    } else {
+      return userName;
+    }
+    ;
+  }
+
+  public getUserInitials(): string {
+    const userName = this.auth.currentUser?.displayName;
+    if (!userName) {
+      return 'G';
+    }
+    const nameParts = userName.split(' ');
+    const initials = nameParts
+      .map(part => part.charAt(0).toUpperCase())
+      .join('');
+    return initials;
+  }
+
   public checkIfUserIsLogged(): void {
     this.unsubscribe = onAuthStateChanged(this.auth, (user) => {
       if (user) {
-        console.log('user is logged:', user);
+        console.log('User is logged in:', user);
       } else {
-        console.log('user is logout');
+        console.log('User is logged out');
+        this.deleteAnonymUser();
         this.router.navigate(['/authentication/login']);
       }
     });

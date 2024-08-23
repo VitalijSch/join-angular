@@ -9,6 +9,7 @@
     box-shadow: 0px 4px 4px 0px #0000001A;
     @include display-flex(unset, space-between, center, unset);
     position: relative;
+    z-index: 1;
 
     span {
         font-size: 20px;
@@ -41,6 +42,10 @@
             span {
                 color: $effect-color;
             }
+        }
+
+        .active-user-icon {
+            background-color: #e2e6eb;
         }
     }
 }

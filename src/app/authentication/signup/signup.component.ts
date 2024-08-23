@@ -66,7 +66,10 @@ export class SignupComponent {
   public async createUser(): Promise<void> {
     this.checkCheckbox();
     if (this.userForm.valid && this.isChecked && this.passwordsMatch) {
-      await this.firebaseAuthenticationService.registerWithEmailPassword(this.userForm.get('email')?.value, this.userForm.get('password')?.value);
+      const name = this.userForm.get('name')?.value;
+      const email = this.userForm.get('email')?.value;
+      const password = this.userForm.get('password')?.value;
+      await this.firebaseAuthenticationService.registerWithEmailPassword(name, email, password);
     }
   }
 

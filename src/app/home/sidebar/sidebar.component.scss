@@ -1,0 +1,78 @@
+@import './../../../styles/colors.scss';
+@import './../../../styles/mixins.scss';
+
+.sidebar-container {
+    width: 100%;
+    height: 100%;
+    background-color: $primary-color;
+    padding: 64px 0;
+    @include display-flex(column, space-between, center, unset);
+
+    span {
+        font-size: 16px;
+        line-height: 19.2px;
+        color: #CDCDCD;
+    }
+
+    .navigation-container {
+        width: 100%;
+        @include display-flex(column, unset, unset, 15px);
+
+        div {
+            @include display-flex(unset, unset, center, 8px);
+            padding: 8px 56px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #2A3D59;
+            }
+        }
+
+        .active-navigation {
+            background-color: #091931;
+            cursor: default;
+
+            &:hover {
+                background-color: #091931;
+            }
+
+            svg path {
+                fill: $secondary-color;
+            }
+
+            span {
+                color: white;
+            }
+        }
+    }
+
+    .legal-info-container {
+        width: 100%;
+        @include display-flex(column, center, center, unset);
+        padding: 243px 0 20px 0;
+
+        span {
+            width: 100%;
+            height: 42px;
+            padding: 0 60px;
+            @include display-flex(unset, unset, center, unset);
+            cursor: pointer;
+
+            &:hover {
+                font-weight: 700;
+                color: $effect-color;
+            }
+        }
+
+        .active-legal-info {
+            background-color: #091931;
+            cursor: default;
+
+            &:hover {
+                background-color: #091931;
+                font-weight: 400;
+                color: #CDCDCD;
+            }
+        }
+    }
+}
