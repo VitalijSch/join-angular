@@ -13,8 +13,10 @@
             d="M91.3187 118.593V104.76H94.0458L96.9775 110.461C97.7322 111.952 98.4036 113.483 98.9887 115.049C98.8353 113.337 98.7672 111.368 98.7672 109.177V104.76H101.017V118.593H98.4774L95.5117 112.772C94.7265 111.243 94.0266 109.671 93.4152 108.064C93.4152 109.776 93.5345 111.711 93.5345 114.09V118.576L91.3187 118.593Z"
             fill="white" />
     </svg>
+    @if(firebaseAuthenticationService.auth.currentUser?.uid !== null){
     <div class="navigation-container">
-        <div (click)="homeService.navigateToRoute('summary')" [class.active-navigation]="currentUrl('summary') === 'summary'">
+        <div (click)="homeService.navigateToRoute('summary')"
+            [class.active-navigation]="currentUrl('summary') === 'summary'">
             <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M25.2273 3.48291H4.77273H4.5C3.39543 3.48291 2.5 4.37864 2.5 5.48321C2.5 5.663 2.5 5.79037 2.5 5.82288V26.2774V26.4829C2.5 27.5875 3.39572 28.4829 4.50029 28.4829C4.64377 28.4829 4.74401 28.4829 4.77272 28.4829H25.2273C25.256 28.4829 25.3562 28.4829 25.4997 28.4829C26.6043 28.4829 27.5 27.587 27.5 26.4824C27.5 26.3756 27.5 26.3017 27.5 26.2774V5.82285C27.5 5.79035 27.5 5.66299 27.5 5.48321C27.5 4.37864 26.6043 3.48291 25.4997 3.48291C25.3562 3.48291 25.256 3.48291 25.2273 3.48291ZM17.2727 26.2774H4.77273V17.1865H17.2727V26.2774ZM17.2727 14.9138H4.77273V5.82288L17.2727 5.82285V14.9138ZM25.2273 26.2774H19.5455V5.82288H25.2273V26.2774Z"
@@ -22,7 +24,8 @@
             </svg>
             <span>Summary</span>
         </div>
-        <div (click)="homeService.navigateToRoute('addTask')" [class.active-navigation]="currentUrl('addTask') === 'addTask'">
+        <div (click)="homeService.navigateToRoute('addTask')"
+            [class.active-navigation]="currentUrl('addTask') === 'addTask'">
             <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <mask id="mask0_216974_1288" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
                     height="31">
@@ -47,7 +50,8 @@
             </svg>
             <span>Board</span>
         </div>
-        <div (click)="homeService.navigateToRoute('contacts')" [class.active-navigation]="currentUrl('contacts') === 'contacts'">
+        <div (click)="homeService.navigateToRoute('contacts')"
+            [class.active-navigation]="currentUrl('contacts') === 'contacts'">
             <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <mask id="mask0_216974_1300" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
                     height="31">
@@ -62,6 +66,7 @@
             <span>Contacts</span>
         </div>
     </div>
+    }
     <div class="legal-info-container">
         <span (click)="homeService.navigateToRoute('privacyPolicy')"
             [ngClass]="{'active-legal-info': router.url.includes('privacyPolicy')}">Privacy Policy</span>

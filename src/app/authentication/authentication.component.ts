@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
+import { AuthenticationService } from '../services/authentication/authentication.service';
 
 @Component({
   selector: 'app-authentication',
@@ -10,24 +11,11 @@ import { Router, RouterOutlet } from '@angular/router';
   styleUrl: './authentication.component.scss'
 })
 export class AuthenticationComponent {
+  public authenticationService: AuthenticationService = inject(AuthenticationService);
   private router: Router = inject(Router);
-  public playAnimation: boolean = false;
 
   public ngOnInit(): void {
-    this.handleAnimation();
-  }
-
-  private handleAnimation(): void {
-    if (this.router.url.includes('login')) {
-      this.playAnimation = true;
-      setTimeout(() => {
-        this.playAnimation = false;
-      }, 2000);
-    }
-  }
-
-  public async goToSignup(): Promise<void> {
-    await this.router.navigate(['/authentication/signup']);
+    this.authenticationService.handleAnimation();
   }
 
   public checkCurrentRoute(): boolean {

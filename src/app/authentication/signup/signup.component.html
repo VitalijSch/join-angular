@@ -183,7 +183,7 @@
         <div class="checkbox-feedback-container">
             <div class="checkbox-container">
                 <div (click)="toggleCheckbox()" [ngClass]="{'checked-checkbox': isChecked}" class="checkbox"></div>
-                <span>I accept the <span>Privacy Policy</span></span>
+                <span>I accept the <span (click)="authenticationService.navigateToRoute('/home/privacyPolicy')">Privacy Policy</span></span>
             </div>
             @if (showCheckboxFeedback) {
             <span class="error-message">Please agree to the privacy policy.</span>

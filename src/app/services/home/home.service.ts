@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 })
 export class HomeService {
   private location: Location = inject(Location);
-  public router: Router = inject(Router);
+  private router: Router = inject(Router);
 
   public goBack(): void {
     this.location.back();

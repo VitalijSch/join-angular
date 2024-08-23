@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, getAuth, signInAnonymously, onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, User, updateProfile, UserCredential } from "firebase/auth";
+import { Auth, getAuth, signInAnonymously, onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, UserCredential } from "firebase/auth";
 import { Router } from '@angular/router';
 import { FirebaseError } from 'firebase/app';
 
@@ -7,7 +7,7 @@ import { FirebaseError } from 'firebase/app';
   providedIn: 'root'
 })
 export class FirebaseAuthenticationService {
-  private auth: Auth = getAuth();
+  public auth: Auth = getAuth();
 
   private router: Router = inject(Router);
 
@@ -117,14 +117,16 @@ export class FirebaseAuthenticationService {
     return initials;
   }
 
-  public checkIfUserIsLogged(): void {
-    this.unsubscribe = onAuthStateChanged(this.auth, (user) => {
+  public async checkIfUserIsLogged(): Promise<void> {
+    this.unsubscribe = onAuthStateChanged(this.auth, async (user) => {
       if (user) {
         console.log('User is logged in:', user);
       } else {
         console.log('User is logged out');
         this.deleteAnonymUser();
-        this.router.navigate(['/authentication/login']);
+        if (!this.router.url.includes('privacyPolicy') && !this.router.url.includes('legalNotice')) {
+          await this.router.navigate(['/authentication/login']);
+        }
       }
     });
   }

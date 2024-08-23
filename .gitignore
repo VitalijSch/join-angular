@@ -43,3 +43,4 @@ Thumbs.db
 
 # .gitignore
 src/environments/environment.ts
+src/environments/keys.ts
