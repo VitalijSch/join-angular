@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FirebaseAuthenticationService } from '../../services/firebase-authentication/firebase-authentication.service';
+import { HomeService } from '../../services/home/home.service';
 
 @Component({
   selector: 'app-summary',
@@ -10,16 +11,17 @@ import { FirebaseAuthenticationService } from '../../services/firebase-authentic
 })
 export class SummaryComponent {
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
+  public homeService: HomeService = inject(HomeService);
 
   public getGreeting(): string {
     const now = new Date();
     const hours = now.getHours();
     if (hours >= 0 && hours < 12) {
-      return 'Good Morning';
+      return 'Good morning';
     } else if (hours >= 12 && hours < 18) {
-      return 'Good Afternoon';
+      return 'Good afternoon';
     } else {
-      return 'Good Evening';
+      return 'Good evening';
     }
   }
 }

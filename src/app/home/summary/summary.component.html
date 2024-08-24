@@ -7,7 +7,7 @@
         </div>
         <div class="bottom-container">
             <div class="first-container">
-                <div class="to-do-and-done-container">
+                <div (click)="homeService.navigateToRoute('board')" class="to-do-and-done-container">
                     <svg width="70" height="70" viewBox="0 0 69 70" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="34.5" cy="35" r="34.5" fill="#2A3647" />
                         <mask id="mask0_217334_6090" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="18" y="19"
@@ -25,7 +25,7 @@
                         <span>To-do</span>
                     </div>
                 </div>
-                <div class="to-do-and-done-container">
+                <div (click)="homeService.navigateToRoute('board')" class="to-do-and-done-container">
                     <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="35" cy="35" r="34.5" fill="#2A3647" />
                         <path d="M20.0283 35.0001L31.2571 46.0662L49.9717 23.9341" stroke="white" stroke-width="7"
@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            <div class="second-container">
+            <div (click)="homeService.navigateToRoute('board')" class="second-container">
                 <div class="urgent-container">
                     <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="30" cy="30" r="30" fill="#FF3D00" />
@@ -68,15 +68,15 @@
                 </div>
             </div>
             <div class="third-container">
-                <div>
+                <div (click)="homeService.navigateToRoute('board')">
                     <span>5</span>
                     <span>Task in<br>Board</span>
                 </div>
-                <div>
+                <div (click)="homeService.navigateToRoute('board')">
                     <span>2</span>
                     <span>Task in<br>Progress</span>
                 </div>
-                <div>
+                <div (click)="homeService.navigateToRoute('board')">
                     <span>2</span>
                     <span>Awaiting<br>Feedback</span>
                 </div>
