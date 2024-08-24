@@ -1,0 +1,177 @@
+@import './../../../styles/colors.scss';
+@import './../../../styles/mixins.scss';
+
+.summary-container {
+    height: 100%;
+    padding: 100px;
+    @include display-flex(unset, unset, unset, unset);
+}
+
+.left-container {
+    @include display-flex(column, space-between, unset, unset);
+
+    .top-container {
+        @include display-flex(unset, space-between, center, 30px);
+
+        span {
+
+            &:first-child {
+                font-weight: 700;
+                font-size: 61px;
+                line-height: 73.2px;
+            }
+
+            &:last-child {
+                font-size: 27px;
+                line-height: 32.4px;
+                color: $primary-color;
+            }
+        }
+
+        .line-container {
+            width: 3px;
+            height: 59px;
+            background-color: $effect-color;
+        }
+    }
+
+    .bottom-container {
+        width: 560px;
+        height: 562px;
+        @include display-flex(column, space-between, unset, unset);
+
+        .flex-container {
+            @include display-flex(column, unset, center, unset);
+
+            span {
+
+                &:first-child {
+                    font-weight: 600;
+                    font-size: 64px;
+                    line-height: 76.8px;
+                }
+
+                &:last-child {
+                    font-size: 20px;
+                    line-height: 24px;
+                    color: $primary-color;
+                }
+            }
+        }
+
+        .first-container {
+            width: 100%;
+            height: 168px;
+            @include display-flex(unset, space-between, unset, 32px);
+
+            .to-do-and-done-container {
+                width: 264px;
+                height: 100%;
+                @include display-flex(unset, center, center, 18px);
+                background-color: $secondary-color;
+                border: unset;
+                border-radius: 30px;
+                box-shadow: 0px 0px 4px 0px #0000001A;
+            }
+        }
+
+        .second-container {
+            width: 560px;
+            height: 168px;
+            background-color: $secondary-color;
+            border: unset;
+            border-radius: 30px;
+            box-shadow: 0px 0px 4px 0px #0000001A;
+            @include display-flex(unset, space-between, center, unset);
+
+            .urgent-container {
+                width: 264px;
+                @include display-flex(unset, center, center, 18px);
+                position: relative;
+
+                .stroke-container {
+                    position: absolute;
+                    top: 50%;
+                    right: 0;
+                    transform: translateY(-50%);
+                    width: 2px;
+                    height: 102px;
+                    background-color: #D1D1D1;
+                }
+            }
+
+            .deadline-container {
+                width: 264px;
+                height: 57px;
+                padding-left: 20px;
+                @include display-flex(column, unset, unset, 13px);
+
+                span {
+                    color: $primary-color;
+
+                    &:first-child {
+                        font-weight: 700;
+                        font-size: 21px;
+                        line-height: 25.2px;
+                    }
+
+                    &:last-child {
+                        font-size: 16px;
+                        line-height: 19.2px;
+                    }
+                }
+            }
+        }
+
+        .third-container {
+            width: 100%;
+            height: 170px;
+            @include display-flex(unset, space-between, unset, unset);
+
+            div {
+                width: 168px;
+                height: 168px;
+                background-color: $secondary-color;
+                border: unset;
+                border-radius: 30px;
+                box-shadow: 0px 0px 4px 0px #0000001A;
+                @include display-flex(column, center, center, unset);
+
+                span {
+
+                    &:first-child {
+                        font-weight: 600;
+                        font-size: 64px;
+                        line-height: 76.8px;
+                    }
+
+                    &:last-child {
+                        text-align: center;
+                        font-size: 21px;
+                        line-height: 25.2px;
+                        color: $primary-color;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.right-container {
+    flex: 1;
+    @include display-flex(unset, center, center, unset);
+
+    span {
+        font-weight: 500;
+        font-size: 47px;
+        line-height: 56.4px;
+        color: $primary-color;
+
+        .user {
+            font-weight: 700;
+            font-size: 64px;
+            line-height: 76.8px;
+            color: $effect-color;
+        }
+    }
+}
