@@ -6,13 +6,13 @@ import { SECRET_KEY } from '../../../environments/keys';
   providedIn: 'root'
 })
 export class EncryptionService {
-  private secretKey = SECRET_KEY;;
+  private secretKey = SECRET_KEY;
 
-  encrypt(text: string): string {
+  public encrypt(text: string): string {
     return CryptoJS.AES.encrypt(text, this.secretKey).toString();
   }
 
-  decrypt(ciphertext: string): string {
+  public decrypt(ciphertext: string): string {
     const bytes = CryptoJS.AES.decrypt(ciphertext, this.secretKey);
     return bytes.toString(CryptoJS.enc.Utf8);
   }

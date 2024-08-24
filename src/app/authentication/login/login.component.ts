@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { FirebaseAuthenticationService } from '../../services/firebase-authentication/firebase-authentication.service';
-import { FirebaseDatabaseService } from '../../services/firebase-database/firebase-database.service';
+import { EncryptionService } from '../../services/encryption/encryption.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +15,7 @@ import { FirebaseDatabaseService } from '../../services/firebase-database/fireba
 export class LoginComponent {
   public authenticationService: AuthenticationService = inject(AuthenticationService);
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
-  private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
+  private encryptionService: EncryptionService = inject(EncryptionService);
   private fb: FormBuilder = inject(FormBuilder);
 
   public userForm!: FormGroup;
@@ -25,8 +25,7 @@ export class LoginComponent {
   public async ngOnInit(): Promise<void> {
     this.setupUserForm();
     this.resetPassword();
-    await this.firebaseDatabaseService.getUser();
-    this.checkRememberMe(this.firebaseDatabaseService.user());
+    this.checkRememberMe();
   }
 
   private setupUserForm(): void {
@@ -45,17 +44,29 @@ export class LoginComponent {
     }
   }
 
-  private checkRememberMe(user: any): void {
-    if (user !== null) {
-      if (user.email !== '') {
-        this.rememberMe = true;
-        this.userForm.get('email')?.setValue(user.email);
-        this.userForm.get('password')?.setValue(user.password);
-      }
+  private checkRememberMe(): void {
+    const encryptedEmail = localStorage.getItem('email');
+    const encryptedPassword = localStorage.getItem('password');
+    if (encryptedEmail && encryptedPassword) {
+      this.rememberMe = true;
+      this.decryptLoginData();
     } else {
       this.rememberMe = false;
       this.userForm.get('email')?.setValue('');
       this.userForm.get('password')?.setValue('');
+    }
+  }
+
+  private decryptLoginData(): void {
+    const encryptedEmail = localStorage.getItem('email');
+    const encryptedPassword = localStorage.getItem('password');
+    if (encryptedEmail && encryptedPassword) {
+      const email = this.encryptionService.decrypt(encryptedEmail);
+      const password = this.encryptionService.decrypt(encryptedPassword);
+      this.userForm.get('email')?.setValue(email);
+      this.userForm.get('password')?.setValue(password);
+    } else {
+      console.error('No encrypted data found in localStorage');
     }
   }
 
@@ -67,27 +78,39 @@ export class LoginComponent {
     if (this.userForm.valid) {
       const email = this.userForm.get('email')?.value;
       const password = this.userForm.get('password')?.value;
-      await this.handleRememberMe(email, password);
+      this.handleRememberMe(email, password);
       await this.firebaseAuthenticationService.loginAsUser(email, password);
     }
   }
 
-  private async handleRememberMe(email: string, password: string): Promise<void> {
+  private handleRememberMe(email: string, password: string): void {
     if (this.rememberMe) {
-      const user = {
-        email,
-        password
-      };
-      await this.firebaseDatabaseService.addUser(user);
+      this.encryptLoginData(email, password);
     } else {
-      const user = this.firebaseDatabaseService.user();
-      if (user?.id) {
-        await this.firebaseDatabaseService.deleteUser(user.id);
-      }
+      this.removeLoginDataFromLocalStorage();
+    }
+  }
+
+  private encryptLoginData(email: string, password: string): void {
+    const encryptedEmail = this.encryptionService.encrypt(email);
+    const encryptedPassword = this.encryptionService.encrypt(password);
+    localStorage.setItem('email', encryptedEmail);
+    localStorage.setItem('password', encryptedPassword);
+  }
+
+  private removeLoginDataFromLocalStorage(): void {
+    const encryptedEmail = localStorage.getItem('email');
+    const encryptedPassword = localStorage.getItem('password');
+    if (encryptedEmail && encryptedPassword) {
+      localStorage.removeItem('email');
+      localStorage.removeItem('password');
     }
   }
 
   public async loginAsGuest(): Promise<void> {
+    if (!this.rememberMe) {
+      this.removeLoginDataFromLocalStorage();
+    }
     await this.firebaseAuthenticationService.loginAsGuest();
   }
 }
