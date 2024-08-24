@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FirebaseAuthenticationService } from '../services/firebase-authentication/firebase-authentication.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -12,9 +13,24 @@ import { FirebaseAuthenticationService } from '../services/firebase-authenticati
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  private firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
-  public ngOnInit(): void {
-    this.firebaseAuthenticationService.checkIfUserIsLogged();
+  private firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
+  private router: Router = inject(Router);
+
+  public async ngOnInit(): Promise<void> {
+    await this.firebaseAuthenticationService.checkIfUserIsLogged();
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.scrollToTop();
+    });
+  }
+
+  private scrollToTop(): void {
+    const container = this.scrollContainer.nativeElement;
+    if (container) {
+      container.scrollTo({ top: 0, behavior: 'auto' });
+    }
   }
 }
