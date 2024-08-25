@@ -1,5 +1,6 @@
 @import './colors.scss';
 @import './fonts.scss';
+@import './mixins.scss';
 
 * {
     margin: 0;
@@ -18,6 +19,22 @@ body {
     color: $error-color;
 }
 
+.hidden-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    overflow: hidden;
+    @include display-flex(unset, center, center, unset);
+}
+
+.show-hidden-container {
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 9999 !important;
+}
+
 .d-none {
     display: none;
 }
@@ -32,6 +49,16 @@ body {
     }
 }
 
+@keyframes slideFromRightToLeft {
+    from {
+        transform: translateX(100vw);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
 @keyframes moveAndShrinkFromCenterToTopLeft {
     0% {
         width: 274px;
@@ -40,6 +67,7 @@ body {
         left: 50%;
         transform: translate(-50%, -50%);
     }
+
     100% {
         width: 100px;
         height: 122px;
@@ -53,6 +81,7 @@ body {
     0% {
         opacity: 0;
     }
+
     100% {
         opacity: 1;
     }

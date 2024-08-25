@@ -193,8 +193,8 @@
             up</button>
     </form>
 </div>
-<div [ngClass]="{'show-message': firebaseAuthenticationService.showSuccessfullyMessage}"
-    class="successfully-message-container">
+<div [ngClass]="{'show-hidden-container': firebaseAuthenticationService.showSuccessfullyMessage}"
+    class="hidden-container">
     <span [ngClass]="{'show-animation': firebaseAuthenticationService.showSuccessfullyMessage}">You Signed Up
         successfully</span>
 </div>

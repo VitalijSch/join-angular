@@ -1,7 +1,7 @@
 <div class="contacts-container">
     <div class="left-container">
         <div class="button-container">
-            <button>
+            <button (click)="homeService.toggleShowHiddenContainer()">
                 Add new contact
                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_217703_4957" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -21,20 +21,28 @@
                 xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 4L5 0L10 4H0Z" fill="#A8A8A8" />
             </svg>
-            @for (item of [1,1,1,1,1,1]; track $index) {
+            @for (letter of alphabet; track $index) {
+            @for (contact of firebaseDatabaseService.contacts(); track $index) {
+            @if(contact.name.startsWith(letter)) {
             <div class="letter-container">
-                A
+                {{letter}}
             </div>
             <div class="line-container"></div>
+            @for (contactForLetter of firebaseDatabaseService.contacts(); track $index) {
+            @if(contactForLetter.name.startsWith(letter)){
             <div class="contact">
-                <div class="contact-icon">
-                    AM
+                <div [ngStyle]="{'background-color': contactForLetter.avatarColor}" class="contact-icon">
+                    {{contactForLetter.avatarLetters}}
                 </div>
                 <div class="contact-data">
-                    <span>Anton Mayer</span>
-                    <span>antom&#64;gmail.com</span>
+                    <span>{{contactForLetter.name}}</span>
+                    <span>{{contactForLetter.email}}</span>
                 </div>
             </div>
+            }
+            }
+            }
+            }
             }
             <svg class="bottom-scrollbar-arrow" width="10" height="4" viewBox="0 0 10 4" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
@@ -97,3 +105,4 @@
         </div>
     </div>
 </div>
+<app-add-new-contact></app-add-new-contact>

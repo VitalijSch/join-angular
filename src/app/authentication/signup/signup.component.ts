@@ -3,6 +3,8 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { FirebaseAuthenticationService } from '../../services/firebase-authentication/firebase-authentication.service';
+import { FirebaseDatabaseService } from '../../services/firebase-database/firebase-database.service';
+import { ContactColorsService } from '../../services/contact-colors/contact-colors.service';
 
 @Component({
   selector: 'app-signup',
@@ -14,6 +16,8 @@ import { FirebaseAuthenticationService } from '../../services/firebase-authentic
 export class SignupComponent {
   public authenticationService: AuthenticationService = inject(AuthenticationService);
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
+  private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
+  private contactColorsServie: ContactColorsService = inject(ContactColorsService);
   private location: Location = inject(Location);
   private fb: FormBuilder = inject(FormBuilder);
 
@@ -70,7 +74,26 @@ export class SignupComponent {
       const email = this.userForm.get('email')?.value;
       const password = this.userForm.get('password')?.value;
       await this.firebaseAuthenticationService.registerWithEmailPassword(name, email, password);
+      await this.addContact(name, email);
     }
+  }
+
+  public async addContact(name: string, email: string): Promise<void> {
+    const contact = {
+      name: name,
+      email: email,
+      avatarLetters: this.getContactInitials(name),
+      avatarColor: this.contactColorsServie.getRandomColor()
+    }
+    await this.firebaseDatabaseService.addContact(contact);
+  }
+
+  private getContactInitials(name: string): string {
+    const nameParts = name.split(' ');
+    const initials = nameParts
+      .map(part => part.charAt(0).toUpperCase())
+      .join('');
+    return initials;
   }
 
   private checkCheckbox(): void {

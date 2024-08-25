@@ -4,7 +4,7 @@
 .summary-container {
     max-height: 928px;
     height: 100%;
-    padding: 100px;
+    padding: 100px 0 100px 100px;
     @include display-flex(unset, unset, unset, unset);
 }
 

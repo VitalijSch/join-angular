@@ -9,11 +9,17 @@ export class HomeService {
   private location: Location = inject(Location);
   private router: Router = inject(Router);
 
+  public showHiddenContainer: boolean = false;
+
   public goBack(): void {
     this.location.back();
   }
 
   public async navigateToRoute(path: string): Promise<void> {
     await this.router.navigate([`/home/${path}`]);
+  }
+
+  public toggleShowHiddenContainer(): void {
+    this.showHiddenContainer = !this.showHiddenContainer;
   }
 }
