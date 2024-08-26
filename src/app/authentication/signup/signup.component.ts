@@ -34,7 +34,7 @@ export class SignupComponent {
 
   private setupUserForm(): void {
     this.userForm = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern(/^[A-Z][a-zA-Z]+\s[A-Z][a-zA-Z]+$/)]],
+      name: ['', [Validators.required, Validators.pattern(/^[A-ZÄÖÜ][a-zA-ZäöüßÄÖÜ]+\s[A-ZÄÖÜ][a-zA-ZäöüßÄÖÜ]+$/)]],
       email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]],
       password: ['', [Validators.required, Validators.pattern(/^.{8,}$/)]],
       confirmPassword: ['', [Validators.required, Validators.pattern(/^.{8,}$/)]]
@@ -68,13 +68,21 @@ export class SignupComponent {
   }
 
   public async createUser(): Promise<void> {
+    const name = this.userForm.get('name')?.value;
+    const email = this.userForm.get('email')?.value;
+    const password = this.userForm.get('password')?.value;
     this.checkCheckbox();
-    if (this.userForm.valid && this.isChecked && this.passwordsMatch) {
-      const name = this.userForm.get('name')?.value;
-      const email = this.userForm.get('email')?.value;
-      const password = this.userForm.get('password')?.value;
+    const emailExists = this.firebaseDatabaseService.contacts().some(contact => contact.email === email);
+    this.checkIfEmailExistAtContacts(emailExists);
+    if (this.userForm.valid && this.isChecked && this.passwordsMatch && !emailExists) {
       await this.firebaseAuthenticationService.registerWithEmailPassword(name, email, password);
       await this.addContact(name, email);
+    }
+  }
+
+  private checkIfEmailExistAtContacts(emailExists: boolean): void {
+    if (emailExists) {
+      this.firebaseAuthenticationService.handleErrorMessage('This email address is already taken.');
     }
   }
 

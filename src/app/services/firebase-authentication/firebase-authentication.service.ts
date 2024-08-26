@@ -42,7 +42,7 @@ export class FirebaseAuthenticationService {
     }, 1000);
   }
 
-  private handleErrorMessage(text: string): void {
+  public handleErrorMessage(text: string): void {
     this.showErrorMessage = text;
     setTimeout(() => {
       this.showErrorMessage = '';

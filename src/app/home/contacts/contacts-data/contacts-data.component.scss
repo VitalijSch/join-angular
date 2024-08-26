@@ -1,0 +1,118 @@
+@import './../../../../styles/colors.scss';
+@import './../../../../styles/mixins.scss';
+
+.contacts-data-container {
+    flex: 1;
+    padding: 100px 70px;
+    @include display-flex(column, unset, unset, 30px);
+
+    .headline-container {
+        @include display-flex(unset, unset, center, 30px);
+
+        span {
+
+            &:first-child {
+                font-weight: 700;
+                font-size: 61px;
+                line-height: 73.2px;
+            }
+
+            &:last-child {
+                font-size: 27px;
+                line-height: 32.4px;
+                color: $primary-color;
+            }
+        }
+
+        .stroke-container {
+            width: 3px;
+            height: 59px;
+            background-color: $effect-color;
+        }
+    }
+
+    .contact-data-container {
+        @include display-flex(column, unset, unset, 21px);
+        transform: translateX(100vw);
+
+        .contact-data-top-container {
+            @include display-flex(unset, unset, center, 54px);
+
+            .contact-big-icon {
+                width: 120px;
+                height: 120px;
+                border: 3px solid #FFFFFF;
+                border-radius: 70px;
+                @include display-flex(unset, center, center, unset);
+                color: $secondary-color;
+                font-weight: 500;
+                font-size: 47px;
+                line-height: 56.4px;
+            }
+
+            .contact-data-edit-delete-container {
+                @include display-flex(column, unset, unset, 8px);
+
+                span {
+                    font-weight: 500;
+                    font-size: 47px;
+                    line-height: 56.4px;
+                }
+
+                .edit-delete-container {
+                    @include display-flex(unset, unset, center, 16px);
+
+                    div {
+                        @include display-flex(unset, unset, center, 8px);
+                        cursor: pointer;
+
+                        &:first-child {
+                            width: 65px;
+                        }
+
+                        &:last-child {
+                            width: 85px;
+                        }
+
+                        &:hover {
+                            font-weight: 700;
+                            color: $effect-color;
+                        }
+
+                        &:hover svg path {
+                            fill: $effect-color;
+                        }
+                    }
+                }
+            }
+        }
+
+        .contact-information {
+            padding: 29.5px 0;
+            font-size: 20px;
+            line-height: 24px;
+        }
+
+        .contact-data-bottom-container {
+            @include display-flex(column, unset, unset, 18px);
+
+            span {
+                font-size: 16px;
+                line-height: 19.2px;
+
+                &:nth-child(1),
+                &:nth-child(3) {
+                    font-weight: 700;
+                }
+
+                &:nth-child(2) {
+                    color: #007CEE;
+                }
+            }
+        }
+    }
+}
+
+.show-animation {
+    animation: slideFromRightToLeft 0.3s ease-out forwards;
+}

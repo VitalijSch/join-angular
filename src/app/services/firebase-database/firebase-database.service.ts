@@ -14,6 +14,10 @@ export class FirebaseDatabaseService {
 
   public contacts: WritableSignal<Contact[]> = signal<Contact[]>([]);
 
+  constructor() {
+    this.getContact();
+  }
+
   private contactCollection(): CollectionReference<DocumentData> {
     return collection(this.firestore, 'contacts');
   }
