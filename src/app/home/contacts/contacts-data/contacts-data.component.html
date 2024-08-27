@@ -11,7 +11,7 @@
             <div class="contact-data-edit-delete-container">
                 <span>{{homeService.currentContact.name}}</span>
                 <div class="edit-delete-container">
-                    <div>
+                    <div (click)="homeService.toggleEditContactContainer()">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <mask id="mask0_217703_3882" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                                 width="24" height="24">
@@ -50,7 +50,7 @@
             <span>{{homeService.currentContact.phoneNumber || 'Phone number not provided.'}}</span>
         </div>
     </div>
-    <div [ngClass]="{'show-animation': homeService.showAddContactAnimation, 'show-animation-back': homeService.closeAddContactAnimation}"
+    <div [ngClass]="{'show-animation': homeService.showAddNewContactAnimation, 'show-animation-back': homeService.closeAddContactAnimation}"
         class="add-contact-container">
         Contact succesfully created
     </div>

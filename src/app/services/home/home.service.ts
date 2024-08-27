@@ -18,8 +18,12 @@ export class HomeService {
     avatarColor: ''
   };
 
-  public showHiddenContainer: boolean = false;
-  public showAddContactAnimation: boolean = false;
+  public showAddNewContactContainer: boolean = false;
+  public showAddNewContactAnimation: boolean = false;
+
+  public showEditContactContainer: boolean = false;
+  public showEditContactAnimation: boolean = false;
+  
   public closeAddContactAnimation: boolean = false;
 
   public goBack(): void {
@@ -30,8 +34,12 @@ export class HomeService {
     await this.router.navigate([`/home/${path}`]);
   }
 
-  public toggleShowHiddenContainer(): void {
-    this.showHiddenContainer = !this.showHiddenContainer;
+  public toggleAddNewContactContainer(): void {
+    this.showAddNewContactContainer = !this.showAddNewContactContainer;
+  }
+
+  public toggleEditContactContainer(): void {
+    this.showEditContactContainer = !this.showEditContactContainer;
   }
 
   public getCurrentContact(contact: Contact): void {
@@ -57,13 +65,13 @@ export class HomeService {
 
   public addContactAnimation(): void {
     setTimeout(() => {
-      this.showAddContactAnimation = !this.showAddContactAnimation;
+      this.showAddNewContactAnimation = !this.showAddNewContactAnimation;
     }, 300);
     setTimeout(() => {
       this.closeAddContactAnimation = !this.closeAddContactAnimation;
     }, 1500);
     setTimeout(() => {
-      this.showAddContactAnimation = false;
+      this.showAddNewContactAnimation = false;
       this.closeAddContactAnimation = false;
     }, 2300);
   }

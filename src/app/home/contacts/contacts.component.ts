@@ -4,11 +4,12 @@ import { HomeService } from '../../services/home/home.service';
 import { FirebaseDatabaseService } from '../../services/firebase-database/firebase-database.service';
 import { CommonModule } from '@angular/common';
 import { ContactsDataComponent } from "./contacts-data/contacts-data.component";
+import { EditContactComponent } from './edit-contact/edit-contact.component';
 
 @Component({
   selector: 'app-contacts',
   standalone: true,
-  imports: [AddNewContactComponent, CommonModule, ContactsDataComponent],
+  imports: [AddNewContactComponent, CommonModule, ContactsDataComponent, EditContactComponent],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.scss'
 })
@@ -18,21 +19,5 @@ export class ContactsComponent {
 
   public ngOnInit(): void {
     this.homeService.resetCurrentContact();
-    this.sortContactsByName();
-    this.firebaseDatabaseService.getLettersForContacts();
-  }
-
-  private sortContactsByName(): void {
-    this.firebaseDatabaseService.contacts().sort((a, b) => {
-      const nameA = a.name.toLowerCase();
-      const nameB = b.name.toLowerCase();
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      return 0;
-    });
   }
 }

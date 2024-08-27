@@ -20,14 +20,14 @@ export class AddNewContactComponent {
   private contactColorsServie: ContactColorsService = inject(ContactColorsService);
   private fb: FormBuilder = inject(FormBuilder);
 
-  public userForm!: FormGroup;
+  public contactForm!: FormGroup;
 
   ngOnInit(): void {
-    this.setupUserForm();
+    this.setupContactForm();
   }
 
-  private setupUserForm(): void {
-    this.userForm = this.fb.group({
+  private setupContactForm(): void {
+    this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.pattern(/^[A-ZÄÖÜ][a-zA-ZäöüßÄÖÜ]+\s[A-ZÄÖÜ][a-zA-ZäöüßÄÖÜ]+$/)]],
       email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]],
       phoneNumber: ['', [Validators.pattern(/^\+?[0-9]{7,15}$/)]]
@@ -35,16 +35,16 @@ export class AddNewContactComponent {
   }
 
   public async createContact(): Promise<void> {
-    const name = this.userForm.get('name')?.value;
-    const email = this.userForm.get('email')?.value;
-    const phoneNumber = this.userForm.get('phoneNumber')?.value;
+    const name = this.contactForm.get('name')?.value;
+    const email = this.contactForm.get('email')?.value;
+    const phoneNumber = this.contactForm.get('phoneNumber')?.value;
     const emailExists = this.firebaseDatabaseService.contacts().some(contact => contact.email === email);
     this.checkIfEmailExistAtContacts(emailExists);
-    if (this.userForm.valid && !emailExists) {
+    if (this.contactForm.valid && !emailExists) {
       await this.addContact(name, email, phoneNumber);
-      this.homeService.toggleShowHiddenContainer();
+      this.homeService.toggleAddNewContactContainer();
       this.homeService.addContactAnimation();
-      this.userForm.reset();
+      this.contactForm.reset();
     }
   }
 

@@ -1,7 +1,7 @@
 <div class="contacts-container">
     <div class="left-container">
         <div class="button-container">
-            <button (click)="homeService.toggleShowHiddenContainer()">
+            <button (click)="homeService.toggleAddNewContactContainer()">
                 Add new contact
                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_217703_4957" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -28,7 +28,8 @@
             <div class="line-container"></div>
             @for (contact of firebaseDatabaseService.contacts(); track $index) {
             @if(contact.name.startsWith(letter)) {
-            <div (click)="homeService.getCurrentContact(contact)" [ngClass]="{'active-contact': contact.email === homeService.currentContact.email}" class="contact">
+            <div (click)="homeService.getCurrentContact(contact)"
+                [ngClass]="{'active-contact': contact.email === homeService.currentContact.email}" class="contact">
                 <div [ngStyle]="{'background-color': contact.avatarColor}" class="contact-icon">
                     {{contact.avatarLetters}}
                 </div>
@@ -46,6 +47,11 @@
             </svg>
         </div>
     </div>
- <app-contacts-data></app-contacts-data>
+    <app-contacts-data></app-contacts-data>
 </div>
+@if(homeService.showAddNewContactContainer) {
 <app-add-new-contact></app-add-new-contact>
+}
+@if(homeService.showEditContactContainer) {
+<app-edit-contact></app-edit-contact>
+}

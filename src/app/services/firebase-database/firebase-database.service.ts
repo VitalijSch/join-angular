@@ -1,6 +1,6 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { CollectionReference, DocumentData, Firestore } from '@angular/fire/firestore';
-import { collection, deleteDoc, doc, onSnapshot, setDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 import { Unsubscribe } from 'firebase/auth';
 import { Contact } from '../../interfaces/contact';
 
@@ -30,6 +30,8 @@ export class FirebaseDatabaseService {
         currentContacts.push(doc.data() as Contact);
       });
       this.contacts.set(currentContacts);
+      this.getLettersForContacts();
+      this.sortContactsByName();
     });
   }
 
@@ -40,8 +42,22 @@ export class FirebaseDatabaseService {
       await setDoc(userDocRef, contact);
       this.contacts.set(this.contacts());
       this.getLettersForContacts();
+      this.sortContactsByName();
     } catch (error) {
       console.error('Error adding user:', error);
+    }
+  }
+
+  public async updateContact(contact: Contact): Promise<void> {
+    try {
+      const contactDocRef = doc(this.contactCollection(), contact.id);
+      const JSONContact = JSON.parse(JSON.stringify(contact));
+      await updateDoc(contactDocRef, JSONContact);
+      this.contacts.set(this.contacts());
+      this.getLettersForContacts();
+      this.sortContactsByName();
+    } catch (error) {
+      console.error('Error updating contact:', error);
     }
   }
 
@@ -51,12 +67,13 @@ export class FirebaseDatabaseService {
       await deleteDoc(customerDocRef);
       this.contacts.set(this.contacts());
       this.getLettersForContacts();
+      this.sortContactsByName();
     } catch (error) {
       console.error('Error deleting user:', error);
     }
   }
 
-  public getLettersForContacts(): void {
+  private getLettersForContacts(): void {
     this.letters = [];
     this.contacts().forEach(contact => {
       const firstLetter = contact.name.charAt(0);
@@ -67,6 +84,19 @@ export class FirebaseDatabaseService {
     });
   }
 
+  private sortContactsByName(): void {
+    this.contacts().sort((a, b) => {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    });
+  }
 
   public ngOnDestroy(): void {
     if (this.unsubscribe) {
