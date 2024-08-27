@@ -13,6 +13,7 @@ export class FirebaseDatabaseService {
   private unsubscribe!: Unsubscribe;
 
   public contacts: WritableSignal<Contact[]> = signal<Contact[]>([]);
+  public letters: string[] = [];
 
   constructor() {
     this.getContact();
@@ -37,7 +38,8 @@ export class FirebaseDatabaseService {
       const userDocRef = doc(this.contactCollection());
       contact.id = userDocRef.id;
       await setDoc(userDocRef, contact);
-      this.getContact();
+      this.contacts.set(this.contacts());
+      this.getLettersForContacts();
     } catch (error) {
       console.error('Error adding user:', error);
     }
@@ -47,11 +49,24 @@ export class FirebaseDatabaseService {
     try {
       const customerDocRef = doc(this.contactCollection(), id);
       await deleteDoc(customerDocRef);
-      this.getContact();
+      this.contacts.set(this.contacts());
+      this.getLettersForContacts();
     } catch (error) {
       console.error('Error deleting user:', error);
     }
   }
+
+  public getLettersForContacts(): void {
+    this.letters = [];
+    this.contacts().forEach(contact => {
+      const firstLetter = contact.name.charAt(0);
+      if (!this.letters.includes(firstLetter)) {
+        this.letters.push(firstLetter);
+      }
+      this.letters.sort();
+    });
+  }
+
 
   public ngOnDestroy(): void {
     if (this.unsubscribe) {

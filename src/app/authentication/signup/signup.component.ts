@@ -27,7 +27,7 @@ export class SignupComponent {
   public isChecked: boolean = false;
   public showCheckboxFeedback: boolean = false;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.setupUserForm();
     this.resetPassword();
   }
@@ -72,17 +72,21 @@ export class SignupComponent {
     const email = this.userForm.get('email')?.value;
     const password = this.userForm.get('password')?.value;
     this.checkCheckbox();
-    const emailExists = this.firebaseDatabaseService.contacts().some(contact => contact.email === email);
-    this.checkIfEmailExistAtContacts(emailExists);
-    if (this.userForm.valid && this.isChecked && this.passwordsMatch && !emailExists) {
+    if (this.userForm.valid && this.isChecked && this.passwordsMatch) {
       await this.firebaseAuthenticationService.registerWithEmailPassword(name, email, password);
-      await this.addContact(name, email);
+      const emailExists = this.firebaseDatabaseService.contacts().some(contact => contact.email === email);
+      if (!emailExists) {
+        await this.addContact(name, email);
+      }
     }
   }
 
-  private checkIfEmailExistAtContacts(emailExists: boolean): void {
-    if (emailExists) {
-      this.firebaseAuthenticationService.handleErrorMessage('This email address is already taken.');
+  private checkCheckbox(): void {
+    if (!this.isChecked) {
+      this.showCheckboxFeedback = true;
+      setTimeout(() => {
+        this.showCheckboxFeedback = false;
+      }, 2000);
     }
   }
 
@@ -90,6 +94,7 @@ export class SignupComponent {
     const contact = {
       name: name,
       email: email,
+      phoneNumber: '',
       avatarLetters: this.getContactInitials(name),
       avatarColor: this.contactColorsServie.getRandomColor()
     }
@@ -102,14 +107,5 @@ export class SignupComponent {
       .map(part => part.charAt(0).toUpperCase())
       .join('');
     return initials;
-  }
-
-  private checkCheckbox(): void {
-    if (!this.isChecked) {
-      this.showCheckboxFeedback = true;
-      setTimeout(() => {
-        this.showCheckboxFeedback = false;
-      }, 2000);
-    }
   }
 }

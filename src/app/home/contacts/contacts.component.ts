@@ -16,12 +16,10 @@ export class ContactsComponent {
   public homeService: HomeService = inject(HomeService);
   public firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
 
-  public letters: string[] = [];
-
   public ngOnInit(): void {
     this.homeService.resetCurrentContact();
     this.sortContactsByName();
-    this.getLettersForContacts();
+    this.firebaseDatabaseService.getLettersForContacts();
   }
 
   private sortContactsByName(): void {
@@ -36,15 +34,5 @@ export class ContactsComponent {
       }
       return 0;
     });
-  }
-
-  private getLettersForContacts() {
-    this.firebaseDatabaseService.contacts().forEach(contact => {
-      const firstLetter = contact.name.charAt(0);
-      if (!this.letters.includes(firstLetter)) {
-        this.letters.push(firstLetter);
-      }
-    });
-    this.letters.sort();
   }
 }

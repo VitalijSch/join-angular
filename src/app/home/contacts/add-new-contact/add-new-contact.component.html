@@ -23,7 +23,7 @@
                 <div class="line-container"></div>
             </div>
         </div>
-        <div class="right-container">
+        <form [formGroup]="userForm" (ngSubmit)="createContact()" class="right-container">
             <div class="close-icon-container">
                 <svg (click)="homeService.toggleShowHiddenContainer()" class="close-icon" width="32" height="32"
                     viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,7 +39,8 @@
                 </svg>
             </div>
             <div class="contact-data-container">
-                <svg class="contact-big-icon" width="134" height="134" viewBox="0 0 134 134" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="contact-big-icon" width="134" height="134" viewBox="0 0 134 134" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
                     <g filter="url(#filter0_d_576_4834)">
                         <rect x="7" y="7" width="120" height="120" rx="60" fill="white" />
                         <rect x="5.5" y="5.5" width="123" height="123" rx="61.5" stroke="white" stroke-width="3" />
@@ -82,7 +83,17 @@
                                     fill="#A8A8A8" />
                             </g>
                         </svg>
-                        <input type="text" name="name" id="name" placeholder="Name">
+                        <input
+                            [ngStyle]="{'border-color': (userForm.get('name')?.touched && userForm.get('name')?.invalid) ? 'red': ''}"
+                            type="text" name="name" id="name" formControlName="name" placeholder="Name">
+                        @if (userForm.get('name')?.touched && userForm.get('name')?.invalid) {
+                        @if (userForm.get('name')?.errors?.['required']) {
+                        <span class="error-message">Please enter a name.</span>
+                        }
+                        @if (userForm.get('name')?.errors?.['pattern']) {
+                        <span class="error-message">First and last names must start with uppercase letters.</span>
+                        }
+                        }
                     </div>
                     <div class="input-container">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -96,8 +107,20 @@
                                     fill="#A8A8A8" />
                             </g>
                         </svg>
-                        <input [ngStyle]="{'border-color': false ? 'red': ''}" type="email" name="email" id="email"
-                            placeholder="Email">
+                        <input
+                            [ngStyle]="{'border-color': userForm.get('email')?.touched && userForm.get('email')?.invalid ? 'red': ''}"
+                            type="email" name="email" id="email" formControlName="email" placeholder="Email">
+                        @if (userForm.get('email')?.touched && userForm.get('email')?.invalid) {
+                        @if (userForm.get('email')?.errors?.['required']) {
+                        <span class="error-message">Please enter an email address.</span>
+                        }
+                        @if (userForm.get('email')?.errors?.['pattern']) {
+                        <span class="error-message">This email address is invalid.</span>
+                        }
+                        }
+                        @if (firebaseAuthenticationService.showErrorMessage !== '') {
+                        <span class="error-message">{{firebaseAuthenticationService.showErrorMessage}}</span>
+                        }
                     </div>
                     <div class="input-container">
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -111,7 +134,15 @@
                                     fill="#A8A8A8" />
                             </g>
                         </svg>
-                        <input type="tel" name="phone" id="phone" placeholder="Phone">
+                        <input
+                            [ngStyle]="{'border-color': userForm.get('phoneNumber')?.touched && userForm.get('phoneNumber')?.invalid ? 'red': ''}"
+                            type="tel" name="phoneNumber" id="phoneNumber" formControlName="phoneNumber" placeholder="Phone">
+                        @if (userForm.get('phoneNumber')?.touched && userForm.get('phoneNumber')?.invalid) {
+                        @if (userForm.get('phoneNumber')?.errors?.['pattern']) {
+                        <span class="error-message">'Please enter a valid phone number with 7 to 15 digits, optionally
+                            starting with a "+".'</span>
+                        }
+                        }
                     </div>
                 </div>
             </div>
@@ -131,7 +162,7 @@
                         </g>
                     </svg>
                 </button>
-                <button>
+                <button type="submit">
                     Create contact
                     <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <mask id="mask0_217703_3987" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -146,6 +177,6 @@
                     </svg>
                 </button>
             </div>
-        </div>
+        </form>
     </div>
 </div>

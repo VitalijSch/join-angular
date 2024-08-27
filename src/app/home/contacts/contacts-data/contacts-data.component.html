@@ -50,4 +50,8 @@
             <span>{{homeService.currentContact.phoneNumber || 'Phone number not provided.'}}</span>
         </div>
     </div>
+    <div [ngClass]="{'show-animation': homeService.showAddContactAnimation, 'show-animation-back': homeService.closeAddContactAnimation}"
+        class="add-contact-container">
+        Contact succesfully created
+    </div>
 </div>

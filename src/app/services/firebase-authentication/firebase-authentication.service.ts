@@ -28,6 +28,7 @@ export class FirebaseAuthenticationService {
       if (error) {
         if (error instanceof FirebaseError) {
           if (error.code === 'auth/email-already-in-use') {
+            this.showSuccessfullyMessage = false;
             this.handleErrorMessage('This email address is already taken.');
           }
         }

@@ -59,6 +59,16 @@ body {
     }
 }
 
+@keyframes slideFromLeftToRight {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(100vw);
+    }
+}
+
 @keyframes moveAndShrinkFromCenterToTopLeft {
     0% {
         width: 274px;

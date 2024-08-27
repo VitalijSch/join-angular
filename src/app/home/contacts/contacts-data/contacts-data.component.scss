@@ -111,8 +111,27 @@
             }
         }
     }
+
+    .add-contact-container {
+        width: 326px;
+        height: 74px;
+        background-color: $primary-color;
+        color: $secondary-color;
+        @include display-flex(unset, center, center, unset);
+        margin-top: 120px;
+        border: unset;
+        border-radius: 20px;
+        box-shadow: 0px 0px 4px 0px #0000001A;
+        font-size: 20px;
+        line-height: 24px;
+        transform: translateX(100vw);
+    }
 }
 
 .show-animation {
     animation: slideFromRightToLeft 0.3s ease-out forwards;
+}
+
+.show-animation-back {
+    animation: slideFromLeftToRight 1s ease-out forwards;
 }

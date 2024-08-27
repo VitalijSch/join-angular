@@ -13,11 +13,14 @@ export class HomeService {
   public currentContact: Contact = {
     name: '',
     email: '',
+    phoneNumber: '',
     avatarLetters: '',
     avatarColor: ''
   };
 
   public showHiddenContainer: boolean = false;
+  public showAddContactAnimation: boolean = false;
+  public closeAddContactAnimation: boolean = false;
 
   public goBack(): void {
     this.location.back();
@@ -46,8 +49,22 @@ export class HomeService {
     this.currentContact = {
       name: '',
       email: '',
+      phoneNumber: '',
       avatarLetters: '',
       avatarColor: ''
     };
+  }
+
+  public addContactAnimation(): void {
+    setTimeout(() => {
+      this.showAddContactAnimation = !this.showAddContactAnimation;
+    }, 300);
+    setTimeout(() => {
+      this.closeAddContactAnimation = !this.closeAddContactAnimation;
+    }, 1500);
+    setTimeout(() => {
+      this.showAddContactAnimation = false;
+      this.closeAddContactAnimation = false;
+    }, 2300);
   }
 }
