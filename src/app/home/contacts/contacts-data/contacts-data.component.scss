@@ -9,19 +9,16 @@
     .headline-container {
         @include display-flex(unset, unset, center, 30px);
 
+        h2 {
+            font-weight: 700;
+            font-size: 61px;
+            line-height: 73.2px;
+        }
+
         span {
-
-            &:first-child {
-                font-weight: 700;
-                font-size: 61px;
-                line-height: 73.2px;
-            }
-
-            &:last-child {
-                font-size: 27px;
-                line-height: 32.4px;
-                color: $primary-color;
-            }
+            font-size: 27px;
+            line-height: 32.4px;
+            color: $primary-color;
         }
 
         .stroke-container {

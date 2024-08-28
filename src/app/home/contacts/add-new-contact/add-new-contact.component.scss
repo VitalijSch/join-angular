@@ -24,19 +24,16 @@
         @include display-flex(column, unset, unset, 16px);
         color: $secondary-color;
 
+        h3 {
+            font-weight: 700;
+            font-size: 61px;
+            line-height: 73.2px;
+            text-wrap: nowrap;
+        }
+
         span {
-
-            &:nth-child(1) {
-                font-weight: 700;
-                font-size: 61px;
-                line-height: 73.2px;
-                text-wrap: nowrap;
-            }
-
-            &:nth-child(2) {
-                font-size: 27px;
-                line-height: 32.4px;
-            }
+            font-size: 27px;
+            line-height: 32.4px;
         }
 
         .line-container {

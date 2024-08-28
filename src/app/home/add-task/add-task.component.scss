@@ -1,0 +1,188 @@
+@import './../../../styles/colors.scss';
+@import './../../../styles/mixins.scss';
+
+.add-task-container {
+    max-height: 928px;
+    height: 100%;
+    padding: 110px 0 71px 96px;
+
+    form {
+        height: 100%;
+        @include display-flex(unset, unset, unset, unset);
+    }
+
+    .category-container {
+        @include display-flex(column, unset, unset, 5px);
+
+        span {
+            font-size: 20px;
+            line-height: 24px;
+        }
+
+        input,
+        textarea {
+            outline: none;
+
+            &:focus {
+                border: 1px solid $effect-color;
+            }
+        }
+    }
+
+    .error-message {
+        color: #FF8190 !important;
+        font-size: 12px !important;
+        line-height: 14.4px !important;
+    }
+
+    .color-red {
+        color: #FF8190;
+    }
+
+    .input-container {
+        max-width: 440px;
+        width: 100%;
+        height: 48px;
+        border: 1px solid #D1D1D1;
+        border-radius: 10px;
+        padding: 12px 21px;
+        font-size: 20px;
+        line-height: 24px;
+
+        &::placeholder {
+            color: #D1D1D1;
+        }
+
+        &:hover {
+            border-color: #A9A9A9;
+        }
+    }
+}
+
+.left-container {
+    width: 440px;
+    height: 100%;
+    @include display-flex(column, space-between, unset, unset);
+}
+
+.top-container {
+    width: 100%;
+    @include display-flex(column, unset, unset, 48px);
+
+    h2 {
+        font-weight: 700;
+        font-size: 61px;
+        line-height: 73.2px;
+    }
+
+    .left-data-container {
+        width: 100%;
+        height: 376px;
+        @include display-flex(column, unset, unset, 16px);
+
+        .category-container {
+
+            &:first-child {
+                height: 103px;
+            }
+
+            &:last-child {
+                height: 130px;
+            }
+        }
+
+        textarea {
+            min-height: 120px;
+        }
+
+        .search-contact-container {
+            position: relative;
+
+            .choose-contact {
+                cursor: pointer;
+
+                &::placeholder {
+                    color: black;
+                }
+
+                &:focus::placeholder {
+                    color: transparent;
+                }
+            }
+
+            svg {
+                cursor: pointer;
+                position: absolute;
+                top: 50%;
+                right: 15px;
+                border-radius: 72px;
+                transform: translateY(-50%);
+
+                &:hover {
+                    background-color: #EEEEEE;
+                }
+            }
+        }
+    }
+}
+
+.all-contact-container {
+    width: 100%;
+    background-color: $secondary-color;
+    position: absolute;
+    top: 48px;
+    @include display-flex(column, unset, unset, unset);
+
+    .contact-container {
+        width: 100%;
+        height: 56px;
+        border: unset;
+        border-radius: 10px;
+        padding: 7px 16px;
+        @include display-flex(unset, space-between, center, unset);
+        cursor: pointer;
+
+        &:hover {
+            background: #EEEEEE;
+        }
+
+        .d-flex-container {
+            @include display-flex(unset, unset, center, 16px);
+
+            .contact-icon {
+                width: 42px;
+                height: 42px;
+                border: 2px solid #FFFFFF;
+                border-radius: 45px;
+                @include display-flex(unset, center, center, unset);
+                font-size: 12px;
+                line-height: 14.4px;
+                color: $secondary-color;
+            }
+
+            span {
+                font-size: 20px;
+                line-height: 24px;
+            }
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            background-image: url(./../../../assets/images/authentification/login/empty_checkbox.png);
+            cursor: pointer;
+
+            &:hover {
+                background-image: url(./../../../assets/images/authentification/login/empty_checkbox_hover.png);
+            }
+        }
+
+        .checked-checkbox {
+            background-image: url(./../../../assets/images/authentification/login/checked_checkbox.png);
+
+            &:hover {
+                background-image: url(./../../../assets/images/authentification/login/checked_checkbox_hover.png);
+            }
+        }
+    }
+}

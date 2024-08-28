@@ -3,8 +3,8 @@ import { Component, inject } from '@angular/core';
 import { HomeService } from '../../../services/home/home.service';
 import { FirebaseAuthenticationService } from '../../../services/firebase-authentication/firebase-authentication.service';
 import { FirebaseDatabaseService } from '../../../services/firebase-database/firebase-database.service';
-import { ContactColorsService } from '../../../services/contact-colors/contact-colors.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Contact } from '../../../interfaces/contact';
 
 @Component({
   selector: 'app-edit-contact',
@@ -17,7 +17,6 @@ export class EditContactComponent {
   public homeService: HomeService = inject(HomeService);
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
   private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
-  private contactColorsServie: ContactColorsService = inject(ContactColorsService);
   private fb: FormBuilder = inject(FormBuilder);
 
   public contactForm!: FormGroup;
@@ -45,28 +44,30 @@ export class EditContactComponent {
   }
 
   public async updateContact(): Promise<void> {
-    debugger
     const name = this.contactForm.get('name')?.value;
     const email = this.contactForm.get('email')?.value;
     const phoneNumber = this.contactForm.get('phoneNumber')?.value;
     if (this.hasContactChanged(name, email, phoneNumber) && this.contactForm.valid) {
       const indexOfContact = this.firebaseDatabaseService.contacts().findIndex(contact => contact.email === this.homeService.currentContact.email);
-      this.firebaseDatabaseService.contacts()[indexOfContact].name = name;
-      this.firebaseDatabaseService.contacts()[indexOfContact].email = email;
-      this.firebaseDatabaseService.contacts()[indexOfContact].phoneNumber = phoneNumber;
-      this.firebaseDatabaseService.contacts()[indexOfContact].avatarLetters = this.getContactInitials(name);
-      const currentContact = this.firebaseDatabaseService.contacts()[indexOfContact];
-      await this.firebaseDatabaseService.updateContact(currentContact);
-      this.homeService.toggleEditContactContainer();
-    } else {
-      this.homeService.toggleEditContactContainer();
+      await this.firebaseDatabaseService.updateContact(this.editContact(name, email, phoneNumber, indexOfContact));
+      this.homeService.currentContact = this.firebaseDatabaseService.contacts()[indexOfContact];
     }
+    this.homeService.toggleEditContactContainer();
   }
 
   private hasContactChanged(name: string, email: string, phoneNumber: string): boolean {
     return this.homeService.currentContact.name !== name ||
       this.homeService.currentContact.email !== email ||
       this.homeService.currentContact.phoneNumber !== phoneNumber;
+  }
+
+  private editContact(name: string, email: string, phoneNumber: string | number, indexOfContact: number): Contact {
+    this.firebaseDatabaseService.contacts()[indexOfContact].name = name;
+    this.firebaseDatabaseService.contacts()[indexOfContact].email = email;
+    this.firebaseDatabaseService.contacts()[indexOfContact].phoneNumber = phoneNumber;
+    this.firebaseDatabaseService.contacts()[indexOfContact].avatarLetters = this.getContactInitials(name);
+    const currentContact = this.firebaseDatabaseService.contacts()[indexOfContact];
+    return currentContact;
   }
 
   private getContactInitials(name: string): string {
