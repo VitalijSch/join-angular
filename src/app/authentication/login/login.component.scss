@@ -62,22 +62,13 @@ form {
         padding-left: 39px;
         @include display-flex(unset, unset, center, 8px);
 
-        .checkbox {
-            width: 24px;
-            height: 24px;
-            background-image: url(./../../../assets/images/authentification/login/empty_checkbox.png);
+        svg {
+            border-radius: 51px;
             cursor: pointer;
 
             &:hover {
-                background-image: url(./../../../assets/images/authentification/login/empty_checkbox_hover.png);
-            }
-        }
-
-        .checked-checkbox {
-            background-image: url(./../../../assets/images/authentification/login/checked_checkbox.png);
-
-            &:hover {
-                background-image: url(./../../../assets/images/authentification/login/checked_checkbox_hover.png);
+                background-color: #EDF2FA;
+                backdrop-filter: blur(10px);
             }
         }
     }

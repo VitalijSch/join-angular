@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HomeService } from '../../services/home/home.service';
 import { FirebaseAuthenticationService } from '../../services/firebase-authentication/firebase-authentication.service';
@@ -13,8 +13,6 @@ import { FirebaseDatabaseService } from '../../services/firebase-database/fireba
   styleUrl: './add-task.component.scss'
 })
 export class AddTaskComponent {
-  @ViewChild('searchContact') searchContact!: ElementRef;
-
   public homeService: HomeService = inject(HomeService);
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
   public firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
@@ -23,7 +21,6 @@ export class AddTaskComponent {
   public taskForm!: FormGroup;
 
   public showContacts: boolean = false;
-  public rememberMe: boolean = false;
 
   public ngOnInit(): void {
     this.setupContactForm();
@@ -45,8 +42,9 @@ export class AddTaskComponent {
     this.showContacts = false;
   }
 
-  public toggleRememberMe(): void {
-    this.rememberMe = !this.rememberMe;
+  public toggleSelectedContact(index: number): void {
+    let contactSelected = this.firebaseDatabaseService.contacts()[index].selected;
+    this.firebaseDatabaseService.contacts()[index].selected = !contactSelected;
   }
 
   public async createTask(): Promise<void> {

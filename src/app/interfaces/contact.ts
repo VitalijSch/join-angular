@@ -5,4 +5,5 @@ export interface Contact {
     phoneNumber: string | number;
     avatarLetters: string;
     avatarColor: string;
+    selected?: boolean;
 }
