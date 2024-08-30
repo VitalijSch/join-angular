@@ -1,8 +1,8 @@
-<div (click)="closeContacts()" class="add-task-container">
-    <form [formGroup]="taskForm" (ngSubmit)="createTask()">
+<form (click)="closeContacts()" [formGroup]="taskForm" (ngSubmit)="createTask()" class="add-task-container">
+    <h2>Add Task</h2>
+    <div class="main-container">
         <div class="left-container">
             <div class="top-container">
-                <h2>Add Task</h2>
                 <div class="left-data-container">
                     <div class="category-container">
                         <span>Title<span class="color-red">*</span></span>
@@ -24,8 +24,9 @@
                     <div class="category-container">
                         <span>Assigned to</span>
                         <div (click)="$event.stopPropagation()" class="search-contact-container">
-                            <input #searchContact (focus)="openContacts()" class="input-container choose-contact"
-                                type="text" name="searchContact" id="searchContact"
+                            <input (input)="searchContacts()" (focus)="openContacts()"
+                                class="input-container choose-contact" formControlName="searchContact"
+                                autocomplete="off" type="text" name="searchContact" id="searchContact"
                                 [placeholder]="showContacts ? '' : 'Select contacts to assign'">
                             @if (showContacts) {
                             <svg (click)="closeContacts()" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -56,14 +57,18 @@
                             }
                             @if (showContacts) {
                             <div class="all-contact-container">
-                                @for (contact of firebaseDatabaseService.contacts(); track $index) {
+                                @for (contact of contacts; track $index) {
                                 <div (click)="toggleSelectedContact($index)"
                                     [ngClass]="{'selected-contact': contact.selected}" class="contact-container">
                                     <div class="d-flex-container">
                                         <div [ngStyle]="{'background-color': contact.avatarColor}" class="contact-icon">
                                             {{contact.avatarLetters}}
                                         </div>
+                                        @if(contact.email === firebaseAuthenticationService.auth.currentUser?.email) {
+                                        <span>{{contact.name}} (You)</span>
+                                        } @else {
                                         <span>{{contact.name}}</span>
+                                        }
                                     </div>
                                     @if(!contact.selected) {
                                     <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
@@ -86,12 +91,27 @@
                             </div>
                             }
                         </div>
+                        <div class="selected-contact-container">
+                            @for (contact of contacts; track $index) {
+                            @if (contact.selected) {
+                            <div (click)="deleteSelectedContact($index)"
+                                [ngStyle]="{'background-color': contact.avatarColor}" class="selected-contact-icon">
+                                {{contact.avatarLetters}}</div>
+                            }
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="bottom-container">
-                <span><span class="color-red">*</span>This field is required</span>
-            </div>
         </div>
-    </form>
-</div>
+        <div class="line-container"></div>
+        <div class="right-container"></div>
+    </div>
+    <div class="bottom-container">
+        <span><span class="color-red">*</span>This field is required</span>
+        <div class="button-container">
+            <button>Clear ...</button>
+            <button>Create Task ...</button>
+        </div>
+    </div>
+</form>

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { HomeService } from '../../services/home/home.service';
 import { FirebaseAuthenticationService } from '../../services/firebase-authentication/firebase-authentication.service';
 import { FirebaseDatabaseService } from '../../services/firebase-database/firebase-database.service';
+import { Contact } from '../../interfaces/contact';
 
 @Component({
   selector: 'app-add-task',
@@ -18,19 +19,33 @@ export class AddTaskComponent {
   public firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
   private fb: FormBuilder = inject(FormBuilder);
 
-  public taskForm!: FormGroup;
+  public contacts: Contact[] = [];
 
+  public taskForm!: FormGroup;
   public showContacts: boolean = false;
 
   public ngOnInit(): void {
-    this.setupContactForm();
+    this.moveUserToFrontInContacts();
+    this.setupTaskForm();
   }
 
-  private setupContactForm(): void {
+  private moveUserToFrontInContacts(): void {
+    this.firebaseDatabaseService.contacts().forEach(contact => {
+      contact.selected = false;
+    });
+    this.contacts = this.firebaseDatabaseService.contacts();
+    const currentUserEmail = this.firebaseAuthenticationService.auth.currentUser?.email;
+    const userIndex = this.contacts.findIndex(contact => contact.email === currentUserEmail);
+    if (userIndex !== -1) {
+      const [userContact] = this.contacts.splice(userIndex, 1);
+      this.contacts.unshift(userContact);
+    }
+  }
+
+  private setupTaskForm(): void {
     this.taskForm = this.fb.group({
       title: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\s\-_,\.;:()]+$/)]],
-      email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]],
-      phoneNumber: ['', [Validators.pattern(/^\+?[0-9]{7,15}$/)]]
+      searchContact: ['']
     });
   }
 
@@ -40,11 +55,31 @@ export class AddTaskComponent {
 
   public closeContacts(): void {
     this.showContacts = false;
+    this.taskForm.get('searchContact')?.reset();
+    this.contacts = this.firebaseDatabaseService.contacts();
+  }
+
+  public searchContacts(): void {
+    const searchValue = this.taskForm.get('searchContact')?.value;
+    if (searchValue !== '') {
+      this.contacts = [];
+      this.firebaseDatabaseService.contacts().forEach(contact => {
+        if (contact.name.toLowerCase().includes(searchValue.toLowerCase())) {
+          this.contacts.push(contact);
+        }
+      });
+    } else {
+      this.contacts = this.firebaseDatabaseService.contacts();
+    }
   }
 
   public toggleSelectedContact(index: number): void {
     let contactSelected = this.firebaseDatabaseService.contacts()[index].selected;
     this.firebaseDatabaseService.contacts()[index].selected = !contactSelected;
+  }
+
+  public deleteSelectedContact(index: number): void {
+    this.contacts[index].selected = false;
   }
 
   public async createTask(): Promise<void> {
