@@ -1,0 +1,76 @@
+<div [formGroup]="taskForm" class="category-container">
+    <span>Assigned to</span>
+    <div (click)="$event.stopPropagation()" class="search-contact-container">
+        <input (input)="searchContacts()" (focus)="openContacts()" class="choose-contact"
+            formControlName="searchContact" autocomplete="off" type="text" name="searchContact" id="searchContact"
+            [placeholder]="addTaskService.showContacts ? '' : 'Select contacts to assign'">
+        @if (addTaskService.showContacts) {
+        <svg (click)="closeContacts()" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <mask id="mask0_218855_8065" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+                height="24">
+                <rect width="24" height="24" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_218855_8065)">
+                <path
+                    d="M12.7 10.3L15.3 12.9C15.6167 13.2166 15.6875 13.5791 15.5125 13.9875C15.3375 14.3958 15.025 14.6 14.575 14.6H9.42502C8.97502 14.6 8.66253 14.3958 8.48752 13.9875C8.31252 13.5791 8.38336 13.2166 8.70003 12.9L11.3 10.3C11.4 10.2 11.5084 10.125 11.625 10.075C11.7417 10.025 11.8667 9.99998 12 9.99998C12.1334 9.99998 12.2584 10.025 12.375 10.075C12.4917 10.125 12.6 10.2 12.7 10.3Z"
+                    fill="#2A3647" />
+            </g>
+        </svg>
+        } @else {
+        <svg (click)="openContacts()" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <mask id="mask0_218818_812" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+                height="24">
+                <rect width="24" height="24" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_218818_812)">
+                <path
+                    d="M11.3 14.3L8.69998 11.7C8.38331 11.3833 8.31248 11.0208 8.48748 10.6125C8.66248 10.2042 8.97498 10 9.42498 10H14.575C15.025 10 15.3375 10.2042 15.5125 10.6125C15.6875 11.0208 15.6166 11.3833 15.3 11.7L12.7 14.3C12.6 14.4 12.4916 14.475 12.375 14.525C12.2583 14.575 12.1333 14.6 12 14.6C11.8666 14.6 11.7416 14.575 11.625 14.525C11.5083 14.475 11.4 14.4 11.3 14.3Z"
+                    fill="#2A3647" />
+            </g>
+        </svg>
+        }
+        @if (addTaskService.showContacts) {
+        <div class="all-contact-container">
+            @for (contact of addTaskService.contacts; track $index) {
+            <div (click)="toggleSelectedContact($index)" [ngClass]="{'selected-contact': contact.selected}"
+                class="contact-container">
+                <div class="d-flex-container">
+                    <div [ngStyle]="{'background-color': contact.avatarColor}" class="contact-icon">
+                        {{contact.avatarLetters}}
+                    </div>
+                    @if(contact.email === firebaseAuthenticationService.auth.currentUser?.email) {
+                    <span>{{contact.name}} (You)</span>
+                    } @else {
+                    <span>{{contact.name}}</span>
+                    }
+                </div>
+                @if(!contact.selected) {
+                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4.96582" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2" />
+                </svg>
+                } @else {
+                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M20 11.9658V17.9658C20 19.6227 18.6569 20.9658 17 20.9658H7C5.34315 20.9658 4 19.6227 4 17.9658V7.96582C4 6.30897 5.34315 4.96582 7 4.96582H15"
+                        stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
+                    <path d="M8 12.9658L12 16.9658L20 5.46582" stroke="#2A3647" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+                }
+            </div>
+            }
+        </div>
+        }
+    </div>
+    <div class="selected-contact-container">
+        @for (contact of addTaskService.contacts; track $index) {
+        @if (contact.selected) {
+        <div (click)="deleteSelectedContact($index)" [ngStyle]="{'background-color': contact.avatarColor}"
+            class="selected-contact-icon">
+            {{contact.avatarLetters}}</div>
+        }
+        }
+    </div>
+</div>

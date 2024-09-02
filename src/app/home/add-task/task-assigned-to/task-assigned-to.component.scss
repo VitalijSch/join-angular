@@ -1,0 +1,167 @@
+@import './../../../../styles/colors.scss';
+@import './../../../../styles/mixins.scss';
+
+.category-container {
+    @include display-flex(column, unset, unset, 5px);
+
+    span {
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    input {
+        max-width: 440px;
+        width: 100%;
+        height: 48px;
+        border: 1px solid #D1D1D1;
+        border-radius: 10px;
+        padding: 12px 21px;
+        font-size: 20px;
+        line-height: 24px;
+        outline: none;
+
+        &:hover {
+            border-color: #A9A9A9;
+        }
+
+        &::placeholder {
+            color: #D1D1D1;
+        }
+
+        &:focus {
+            border: 1px solid $effect-color;
+        }
+    }
+
+    .search-contact-container {
+        position: relative;
+
+        .choose-contact {
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+
+            &::placeholder {
+                color: black;
+            }
+
+            &:focus::placeholder {
+                color: transparent;
+            }
+        }
+
+        svg {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            z-index: 3;
+            border-radius: 72px;
+            transform: translateY(-50%);
+
+            &:hover {
+                background-color: #EEEEEE;
+            }
+        }
+    }
+
+    .all-contact-container {
+        width: 100%;
+        max-height: 288px;
+        background-color: $secondary-color;
+        position: absolute;
+        top: 41px;
+        padding-top: 7px;
+        box-shadow: 0px 0px 14px 3px #0000000A;
+        border: unset;
+        border-radius: 0 0 10px 10px;
+        overflow: auto;
+        @include display-flex(column, unset, unset, 2px);
+
+        &::-webkit-scrollbar {
+            width: 0;
+        }
+
+        .contact-container {
+            width: 100%;
+            height: 56px;
+            border: unset;
+            border-radius: 10px;
+            padding: 7px 16px;
+            @include display-flex(unset, space-between, center, unset);
+            cursor: pointer;
+            position: relative;
+
+            &:hover {
+                background: #EEEEEE;
+            }
+
+            .d-flex-container {
+                @include display-flex(unset, unset, center, 16px);
+
+                .contact-icon {
+                    width: 42px;
+                    height: 42px;
+                    border: 2px solid #FFFFFF;
+                    border-radius: 45px;
+                    @include display-flex(unset, center, center, unset);
+                    font-size: 12px;
+                    line-height: 14.4px;
+                    color: $secondary-color;
+                }
+
+                span {
+                    font-size: 20px;
+                    line-height: 24px;
+                }
+            }
+
+            svg {
+                border-radius: 51px;
+                cursor: pointer;
+            }
+        }
+
+        .selected-contact {
+            background-color: $primary-color;
+            color: white;
+
+            &:hover {
+                background-color: #091931;
+            }
+
+            svg {
+
+                path {
+                    stroke: $secondary-color;
+                }
+
+                &:hover {
+                    background-color: $primary-color !important;
+                }
+            }
+        }
+    }
+
+    .selected-contact-container {
+        max-width: 440px;
+        overflow-x: auto;
+        @include display-flex(unset, unset, center, 8px);
+
+        &::-webkit-scrollbar {
+            width: 0;
+        }
+
+        .selected-contact-icon {
+            width: 42px;
+            height: 42px;
+            border: 2px solid #FFFFFF;
+            border-radius: 45px;
+            font-size: 12px;
+            line-height: 14.4px;
+            color: $secondary-color;
+            @include display-flex(unset, center, center, unset);
+            cursor: pointer;
+        }
+    }
+}

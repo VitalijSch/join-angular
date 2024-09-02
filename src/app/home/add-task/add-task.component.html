@@ -2,116 +2,49 @@
     <h2>Add Task</h2>
     <div class="main-container">
         <div class="left-container">
-            <div class="top-container">
-                <div class="left-data-container">
-                    <div class="category-container">
-                        <span>Title<span class="color-red">*</span></span>
-                        <input
-                            [ngStyle]="{'border-color': (taskForm.get('title')?.touched && taskForm.get('title')?.invalid) ? 'red': ''}"
-                            class="input-container" type="text" name="title" id="title" formControlName="title"
-                            placeholder="Enter a title">
-                        @if (taskForm.get('title')?.touched && taskForm.get('title')?.invalid) {
-                        @if (taskForm.get('title')?.errors?.['required']) {
-                        <span class="error-message">This field is required</span>
-                        }
-                        }
-                    </div>
-                    <div class="category-container">
-                        <span>Description</span>
-                        <textarea class="input-container" name="description" id="description"
-                            placeholder="Enter a Description"></textarea>
-                    </div>
-                    <div class="category-container">
-                        <span>Assigned to</span>
-                        <div (click)="$event.stopPropagation()" class="search-contact-container">
-                            <input (input)="searchContacts()" (focus)="openContacts()"
-                                class="input-container choose-contact" formControlName="searchContact"
-                                autocomplete="off" type="text" name="searchContact" id="searchContact"
-                                [placeholder]="showContacts ? '' : 'Select contacts to assign'">
-                            @if (showContacts) {
-                            <svg (click)="closeContacts()" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <mask id="mask0_218855_8065" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
-                                    y="0" width="24" height="24">
-                                    <rect width="24" height="24" fill="#D9D9D9" />
-                                </mask>
-                                <g mask="url(#mask0_218855_8065)">
-                                    <path
-                                        d="M12.7 10.3L15.3 12.9C15.6167 13.2166 15.6875 13.5791 15.5125 13.9875C15.3375 14.3958 15.025 14.6 14.575 14.6H9.42502C8.97502 14.6 8.66253 14.3958 8.48752 13.9875C8.31252 13.5791 8.38336 13.2166 8.70003 12.9L11.3 10.3C11.4 10.2 11.5084 10.125 11.625 10.075C11.7417 10.025 11.8667 9.99998 12 9.99998C12.1334 9.99998 12.2584 10.025 12.375 10.075C12.4917 10.125 12.6 10.2 12.7 10.3Z"
-                                        fill="#2A3647" />
-                                </g>
-                            </svg>
-                            } @else {
-                            <svg (click)="openContacts()" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <mask id="mask0_218818_812" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
-                                    y="0" width="24" height="24">
-                                    <rect width="24" height="24" fill="#D9D9D9" />
-                                </mask>
-                                <g mask="url(#mask0_218818_812)">
-                                    <path
-                                        d="M11.3 14.3L8.69998 11.7C8.38331 11.3833 8.31248 11.0208 8.48748 10.6125C8.66248 10.2042 8.97498 10 9.42498 10H14.575C15.025 10 15.3375 10.2042 15.5125 10.6125C15.6875 11.0208 15.6166 11.3833 15.3 11.7L12.7 14.3C12.6 14.4 12.4916 14.475 12.375 14.525C12.2583 14.575 12.1333 14.6 12 14.6C11.8666 14.6 11.7416 14.575 11.625 14.525C11.5083 14.475 11.4 14.4 11.3 14.3Z"
-                                        fill="#2A3647" />
-                                </g>
-                            </svg>
-                            }
-                            @if (showContacts) {
-                            <div class="all-contact-container">
-                                @for (contact of contacts; track $index) {
-                                <div (click)="toggleSelectedContact($index)"
-                                    [ngClass]="{'selected-contact': contact.selected}" class="contact-container">
-                                    <div class="d-flex-container">
-                                        <div [ngStyle]="{'background-color': contact.avatarColor}" class="contact-icon">
-                                            {{contact.avatarLetters}}
-                                        </div>
-                                        @if(contact.email === firebaseAuthenticationService.auth.currentUser?.email) {
-                                        <span>{{contact.name}} (You)</span>
-                                        } @else {
-                                        <span>{{contact.name}}</span>
-                                        }
-                                    </div>
-                                    @if(!contact.selected) {
-                                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="4" y="4.96582" width="16" height="16" rx="3" stroke="#2A3647"
-                                            stroke-width="2" />
-                                    </svg>
-                                    } @else {
-                                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M20 11.9658V17.9658C20 19.6227 18.6569 20.9658 17 20.9658H7C5.34315 20.9658 4 19.6227 4 17.9658V7.96582C4 6.30897 5.34315 4.96582 7 4.96582H15"
-                                            stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
-                                        <path d="M8 12.9658L12 16.9658L20 5.46582" stroke="#2A3647" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                    }
-                                </div>
-                                }
-                            </div>
-                            }
-                        </div>
-                        <div class="selected-contact-container">
-                            @for (contact of contacts; track $index) {
-                            @if (contact.selected) {
-                            <div (click)="deleteSelectedContact($index)"
-                                [ngStyle]="{'background-color': contact.avatarColor}" class="selected-contact-icon">
-                                {{contact.avatarLetters}}</div>
-                            }
-                            }
-                        </div>
-                    </div>
-                </div>
+            <div class="left-data-container">
+                <app-task-title [taskForm]="taskForm"></app-task-title>
+                <app-task-description></app-task-description>
+                <app-task-assigned-to [taskForm]="taskForm"></app-task-assigned-to>
             </div>
         </div>
         <div class="line-container"></div>
-        <div class="right-container"></div>
+        <div class="right-container">
+            <app-task-due-date [taskForm]="taskForm"></app-task-due-date>
+        </div>
     </div>
     <div class="bottom-container">
         <span><span class="color-red">*</span>This field is required</span>
         <div class="button-container">
-            <button>Clear ...</button>
-            <button>Create Task ...</button>
+            <button>
+                Clear
+                <svg class="close-icon" width="32" height="32" viewBox="0 0 32 32" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <mask id="mask0_71720_5528" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="4" y="4"
+                        width="24" height="24">
+                        <rect x="4" y="4" width="24" height="24" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_71720_5528)">
+                        <path
+                            d="M16 17.4L11.1 22.3C10.9167 22.4834 10.6834 22.575 10.4 22.575C10.1167 22.575 9.88338 22.4834 9.70005 22.3C9.51672 22.1167 9.42505 21.8834 9.42505 21.6C9.42505 21.3167 9.51672 21.0834 9.70005 20.9L14.6 16L9.70005 11.1C9.51672 10.9167 9.42505 10.6834 9.42505 10.4C9.42505 10.1167 9.51672 9.88338 9.70005 9.70005C9.88338 9.51672 10.1167 9.42505 10.4 9.42505C10.6834 9.42505 10.9167 9.51672 11.1 9.70005L16 14.6L20.9 9.70005C21.0834 9.51672 21.3167 9.42505 21.6 9.42505C21.8834 9.42505 22.1167 9.51672 22.3 9.70005C22.4834 9.88338 22.575 10.1167 22.575 10.4C22.575 10.6834 22.4834 10.9167 22.3 11.1L17.4 16L22.3 20.9C22.4834 21.0834 22.575 21.3167 22.575 21.6C22.575 21.8834 22.4834 22.1167 22.3 22.3C22.1167 22.4834 21.8834 22.575 21.6 22.575C21.3167 22.575 21.0834 22.4834 20.9 22.3L16 17.4Z"
+                            fill="#2A3647" />
+                    </g>
+                </svg>
+            </button>
+            <button type="submit">
+                Create Task
+                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <mask id="mask0_217703_3987" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                        width="24" height="25">
+                        <rect y="0.5" width="24" height="24" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_217703_3987)">
+                        <path
+                            d="M9.55057 15.65L18.0256 7.175C18.2256 6.975 18.4631 6.875 18.7381 6.875C19.0131 6.875 19.2506 6.975 19.4506 7.175C19.6506 7.375 19.7506 7.6125 19.7506 7.8875C19.7506 8.1625 19.6506 8.4 19.4506 8.6L10.2506 17.8C10.0506 18 9.81724 18.1 9.55057 18.1C9.28391 18.1 9.05057 18 8.85057 17.8L4.55057 13.5C4.35057 13.3 4.25474 13.0625 4.26307 12.7875C4.27141 12.5125 4.37557 12.275 4.57557 12.075C4.77557 11.875 5.01307 11.775 5.28807 11.775C5.56307 11.775 5.80057 11.875 6.00057 12.075L9.55057 15.65Z"
+                            fill="white" />
+                    </g>
+                </svg>
+            </button>
         </div>
     </div>
 </form>
