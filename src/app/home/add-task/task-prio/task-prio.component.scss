@@ -1,0 +1,68 @@
+@import './../../../../styles/colors.scss';
+@import './../../../../styles/mixins.scss';
+
+.category-container {
+    height: 88px;
+    @include display-flex(column, unset, unset, 5px);
+
+    span {
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    .prio-container {
+        @include display-flex(unset, unset, center, 16px);
+
+        .prio {
+            width: 136px;
+            height: 56px;
+            border: unset;
+            border-radius: 10px;
+            background-color: $secondary-color;
+            box-shadow: 0px 0px 4px 0px #0000001A;
+            @include display-flex(unset, center, center, 8px);
+            cursor: pointer;
+
+            &:hover {
+                box-shadow: 0px 4px 4px 0px #00000040;
+            }
+
+            span {
+                font-size: 21px;
+                line-height: 25.2px;
+            }
+        }
+
+        .selected-prio {
+            background-color: #FFA800;
+
+            &:hover {
+                box-shadow: 0px 0px 4px 0px #0000001A;
+            }
+
+            span {
+                color: white;
+            }
+
+            svg path {
+                fill: white;
+            }
+        }
+
+        .selected- {
+            background-color: #FFA800;
+
+            &:hover {
+                box-shadow: 0px 0px 4px 0px #0000001A;
+            }
+
+            span {
+                color: white;
+            }
+
+            svg path {
+                fill: white;
+            }
+        }
+    }
+}

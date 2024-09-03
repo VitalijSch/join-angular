@@ -20,7 +20,7 @@
         .left-container {
             width: 440px;
             height: 376px;
-            @include display-flex(column, unset, unset, unset);
+            @include display-flex(column, unset, unset, 16px);
         }
 
         .line-container {
@@ -32,6 +32,7 @@
         .right-container {
             width: 440px;
             height: 416px;
+            @include display-flex(column, unset, unset, 24px);
         }
     }
 

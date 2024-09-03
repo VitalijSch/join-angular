@@ -4,6 +4,7 @@ import { AddTaskService } from '../../../services/add-task/add-task.service';
 import { FirebaseDatabaseService } from '../../../services/firebase-database/firebase-database.service';
 import { CommonModule } from '@angular/common';
 import { FirebaseAuthenticationService } from '../../../services/firebase-authentication/firebase-authentication.service';
+import { Contact } from '../../../interfaces/contact';
 
 @Component({
   selector: 'app-task-assigned-to',
@@ -43,7 +44,8 @@ export class TaskAssignedToComponent {
     }
   }
 
-  public toggleSelectedContact(index: number): void {
+  public toggleSelectedContact(currentContact: Contact): void {
+    let index = this.firebaseDatabaseService.contacts().findIndex(contact => contact === currentContact);
     let contactSelected = this.firebaseDatabaseService.contacts()[index].selected;
     this.firebaseDatabaseService.contacts()[index].selected = !contactSelected;
   }

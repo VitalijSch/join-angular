@@ -1,4 +1,4 @@
-<form (click)="closeContacts()" [formGroup]="taskForm" (ngSubmit)="createTask()" class="add-task-container">
+<form (click)="closeContactsAndCategory()" [formGroup]="taskForm" (ngSubmit)="createTask()" class="add-task-container">
     <h2>Add Task</h2>
     <div class="main-container">
         <div class="left-container">
@@ -11,6 +11,8 @@
         <div class="line-container"></div>
         <div class="right-container">
             <app-task-due-date [taskForm]="taskForm"></app-task-due-date>
+            <app-task-prio></app-task-prio>
+            <app-task-category [taskForm]="taskForm"></app-task-category>
         </div>
     </div>
     <div class="bottom-container">

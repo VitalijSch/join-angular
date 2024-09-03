@@ -9,6 +9,8 @@ import { TaskDescriptionComponent } from './task-description/task-description.co
 import { TaskAssignedToComponent } from './task-assigned-to/task-assigned-to.component';
 import { AddTaskService } from '../../services/add-task/add-task.service';
 import { TaskDueDateComponent } from './task-due-date/task-due-date.component';
+import { TaskPrioComponent } from './task-prio/task-prio.component';
+import { TaskCategoryComponent } from './task-category/task-category.component';
 
 @Component({
   selector: 'app-add-task',
@@ -19,7 +21,9 @@ import { TaskDueDateComponent } from './task-due-date/task-due-date.component';
     TaskTitleComponent,
     TaskDescriptionComponent,
     TaskAssignedToComponent,
-    TaskDueDateComponent
+    TaskDueDateComponent,
+    TaskPrioComponent,
+    TaskCategoryComponent
   ],
   templateUrl: './add-task.component.html',
   styleUrl: './add-task.component.scss'
@@ -55,12 +59,14 @@ export class AddTaskComponent {
     this.taskForm = this.fb.group({
       title: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\s\-_,\.;:()]+$/)]],
       searchContact: [''],
-      dueDate: ['', [Validators.required]]
+      dueDate: ['', [Validators.required]],
+      selectCategory: ['Select task category', [Validators.required]]
     });
   }
 
-  public closeContacts(): void {
+  public closeContactsAndCategory(): void {
     this.addTaskService.showContacts = false;
+    this.addTaskService.showCategory = false;
     this.taskForm.get('searchContact')?.reset();
     this.addTaskService.contacts = this.firebaseDatabaseService.contacts();
   }
