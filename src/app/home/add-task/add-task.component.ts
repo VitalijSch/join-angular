@@ -11,6 +11,7 @@ import { AddTaskService } from '../../services/add-task/add-task.service';
 import { TaskDueDateComponent } from './task-due-date/task-due-date.component';
 import { TaskPrioComponent } from './task-prio/task-prio.component';
 import { TaskCategoryComponent } from './task-category/task-category.component';
+import { TaskSubtasksComponent } from './task-subtasks/task-subtasks.component';
 
 @Component({
   selector: 'app-add-task',
@@ -23,7 +24,8 @@ import { TaskCategoryComponent } from './task-category/task-category.component';
     TaskAssignedToComponent,
     TaskDueDateComponent,
     TaskPrioComponent,
-    TaskCategoryComponent
+    TaskCategoryComponent,
+    TaskSubtasksComponent
   ],
   templateUrl: './add-task.component.html',
   styleUrl: './add-task.component.scss'
@@ -60,7 +62,8 @@ export class AddTaskComponent {
       title: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\s\-_,\.;:()]+$/)]],
       searchContact: [''],
       dueDate: ['', [Validators.required]],
-      selectCategory: ['Select task category', [Validators.required]]
+      selectCategory: ['Select task category', [Validators.required]],
+      subtasks: [''],
     });
   }
 
