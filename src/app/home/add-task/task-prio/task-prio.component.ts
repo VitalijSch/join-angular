@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AddTaskService } from '../../../services/add-task/add-task.service';
 
 @Component({
   selector: 'app-task-prio',
@@ -9,6 +10,7 @@ import { Component } from '@angular/core';
   styleUrl: './task-prio.component.scss'
 })
 export class TaskPrioComponent {
+  private addTaskService: AddTaskService = inject(AddTaskService);
 
   public selectUrgent: boolean = false;
   public selectMedium: boolean = true;
@@ -29,6 +31,7 @@ export class TaskPrioComponent {
   public toggleUrgent(): void {
     this.selectUrgent = !this.selectUrgent;
     if (this.selectUrgent) {
+      this.addTaskService.tasks.prio = 'Urgent';
       this.selectMedium = false;
       this.selectLow = false;
     }
@@ -37,6 +40,7 @@ export class TaskPrioComponent {
   public toggleMedium(): void {
     this.selectMedium = !this.selectMedium;
     if (this.selectMedium) {
+      this.addTaskService.tasks.prio = 'Medium';
       this.selectUrgent = false;
       this.selectLow = false;
     }
@@ -45,6 +49,7 @@ export class TaskPrioComponent {
   public toggleLow(): void {
     this.selectLow = !this.selectLow;
     if (this.selectLow) {
+      this.addTaskService.tasks.prio = 'Low';
       this.selectMedium = false;
       this.selectUrgent = false;
     }

@@ -27,20 +27,20 @@ export class TaskAssignedToComponent {
   public closeContacts(): void {
     this.addTaskService.showContacts = false;
     this.taskForm.get('searchContact')?.reset();
-    this.addTaskService.contacts = this.firebaseDatabaseService.contacts();
+    this.addTaskService.tasks.assignedTo = this.firebaseDatabaseService.contacts();
   }
 
   public searchContacts(): void {
     const searchValue = this.taskForm.get('searchContact')?.value;
     if (searchValue !== '') {
-      this.addTaskService.contacts = [];
+      this.addTaskService.tasks.assignedTo = [];
       this.firebaseDatabaseService.contacts().forEach(contact => {
         if (contact.name.toLowerCase().includes(searchValue.toLowerCase())) {
-          this.addTaskService.contacts.push(contact);
+          this.addTaskService.tasks.assignedTo.push(contact);
         }
       });
     } else {
-      this.addTaskService.contacts = this.firebaseDatabaseService.contacts();
+      this.addTaskService.tasks.assignedTo = this.firebaseDatabaseService.contacts();
     }
   }
 
@@ -48,9 +48,17 @@ export class TaskAssignedToComponent {
     let index = this.firebaseDatabaseService.contacts().findIndex(contact => contact === currentContact);
     let contactSelected = this.firebaseDatabaseService.contacts()[index].selected;
     this.firebaseDatabaseService.contacts()[index].selected = !contactSelected;
+    this.saveContactss();
   }
 
   public deleteSelectedContact(index: number): void {
-    this.addTaskService.contacts[index].selected = false;
+    this.addTaskService.tasks.assignedTo[index].selected = false;
+    this.saveContactss();
+  }
+
+  private saveContactss(): void {
+    const activeContacts = this.firebaseDatabaseService.contacts().filter(contact => contact.selected);
+    this.addTaskService.tasks.assignedTo = [];
+    this.addTaskService.tasks.assignedTo = activeContacts;
   }
 }

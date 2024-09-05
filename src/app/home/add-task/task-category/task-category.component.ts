@@ -18,5 +18,6 @@ export class TaskCategoryComponent {
   public selectedCategory(category: string): void {
     this.addTaskService.toggleShowCategory();
     this.taskForm.get('selectCategory')?.setValue(`${category}`);
+    this.addTaskService.tasks.category = category;
   }
 }

@@ -2,7 +2,7 @@
     <span>Subtasks</span>
     <div class="input-container">
         <input type="text" name="subtasks" id="subtasks" formControlName="subtasks" placeholder="Add new subtask">
-        @if(taskForm.get('subtasks')?.value === '' || taskForm.get('subtasks')?.value === null) {
+        @if(taskForm.get('subtasks')?.value === 0 || taskForm.get('subtasks')?.value === null) {
         <svg class="pos-right-top" width="25" height="24" viewBox="0 0 25 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <mask id="mask0_221524_6112" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25"
@@ -46,12 +46,12 @@
         }
     </div>
     <ul>
-        @for (subtask of subtasks; track $index) {
-        @if(!showEditSubtask) {
-        <div class="subtask-container">
-            <li>{{subtask}}</li>
+        @for (subtask of addTaskService.tasks.subtasks; track $index) {
+        @if(!subtask.isEditing) {
+        <div (dblclick)="toggleShowEditSubtask($index)" class="subtask-container">
+            <li>{{subtask.content}}</li>
             <div class="edit-or-delete-container">
-                <svg (click)="toggleShowEditSubtask()" width="25" height="24" viewBox="0 0 25 24" fill="none"
+                <svg (click)="toggleShowEditSubtask($index)" width="25" height="24" viewBox="0 0 25 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_75601_14818" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                         width="25" height="24">
@@ -80,7 +80,7 @@
         </div>
         } @else {
         <div class="edit-input-container">
-            <input type="text" name="editSubtasks" id="editSubtasks" formControlName="editSubtasks" [value]="subtask">
+            <input #editInput type="text" name="editSubtasks" id="editSubtasks" [value]="subtask.content">
             <div class="pos-right-top delete-or-agree-container">
                 <svg (click)="deleteSubtask($index)" width="25" height="24" viewBox="0 0 25 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -95,7 +95,7 @@
                     </g>
                 </svg>
                 <div class="line-container"></div>
-                <svg (click)="saveSubtasks()" width="25" height="24" viewBox="0 0 25 24" fill="none"
+                <svg (click)="saveEditSubtask($index, editInput.value)" width="25" height="24" viewBox="0 0 25 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_75592_9963" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                         width="25" height="24">

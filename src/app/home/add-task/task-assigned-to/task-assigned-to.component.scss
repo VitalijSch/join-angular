@@ -2,7 +2,7 @@
 @import './../../../../styles/mixins.scss';
 
 .category-container {
-    height: 80px;
+    height: 130px;
     @include display-flex(column, unset, unset, 5px);
 
     span {

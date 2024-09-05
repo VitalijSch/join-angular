@@ -42,28 +42,29 @@ export class AddTaskComponent {
   public ngOnInit(): void {
     this.moveUserToFrontInContacts();
     this.setupTaskForm();
+    console.log(this.taskForm.get('subtasks'))
   }
 
   private moveUserToFrontInContacts(): void {
     this.firebaseDatabaseService.contacts().forEach(contact => {
       contact.selected = false;
     });
-    this.addTaskService.contacts = this.firebaseDatabaseService.contacts();
+    this.addTaskService.tasks.assignedTo = this.firebaseDatabaseService.contacts();
     const currentUserEmail = this.firebaseAuthenticationService.auth.currentUser?.email;
-    const userIndex = this.addTaskService.contacts.findIndex(contact => contact.email === currentUserEmail);
+    const userIndex = this.addTaskService.tasks.assignedTo.findIndex(contact => contact.email === currentUserEmail);
     if (userIndex !== -1) {
-      const [userContact] = this.addTaskService.contacts.splice(userIndex, 1);
-      this.addTaskService.contacts.unshift(userContact);
+      const [userContact] = this.addTaskService.tasks.assignedTo.splice(userIndex, 1);
+      this.addTaskService.tasks.assignedTo.unshift(userContact);
     }
   }
 
   private setupTaskForm(): void {
     this.taskForm = this.fb.group({
-      title: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\s\-_,\.;:()]+$/)]],
-      searchContact: [''],
-      dueDate: ['', [Validators.required]],
-      selectCategory: ['Select task category', [Validators.required]],
-      subtasks: [''],
+      title: [this.addTaskService.tasks.title, [Validators.required, Validators.pattern(/^[a-zA-Z0-9\s\-_,\.;:()]+$/)]],
+      searchContact: [],
+      dueDate: [this.addTaskService.tasks.dueDate, [Validators.required]],
+      selectCategory: [this.addTaskService.tasks.category, [Validators.required]],
+      subtasks: [this.addTaskService.tasks.subtasks]
     });
   }
 
@@ -71,9 +72,14 @@ export class AddTaskComponent {
     this.addTaskService.showContacts = false;
     this.addTaskService.showCategory = false;
     this.taskForm.get('searchContact')?.reset();
-    this.addTaskService.contacts = this.firebaseDatabaseService.contacts();
+    this.addTaskService.tasks.assignedTo = this.firebaseDatabaseService.contacts();
+  }
+
+  public clearSubtaskForm(): void {
+    this.taskForm.reset();
   }
 
   public async createTask(): Promise<void> {
+    console.log(this.addTaskService.tasks);
   }
 }

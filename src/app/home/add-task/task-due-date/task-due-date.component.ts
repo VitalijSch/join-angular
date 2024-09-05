@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AddTaskService } from '../../../services/add-task/add-task.service';
 
 @Component({
   selector: 'app-task-due-date',
@@ -12,6 +13,8 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 export class TaskDueDateComponent {
   @Input() taskForm!: FormGroup;
 
+  private addTaskService: AddTaskService = inject(AddTaskService);
+
   public getToday(): string {
     const today = new Date();
     const year = today.getFullYear();
@@ -22,5 +25,9 @@ export class TaskDueDateComponent {
 
   public openDatepicker(event: MouseEvent): void {
     (event.target as HTMLInputElement).showPicker();
+  }
+
+  public dueDateValue(value: string): void {
+    this.addTaskService.tasks.dueDate = value;
   }
 }

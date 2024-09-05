@@ -1,6 +1,6 @@
 <div [formGroup]="taskForm" class="category-container">
     <span>Due date<span class="color-red">*</span></span>
-    <input (click)="openDatepicker($event)"
+    <input #dueDate (input)="dueDateValue(dueDate.value)" (click)="openDatepicker($event)"
         [ngStyle]="{'border-color': (taskForm.get('dueDate')?.touched && taskForm.get('dueDate')?.invalid) ? 'red': '', 'color': taskForm.get('dueDate')?.value !== '' ? 'black': '#D1D1D1'}"
         type="date" name="dueDate" id="dueDate" formControlName="dueDate" placeholder="dd/mm/yyyy"
         [attr.min]="getToday()">

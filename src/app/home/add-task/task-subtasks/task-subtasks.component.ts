@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Subtask } from '../../../interfaces/subtask';
+import { AddTaskService } from '../../../services/add-task/add-task.service';
 
 @Component({
   selector: 'app-task-subtasks',
@@ -12,28 +14,33 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 export class TaskSubtasksComponent {
   @Input() taskForm!: FormGroup;
 
-  public subtasks: string[] = [];
-
-  public showEditSubtask: boolean = false;
+  public addTaskService: AddTaskService = inject(AddTaskService);
 
   public resetSubtaskInput(): void {
     this.taskForm.get('subtasks')?.reset();
   }
 
   public saveSubtasks(): void {
-    const subtask = this.taskForm.get('subtasks')?.value;
-    this.subtasks.push(subtask);
+    const content = this.taskForm.get('subtasks')?.value;
+    const subtask = {
+      content,
+      isEditing: false
+    }
+    this.addTaskService.tasks.subtasks.push(subtask);
     this.resetSubtaskInput();
   }
 
   public deleteSubtask(index: number): void {
-    this.subtasks.splice(index, 1);
+    this.addTaskService.tasks.subtasks.splice(index, 1);
   }
 
-  public toggleShowEditSubtask(): void {
-    this.showEditSubtask = !this.showEditSubtask;
-    if(this.showEditSubtask) {
-      this.taskForm.get('')
-    }
+  public toggleShowEditSubtask(index: number): void {
+    const isEditing = this.addTaskService.tasks.subtasks[index].isEditing;
+    this.addTaskService.tasks.subtasks[index].isEditing = !isEditing;
+  }
+
+  public saveEditSubtask(index: number, value: string): void {
+    this.addTaskService.tasks.subtasks[index].content = value;
+    this.toggleShowEditSubtask(index);
   }
 }

@@ -1,4 +1,5 @@
 <div class="category-container">
     <span>Description</span>
-    <textarea name="description" id="description" placeholder="Enter a Description"></textarea>
+    <textarea #description (input)="descriptionValue(description.value)" name="description" id="description" placeholder="Enter a Description"
+        [value]="addTaskService.tasks.description"></textarea>
 </div>

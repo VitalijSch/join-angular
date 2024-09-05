@@ -33,7 +33,7 @@
         }
         @if (addTaskService.showContacts) {
         <div class="all-contact-container">
-            @for (contact of addTaskService.contacts; track $index) {
+            @for (contact of addTaskService.tasks.assignedTo; track $index) {
             <div (click)="toggleSelectedContact(contact)" [ngClass]="{'selected-contact': contact.selected}"
                 class="contact-container">
                 <div class="d-flex-container">
@@ -65,7 +65,7 @@
         }
     </div>
     <div class="selected-contact-container">
-        @for (contact of addTaskService.contacts; track $index) {
+        @for (contact of addTaskService.tasks.assignedTo; track $index) {
         @if (contact.selected) {
         <div (click)="deleteSelectedContact($index)" [ngStyle]="{'background-color': contact.avatarColor}"
             class="selected-contact-icon">
