@@ -3,6 +3,7 @@ import { CollectionReference, DocumentData, Firestore } from '@angular/fire/fire
 import { collection, deleteDoc, doc, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 import { Unsubscribe } from 'firebase/auth';
 import { Contact } from '../../interfaces/contact';
+import { Task } from '../../interfaces/task';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +16,18 @@ export class FirebaseDatabaseService {
   public contacts: WritableSignal<Contact[]> = signal<Contact[]>([]);
   public letters: string[] = [];
 
+  public tasks: WritableSignal<Task[]> = signal<Task[]>([]);
+
   constructor() {
     this.getContact();
   }
 
   private contactCollection(): CollectionReference<DocumentData> {
     return collection(this.firestore, 'contacts');
+  }
+
+  private taskCollection(): CollectionReference<DocumentData> {
+    return collection(this.firestore, 'tasks');
   }
 
   public getContact(): void {
@@ -43,6 +50,17 @@ export class FirebaseDatabaseService {
       this.contacts.set(this.contacts());
       this.getLettersForContacts();
       this.sortContactsByName();
+    } catch (error) {
+      console.error('Error adding user:', error);
+    }
+  }
+
+  public async addTask(task: Task): Promise<void> {
+    try {
+      const userDocRef = doc(this.taskCollection());
+      task.id = userDocRef.id;
+      await setDoc(userDocRef, task);
+      this.tasks.set(this.tasks());
     } catch (error) {
       console.error('Error adding user:', error);
     }

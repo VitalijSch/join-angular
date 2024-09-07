@@ -1,8 +1,9 @@
 <div [formGroup]="taskForm" class="category-container">
     <span>Title<span class="color-red">*</span></span>
-    <input #title (input)="titleValue(title.value)" [ngStyle]="{'border-color': (taskForm.get('title')?.touched && taskForm.get('title')?.invalid) ? 'red': ''}"
+    <input #title (input)="titleValue(title.value)"
+        [ngStyle]="{'border-color': (taskForm.get('title')?.touched && taskForm.get('title')?.invalid) ? 'red': ''}"
         type="text" name="title" id="title" formControlName="title" placeholder="Enter a title">
-    @if (taskForm.get('title')?.touched && taskForm.get('title')?.invalid) {
+    @if (taskForm.get('title')?.touched && taskForm.get('title')?.invalid || addTaskService.isTitleInvalid) {
     @if (taskForm.get('title')?.errors?.['required']) {
     <span class="error-message">This field is required</span>
     }

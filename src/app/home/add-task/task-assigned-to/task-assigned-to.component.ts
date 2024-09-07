@@ -20,6 +20,10 @@ export class TaskAssignedToComponent {
   public firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
 
+  public ngOnInit(): void {
+    this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts();
+  }
+
   public openContacts(): void {
     this.addTaskService.showContacts = true;
   }
@@ -27,20 +31,20 @@ export class TaskAssignedToComponent {
   public closeContacts(): void {
     this.addTaskService.showContacts = false;
     this.taskForm.get('searchContact')?.reset();
-    this.addTaskService.tasks.assignedTo = this.firebaseDatabaseService.contacts();
+    this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts();
   }
 
   public searchContacts(): void {
     const searchValue = this.taskForm.get('searchContact')?.value;
     if (searchValue !== '') {
-      this.addTaskService.tasks.assignedTo = [];
+      this.addTaskService.searchedContact = [];
       this.firebaseDatabaseService.contacts().forEach(contact => {
         if (contact.name.toLowerCase().includes(searchValue.toLowerCase())) {
-          this.addTaskService.tasks.assignedTo.push(contact);
+          this.addTaskService.searchedContact.push(contact);
         }
       });
     } else {
-      this.addTaskService.tasks.assignedTo = this.firebaseDatabaseService.contacts();
+      this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts();
     }
   }
 
@@ -52,13 +56,13 @@ export class TaskAssignedToComponent {
   }
 
   public deleteSelectedContact(index: number): void {
-    this.addTaskService.tasks.assignedTo[index].selected = false;
+    this.addTaskService.task.assignedTo[index].selected = false;
     this.saveContactss();
   }
 
   private saveContactss(): void {
     const activeContacts = this.firebaseDatabaseService.contacts().filter(contact => contact.selected);
-    this.addTaskService.tasks.assignedTo = [];
-    this.addTaskService.tasks.assignedTo = activeContacts;
+    this.addTaskService.task.assignedTo = [];
+    this.addTaskService.task.assignedTo = activeContacts;
   }
 }

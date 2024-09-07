@@ -13,6 +13,6 @@ export class TaskDescriptionComponent {
   public addTaskService: AddTaskService = inject(AddTaskService);
 
   public descriptionValue(value: string): void {
-    this.addTaskService.tasks.description = value;
+    this.addTaskService.task.description = value;
   }
 }

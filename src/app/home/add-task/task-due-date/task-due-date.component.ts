@@ -13,7 +13,7 @@ import { AddTaskService } from '../../../services/add-task/add-task.service';
 export class TaskDueDateComponent {
   @Input() taskForm!: FormGroup;
 
-  private addTaskService: AddTaskService = inject(AddTaskService);
+  public addTaskService: AddTaskService = inject(AddTaskService);
 
   public getToday(): string {
     const today = new Date();
@@ -28,6 +28,6 @@ export class TaskDueDateComponent {
   }
 
   public dueDateValue(value: string): void {
-    this.addTaskService.tasks.dueDate = value;
+    this.addTaskService.task.dueDate = value;
   }
 }

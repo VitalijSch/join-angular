@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Subtask } from '../../../interfaces/subtask';
 import { AddTaskService } from '../../../services/add-task/add-task.service';
 
 @Component({
@@ -26,21 +25,21 @@ export class TaskSubtasksComponent {
       content,
       isEditing: false
     }
-    this.addTaskService.tasks.subtasks.push(subtask);
+    this.addTaskService.task.subtasks.push(subtask);
     this.resetSubtaskInput();
   }
 
   public deleteSubtask(index: number): void {
-    this.addTaskService.tasks.subtasks.splice(index, 1);
+    this.addTaskService.task.subtasks.splice(index, 1);
   }
 
   public toggleShowEditSubtask(index: number): void {
-    const isEditing = this.addTaskService.tasks.subtasks[index].isEditing;
-    this.addTaskService.tasks.subtasks[index].isEditing = !isEditing;
+    const isEditing = this.addTaskService.task.subtasks[index].isEditing;
+    this.addTaskService.task.subtasks[index].isEditing = !isEditing;
   }
 
   public saveEditSubtask(index: number, value: string): void {
-    this.addTaskService.tasks.subtasks[index].content = value;
+    this.addTaskService.task.subtasks[index].content = value;
     this.toggleShowEditSubtask(index);
   }
 }

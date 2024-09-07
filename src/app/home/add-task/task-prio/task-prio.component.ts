@@ -31,7 +31,7 @@ export class TaskPrioComponent {
   public toggleUrgent(): void {
     this.selectUrgent = !this.selectUrgent;
     if (this.selectUrgent) {
-      this.addTaskService.tasks.prio = 'Urgent';
+      this.addTaskService.task.prio = 'Urgent';
       this.selectMedium = false;
       this.selectLow = false;
     }
@@ -40,7 +40,7 @@ export class TaskPrioComponent {
   public toggleMedium(): void {
     this.selectMedium = !this.selectMedium;
     if (this.selectMedium) {
-      this.addTaskService.tasks.prio = 'Medium';
+      this.addTaskService.task.prio = 'Medium';
       this.selectUrgent = false;
       this.selectLow = false;
     }
@@ -49,7 +49,7 @@ export class TaskPrioComponent {
   public toggleLow(): void {
     this.selectLow = !this.selectLow;
     if (this.selectLow) {
-      this.addTaskService.tasks.prio = 'Low';
+      this.addTaskService.task.prio = 'Low';
       this.selectMedium = false;
       this.selectUrgent = false;
     }

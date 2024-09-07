@@ -16,6 +16,6 @@ export class TaskTitleComponent {
   public addTaskService: AddTaskService = inject(AddTaskService);
 
   public titleValue(value: string): void {
-    this.addTaskService.tasks.title = value;
+    this.addTaskService.task.title = value;
   }
 }

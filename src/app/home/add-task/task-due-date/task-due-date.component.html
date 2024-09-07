@@ -4,7 +4,7 @@
         [ngStyle]="{'border-color': (taskForm.get('dueDate')?.touched && taskForm.get('dueDate')?.invalid) ? 'red': '', 'color': taskForm.get('dueDate')?.value !== '' ? 'black': '#D1D1D1'}"
         type="date" name="dueDate" id="dueDate" formControlName="dueDate" placeholder="dd/mm/yyyy"
         [attr.min]="getToday()">
-    @if (taskForm.get('dueDate')?.touched && taskForm.get('dueDate')?.invalid) {
+    @if (taskForm.get('dueDate')?.touched && taskForm.get('dueDate')?.invalid || addTaskService.isDueDateInvalid) {
     @if (taskForm.get('dueDate')?.errors?.['required']) {
     <span class="error-message">This field is required</span>
     }

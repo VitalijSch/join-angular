@@ -3,11 +3,6 @@
     <div (click)="$event.stopPropagation()" class="choose-category-container">
         <input (click)="addTaskService.toggleShowCategory()" class="choose-category" formControlName="selectCategory"
             type="text" readonly name="selectCategory" id="selectCategory">
-        @if (taskForm.get('selectCategory')?.touched) {
-        @if (this.taskForm.get('selectCategory')?.value === 'Select task category') {
-        <span class="error-message">This field is required</span>
-        }
-        }
         @if (addTaskService.showCategory) {
         <svg (click)="addTaskService.toggleShowCategory()" width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -46,4 +41,9 @@
         </div>
         }
     </div>
+    @if (taskForm.get('selectCategory')?.touched || addTaskService.isCategoryInvalid) {
+    @if (this.taskForm.get('selectCategory')?.value === 'Select task category') {
+    <span class="error-message">This field is required</span>
+    }
+    }
 </div>
