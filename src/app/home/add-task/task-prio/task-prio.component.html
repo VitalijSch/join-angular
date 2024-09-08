@@ -1,8 +1,8 @@
 <div class="category-container">
     <span>Prio</span>
     <div class="prio-container">
-        <div (click)="selectedPrio('urgent')" [ngStyle]="{'background-color': selectUrgent ? '#FF3D00': ''}"
-            [ngClass]="{'selected-prio': selectUrgent}" class="prio">
+        <div (click)="selectedPrio('urgent')" [ngStyle]="{'background-color': addTaskService.selectUrgent ? '#FF3D00': ''}"
+            [ngClass]="{'selected-prio': addTaskService.selectUrgent}" class="prio">
             <span>Urgent</span>
             <svg width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_221045_4288)">
@@ -20,8 +20,8 @@
                 </defs>
             </svg>
         </div>
-        <div (click)="selectedPrio('medium')" [ngStyle]="{'background-color': selectMedium ? '#FFA800': ''}"
-            [ngClass]="{'selected-prio': selectMedium}" class="prio">
+        <div (click)="selectedPrio('medium')" [ngStyle]="{'background-color': addTaskService.selectMedium ? '#FFA800': ''}"
+            [ngClass]="{'selected-prio': addTaskService.selectMedium}" class="prio">
             <span>Medium</span>
             <svg width="21" height="8" viewBox="0 0 21 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_221045_4295)">
@@ -39,8 +39,8 @@
                 </defs>
             </svg>
         </div>
-        <div (click)="selectedPrio('low')" [ngStyle]="{'background-color': selectLow ? '#7AE229': ''}"
-            [ngClass]="{'selected-prio': selectLow}" class="prio">
+        <div (click)="selectedPrio('low')" [ngStyle]="{'background-color': addTaskService.selectLow ? '#7AE229': ''}"
+            [ngClass]="{'selected-prio': addTaskService.selectLow}" class="prio">
             <span>Low</span>
             <svg width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path

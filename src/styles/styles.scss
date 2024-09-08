@@ -49,6 +49,18 @@ body {
     }
 }
 
+@keyframes slideFromBottomToCenterTask {
+    from {
+        top: 100%;
+        transform: translate(-50%);
+    }
+
+    to {
+        top: calc(50% - 74px);
+        transform: translate(-50%);
+    }
+}
+
 @keyframes slideFromRightToLeft {
     from {
         transform: translateX(100vw);

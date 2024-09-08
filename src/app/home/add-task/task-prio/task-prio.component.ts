@@ -10,11 +10,7 @@ import { AddTaskService } from '../../../services/add-task/add-task.service';
   styleUrl: './task-prio.component.scss'
 })
 export class TaskPrioComponent {
-  private addTaskService: AddTaskService = inject(AddTaskService);
-
-  public selectUrgent: boolean = false;
-  public selectMedium: boolean = true;
-  public selectLow: boolean = false;
+  public addTaskService: AddTaskService = inject(AddTaskService);
 
   public selectedPrio(prio: string): void {
     if (prio === 'urgent') {
@@ -29,29 +25,29 @@ export class TaskPrioComponent {
   }
 
   public toggleUrgent(): void {
-    this.selectUrgent = !this.selectUrgent;
-    if (this.selectUrgent) {
+    this.addTaskService.selectUrgent = !this.addTaskService.selectUrgent;
+    if (this.addTaskService.selectUrgent) {
       this.addTaskService.task.prio = 'Urgent';
-      this.selectMedium = false;
-      this.selectLow = false;
+      this.addTaskService.selectMedium = false;
+      this.addTaskService.selectLow = false;
     }
   }
 
   public toggleMedium(): void {
-    this.selectMedium = !this.selectMedium;
-    if (this.selectMedium) {
+    this.addTaskService.selectMedium = !this.addTaskService.selectMedium;
+    if (this.addTaskService.selectMedium) {
       this.addTaskService.task.prio = 'Medium';
-      this.selectUrgent = false;
-      this.selectLow = false;
+      this.addTaskService.selectUrgent = false;
+      this.addTaskService.selectLow = false;
     }
   }
 
   public toggleLow(): void {
-    this.selectLow = !this.selectLow;
-    if (this.selectLow) {
+    this.addTaskService.selectLow = !this.addTaskService.selectLow;
+    if (this.addTaskService.selectLow) {
       this.addTaskService.task.prio = 'Low';
-      this.selectMedium = false;
-      this.selectUrgent = false;
+      this.addTaskService.selectMedium = false;
+      this.addTaskService.selectUrgent = false;
     }
   }
 }

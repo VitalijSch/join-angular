@@ -12,6 +12,7 @@ import { TaskDueDateComponent } from './task-due-date/task-due-date.component';
 import { TaskPrioComponent } from './task-prio/task-prio.component';
 import { TaskCategoryComponent } from './task-category/task-category.component';
 import { TaskSubtasksComponent } from './task-subtasks/task-subtasks.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-task',
@@ -36,8 +37,11 @@ export class AddTaskComponent {
   public firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
   public addTaskService: AddTaskService = inject(AddTaskService);
   private fb: FormBuilder = inject(FormBuilder);
+  private router: Router = inject(Router);
 
   public taskForm!: FormGroup;
+
+  public showCreateTaskMessage: boolean = false;
 
   public ngOnInit(): void {
     this.moveUserToFrontInContacts();
@@ -75,12 +79,25 @@ export class AddTaskComponent {
   }
 
   public clearSubtaskForm(): void {
-    this.taskForm.reset();
+    this.addTaskService.resetTask();
+    this.addTaskService.resetPrio();
+    this.addTaskService.isCategoryInvalid = false;
+    this.firebaseDatabaseService.contacts().forEach(contact => {
+      contact.selected = false;
+    });
+    this.setupTaskForm();
   }
 
   public async createTask(): Promise<void> {
-    if (this.taskForm.valid) {
+    if (this.taskForm.valid && this.taskForm.get('selectCategory')?.value !== 'Select task category') {
       await this.firebaseDatabaseService.addTask(this.addTaskService.task);
+      this.homeService.disabledElement = true;
+      this.showCreateTaskMessage = true;
+      setTimeout(async () => {
+        this.clearSubtaskForm();
+        this.homeService.disabledElement = false;
+        await this.router.navigate(['/home/board']);
+      }, 1500);
     }
     this.showErrorMessage();
   }

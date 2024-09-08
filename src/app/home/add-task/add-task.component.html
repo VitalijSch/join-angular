@@ -19,7 +19,7 @@
     <div class="bottom-container">
         <span><span class="color-red">*</span>This field is required</span>
         <div class="button-container">
-            <button (click)="clearSubtaskForm()">
+            <button type="button" (click)="clearSubtaskForm()">
                 Clear
                 <svg class="close-icon" width="32" height="32" viewBox="0 0 32 32" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -51,7 +51,7 @@
         </div>
     </div>
 </form>
-<div [ngClass]="{'show-animation': taskForm.valid}" class="create-task-container">
+<div [ngClass]="{'show-animation': showCreateTaskMessage}" class="create-task-container">
     <span>Task added to board</span>
     <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path

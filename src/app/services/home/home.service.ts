@@ -26,6 +26,8 @@ export class HomeService {
   
   public closeAddContactAnimation: boolean = false;
 
+  public disabledElement: boolean = false;
+
   public goBack(): void {
     this.location.back();
   }

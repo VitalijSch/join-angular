@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { HomeService } from './services/home/home.service';
 
 @Component({
   selector: 'app-root',
@@ -10,4 +11,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+  public homeService: HomeService = inject(HomeService);
 }

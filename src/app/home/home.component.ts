@@ -4,11 +4,13 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FirebaseAuthenticationService } from '../services/firebase-authentication/firebase-authentication.service';
 import { filter } from 'rxjs';
+import { HomeService } from '../services/home/home.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeaderComponent, SidebarComponent, RouterOutlet],
+  imports: [CommonModule,HeaderComponent, SidebarComponent, RouterOutlet],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -17,6 +19,7 @@ export class HomeComponent {
 
   private firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
   private router: Router = inject(Router);
+  public homeService: HomeService = inject(HomeService);
 
   public async ngOnInit(): Promise<void> {
     await this.firebaseAuthenticationService.checkIfUserIsLogged();

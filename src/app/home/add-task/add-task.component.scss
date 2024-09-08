@@ -5,6 +5,7 @@
     max-height: 928px;
     height: 100%;
     padding: 110px 135.75px 71px 96px;
+    overflow-y: hidden;
     @include display-flex(column, unset, unset, 50px);
 
     h2 {
@@ -102,7 +103,11 @@
     box-shadow: 0px 0px 4px 0px #0000001A;
     background-color: $primary-color;
     @include display-flex(unset, space-between, center, unset);
-    transform: translateY(100vh);
+    position: fixed;
+    top: 100%;
+    left: 50%;
+    z-index: 5;
+    transform: translate(-50%);
 
     span {
         color: white;
@@ -112,5 +117,5 @@
 }
 
 .show-animation {
-    animation: slideFromBottomToCenter 0.5s ease-out forwards;
+    animation: slideFromBottomToCenterTask 0.5s ease-out forwards;
 }

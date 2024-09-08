@@ -26,7 +26,30 @@ export class AddTaskService {
   public isDueDateInvalid: boolean = false;
   public isCategoryInvalid: boolean = false;
 
+  public selectUrgent: boolean = false;
+  public selectMedium: boolean = true;
+  public selectLow: boolean = false;
+
   public toggleShowCategory(): void {
     this.showCategory = !this.showCategory;
+  }
+
+  public resetTask(): void {
+    this.task = {
+      id: '',
+      category: 'Select task category',
+      title: '',
+      description: '',
+      dueDate: '',
+      prio: 'Medium',
+      assignedTo: [],
+      subtasks: []
+    };
+  }
+
+  public resetPrio(): void {
+    this.selectUrgent = false;
+    this.selectMedium = true;
+    this.selectLow = false;
   }
 }
