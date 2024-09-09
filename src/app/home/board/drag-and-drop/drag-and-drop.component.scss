@@ -1,0 +1,31 @@
+@import './../../../../styles/colors.scss';
+@import './../../../../styles/mixins.scss';
+
+.drag-and-drop-container {
+    @include display-flex(unset, unset, unset, 30px);
+    height: 645px;
+    padding: 10px;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        width: 0;
+    }
+
+    .category-container {
+        width: 244px;
+        @include display-flex(column, unset, unset, 11px);
+
+        .no-tasks-feedback-container {
+            width: 100%;
+            min-height: 48px;
+            border: 2px dotted #A8A8A8;
+            border-radius: 10px;
+            box-shadow: 0px 0px 4px 0px #00000029;
+            background-color: #E7E7E7;
+            color: #A8A8A8;
+            font-size: 16px;
+            line-height: 19.2px;
+            @include display-flex(unset, center, center, unset);
+        }
+    }
+}

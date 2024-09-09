@@ -14,7 +14,8 @@ export class AddTaskService {
     dueDate: '',
     prio: 'Medium',
     assignedTo: [],
-    subtasks: []
+    subtasks: [],
+    status: 'To do'
   };
 
   public searchedContact: Contact[] = [];
@@ -43,7 +44,8 @@ export class AddTaskService {
       dueDate: '',
       prio: 'Medium',
       assignedTo: [],
-      subtasks: []
+      subtasks: [],
+      status: 'To do'
     };
   }
 

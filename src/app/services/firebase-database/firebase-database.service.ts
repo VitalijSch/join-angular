@@ -11,7 +11,8 @@ import { Task } from '../../interfaces/task';
 export class FirebaseDatabaseService {
   private firestore: Firestore = inject(Firestore);
 
-  private unsubscribe!: Unsubscribe;
+  private unsubscribeContact!: Unsubscribe;
+  private unsubscribeTask!: Unsubscribe;
 
   public contacts: WritableSignal<Contact[]> = signal<Contact[]>([]);
   public letters: string[] = [];
@@ -31,7 +32,7 @@ export class FirebaseDatabaseService {
   }
 
   public getContact(): void {
-    this.unsubscribe = onSnapshot(this.contactCollection(), (querySnapshot) => {
+    this.unsubscribeContact = onSnapshot(this.contactCollection(), (querySnapshot) => {
       let currentContacts: Contact[] = [];
       querySnapshot.forEach((doc) => {
         currentContacts.push(doc.data() as Contact);
@@ -39,6 +40,16 @@ export class FirebaseDatabaseService {
       this.contacts.set(currentContacts);
       this.getLettersForContacts();
       this.sortContactsByName();
+    });
+  }
+
+  public getTask(): void {
+    this.unsubscribeTask = onSnapshot(this.taskCollection(), (querySnapshot) => {
+      let currentTasks: Task[] = [];
+      querySnapshot.forEach((doc) => {
+        currentTasks.push(doc.data() as Task);
+      });
+      this.tasks.set(currentTasks);
     });
   }
 
@@ -117,8 +128,11 @@ export class FirebaseDatabaseService {
   }
 
   public ngOnDestroy(): void {
-    if (this.unsubscribe) {
-      this.unsubscribe();
+    if (this.unsubscribeContact) {
+      this.unsubscribeContact();
+    }
+    if (this.unsubscribeTask) {
+      this.unsubscribeTask();
     }
   }
 }

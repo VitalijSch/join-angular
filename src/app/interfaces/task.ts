@@ -10,4 +10,5 @@ export interface Task {
     prio: string;
     assignedTo: Contact[];
     subtasks: Subtask[];
+    status: string;
 }

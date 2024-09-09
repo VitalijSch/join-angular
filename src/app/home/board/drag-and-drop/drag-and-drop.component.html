@@ -1,0 +1,46 @@
+<div class="drag-and-drop-container">
+    <div class="category-container to-do-container">
+        @if(toDo.length === 0) {
+        <div class="no-tasks-feedback-container">
+            No tasks To do
+        </div>
+        } @else {
+        @for (task of toDo; track $index) {
+        <app-task [task]="task"></app-task>
+        }
+        }
+    </div>
+    <div class="category-container in-progress-container">
+        @if(inProgress.length === 0) {
+        <div class="no-tasks-feedback-container">
+            No tasks To do
+        </div>
+        } @else {
+        @for (task of inProgress; track $index) {
+        <app-task [task]="task"></app-task>
+        }
+        }
+    </div>
+    <div class="category-container await-feedback-container">
+        @if(awaitFeedback.length === 0) {
+        <div class="no-tasks-feedback-container">
+            No tasks To do
+        </div>
+        } @else {
+        @for (task of awaitFeedback; track $index) {
+        <app-task [task]="task"></app-task>
+        }
+        }
+    </div>
+    <div class="category-container done-container">
+        @if(done.length === 0) {
+        <div class="no-tasks-feedback-container">
+            No tasks To do
+        </div>
+        } @else {
+        @for (task of done; track $index) {
+        <app-task [task]="task"></app-task>
+        }
+        }
+    </div>
+</div>

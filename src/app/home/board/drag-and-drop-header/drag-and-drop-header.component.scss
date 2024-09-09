@@ -1,0 +1,28 @@
+@import './../../../../styles/colors.scss';
+@import './../../../../styles/mixins.scss';
+
+.drag-and-drop-header-container {
+    @include display-flex(unset, unset, center, 30px);
+    padding: 0 0 8px 10px;
+
+    div {
+        width: 244px;
+        @include display-flex(unset, space-between, center, unset);
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 24px;
+        color: #42526E;
+
+        svg {
+            cursor: pointer;
+
+            &:hover {
+
+                path, rect {
+                    stroke: $effect-color;
+                }
+            }
+
+        }
+    }
+}
