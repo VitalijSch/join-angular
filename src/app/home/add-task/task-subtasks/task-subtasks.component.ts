@@ -23,7 +23,8 @@ export class TaskSubtasksComponent {
     const content = this.taskForm.get('subtasks')?.value;
     const subtask = {
       content,
-      isEditing: false
+      isEditing: false,
+      checked: false
     }
     this.addTaskService.task.subtasks.push(subtask);
     this.resetSubtaskInput();

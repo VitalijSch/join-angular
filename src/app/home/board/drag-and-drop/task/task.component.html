@@ -1,4 +1,4 @@
-<div class="task-container">
+<div (click)="showSelectedTask(task)" class="task-container">
     <span [ngStyle]="{'background-color': task.category === 'User Story' ? '#0038FF':'#1FD7C1'}"
         class="category">{{task.category}}</span>
     <div class="title-description-container">
@@ -6,9 +6,13 @@
         <span class="description">{{task.description}}</span>
     </div>
     <div class="subtasks-container">
-        <div class="done-subtasks-container"></div>
+        <div class="done-subtasks-container">
+            <div [ngStyle]="{'width': (countCheckedSubtasks / task.subtasks.length * 100) + '%'}"
+                class="loading-container">
+            </div>
+        </div>
         <div class="subtasks">
-            <span><span>1</span>/<span>{{task.subtasks.length}}</span> Subtasks</span>
+            {{countCheckedSubtasks}}/{{task.subtasks.length}} Subtasks
         </div>
     </div>
     <div class="assigned-to-prio-container">

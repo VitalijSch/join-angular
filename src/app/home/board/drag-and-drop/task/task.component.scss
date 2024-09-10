@@ -39,15 +39,27 @@
     }
 
     .subtasks-container {
+        @include display-flex(unset, unset, center, 10px);
 
-        .done-subtasks-container {}
+        .done-subtasks-container {
+            width: 128px;
+            height: 8px;
+            background-color: #F4F4F4;
+            border: unset;
+            border-radius: 8px;
+
+            .loading-container {
+                height: 8px;
+                background-color: #4589FF;
+                border: unset;
+                border-radius: 8px;
+            }
+        }
 
         .subtasks {
-
-            span {
-                font-size: 12px;
-                line-height: 14.4px;
-            }
+            font-size: 12px;
+            line-height: 14.4px;
+            text-wrap: nowrap;
         }
     }
 

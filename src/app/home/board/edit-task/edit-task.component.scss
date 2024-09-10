@@ -1,0 +1,162 @@
+@import './../../../../styles/colors.scss';
+@import './../../../../styles/mixins.scss';
+
+.edit-task-container {
+    width: 525px;
+    height: fit-content;
+    background-color: white;
+    border: unset;
+    border-radius: 30px;
+    padding: 48px 40px;
+    @include display-flex(column, unset, unset, 24px);
+    box-shadow: 0px 0px 4px 0px #00000029;
+
+    .header-container {
+        width: 100%;
+        @include display-flex(unset, space-between, center, unset);
+
+        .category {
+            width: fit-content;
+            border: unset;
+            border-radius: 8px;
+            padding: 4px 24px;
+            color: white;
+            font-size: 23px;
+            line-height: 27.6px;
+        }
+
+        .close-icon {
+            border-radius: 56px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #f0f0f0;
+            }
+        }
+    }
+
+    .title {
+        font-weight: 700;
+        font-size: 61px;
+        line-height: 73.2px;
+    }
+
+    .description,
+    .due-date,
+    .prio,
+    .assigned-to,
+    .subtasks {
+        font-size: 20px;
+        line-height: 24px;
+        @include display-flex(unset, unset, center, 25px);
+
+        span {
+
+            &:first-child {
+                width: 91px;
+                color: $primary-color;
+            }
+        }
+    }
+
+    .assigned-to {
+        @include display-flex(column, unset, unset, 14px);
+
+        span {
+
+            &:first-child {
+                width: fit-content;
+                padding-bottom: 7px;
+            }
+        }
+
+        .contact-container {
+            @include display-flex(unset, unset, center, 16px);
+            padding-left: 16px;
+
+            .contact-icon {
+                width: 42px;
+                height: 42px;
+                border: 2px solid #FFFFFF;
+                border-radius: 45px;
+                @include display-flex(unset, center, center, unset);
+                font-size: 12px;
+                line-height: 14.4px;
+                color: white;
+            }
+        }
+    }
+
+    .subtasks {
+        @include display-flex(column, unset, unset, unset);
+
+        .p-b-14 {
+            padding-bottom: 14px;
+        }
+
+        .subtask-container {
+            width: fit-content;
+            @include display-flex(unset, unset, center, 16px);
+            cursor: default;
+            border-radius: 10px;
+            padding: 6px 16px;
+
+            &:hover {
+                background-color: #f0f0f0;
+            }
+
+            svg {
+                border-radius: 51px;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #EDF2FA;
+                    backdrop-filter: blur(10px);
+                }
+            }
+
+            span {
+                font-size: 16px;
+                line-height: 19.2px;
+            }
+        }
+    }
+
+    .delete-edit-container {
+        @include display-flex(unset, flex-end, center, 8px);
+
+        div {
+            @include display-flex(unset, unset, center, 8px);
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 19.2px;
+
+            &:first-child {
+                width: 85px;
+            }
+
+            &:last-child {
+                width: 65px;
+            }
+
+            &:hover {
+                font-weight: 700;
+                color: $effect-color;
+            }
+
+            &:hover svg path {
+                fill: $effect-color;
+            }
+        }
+
+        .line-container {
+            width: 1px;
+            height: 24px;
+            background-color: #D1D1D1;
+        }
+    }
+}
+
+.show-animation {
+    animation: slideFromRightToLeft 0.5s ease-out forwards;
+}

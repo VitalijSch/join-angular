@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-search-add-task',
@@ -8,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './search-add-task.component.scss'
 })
 export class SearchAddTaskComponent {
+  @ViewChild('search') search!: ElementRef;
 
+  public focusInput(): void {
+    this.search.nativeElement.focus();
+  }
 }

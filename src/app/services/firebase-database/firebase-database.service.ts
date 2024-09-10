@@ -102,6 +102,16 @@ export class FirebaseDatabaseService {
     }
   }
 
+  public async deleteTask(id: string): Promise<void> {
+    try {
+      const customerDocRef = doc(this.taskCollection(), id);
+      await deleteDoc(customerDocRef);
+      this.tasks.set(this.tasks());
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
+  }
+
   private getLettersForContacts(): void {
     this.letters = [];
     this.contacts().forEach(contact => {
