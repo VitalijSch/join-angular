@@ -1,44 +1,44 @@
 <div class="drag-and-drop-container">
     <div class="category-container to-do-container">
-        @if(toDo.length === 0) {
+        @if(boardService.toDo().length === 0) {
         <div class="no-tasks-feedback-container">
             No tasks To do
         </div>
         } @else {
-        @for (task of toDo; track $index) {
+        @for (task of boardService.toDo(); track $index) {
         <app-task [task]="task"></app-task>
         }
         }
     </div>
     <div class="category-container in-progress-container">
-        @if(inProgress.length === 0) {
+        @if(boardService.inProgress().length === 0) {
         <div class="no-tasks-feedback-container">
             No tasks To do
         </div>
         } @else {
-        @for (task of inProgress; track $index) {
+        @for (task of boardService.inProgress(); track $index) {
         <app-task [task]="task"></app-task>
         }
         }
     </div>
     <div class="category-container await-feedback-container">
-        @if(awaitFeedback.length === 0) {
+        @if(boardService.awaitFeedback().length === 0) {
         <div class="no-tasks-feedback-container">
             No tasks To do
         </div>
         } @else {
-        @for (task of awaitFeedback; track $index) {
+        @for (task of boardService.awaitFeedback(); track $index) {
         <app-task [task]="task"></app-task>
         }
         }
     </div>
     <div class="category-container done-container">
-        @if(done.length === 0) {
+        @if(boardService.done().length === 0) {
         <div class="no-tasks-feedback-container">
             No tasks To do
         </div>
         } @else {
-        @for (task of done; track $index) {
+        @for (task of boardService.done(); track $index) {
         <app-task [task]="task"></app-task>
         }
         }

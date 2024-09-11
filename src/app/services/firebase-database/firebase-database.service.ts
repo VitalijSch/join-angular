@@ -21,6 +21,7 @@ export class FirebaseDatabaseService {
 
   constructor() {
     this.getContact();
+    this.getTask();
   }
 
   private contactCollection(): CollectionReference<DocumentData> {
@@ -85,6 +86,17 @@ export class FirebaseDatabaseService {
       this.contacts.set(this.contacts());
       this.getLettersForContacts();
       this.sortContactsByName();
+    } catch (error) {
+      console.error('Error updating contact:', error);
+    }
+  }
+
+  public async updateTask(task: Task): Promise<void> {
+    try {
+      const taskDocRef = doc(this.taskCollection(), task.id);
+      const JSONTask = JSON.parse(JSON.stringify(task));
+      await updateDoc(taskDocRef, JSONTask);
+      this.tasks.set(this.tasks());
     } catch (error) {
       console.error('Error updating contact:', error);
     }

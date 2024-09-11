@@ -14,8 +14,19 @@ export class EditTaskComponent {
   public boardService: BoardService = inject(BoardService);
   private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
 
+  public async checkedSubtask(taskId: string, index: number): Promise<void> {
+    for (const task of this.firebaseDatabaseService.tasks()) {
+      if (task.id === taskId) {
+        task.subtasks[index].checked = !task.subtasks[index].checked;
+        this.boardService.selectedTask = task;
+        await this.firebaseDatabaseService.updateTask(task);
+      }
+    }
+  }
+
   public async deleteTask(id: string): Promise<void> {
     this.boardService.toggleShowEditTask();
     await this.firebaseDatabaseService.deleteTask(id);
+    this.boardService.sortTasks(this.firebaseDatabaseService.tasks());
   }
 }

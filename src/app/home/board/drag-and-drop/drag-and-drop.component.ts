@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FirebaseDatabaseService } from '../../../services/firebase-database/firebase-database.service';
-import { Task } from '../../../interfaces/task';
-import { CommonModule } from '@angular/common';
 import { TaskComponent } from './task/task.component';
+import { BoardService } from '../../../services/board/board.service';
 
 @Component({
   selector: 'app-drag-and-drop',
@@ -13,25 +12,10 @@ import { TaskComponent } from './task/task.component';
 })
 export class DragAndDropComponent {
   public firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
-
-  public toDo: Task[] = [];
-  public inProgress: Task[] = [];
-  public awaitFeedback: Task[] = [];
-  public done: Task[] = [];
+  public boardService: BoardService = inject(BoardService);
 
   public async ngOnInit(): Promise<void> {
-    this.firebaseDatabaseService.getTask();
-    this.firebaseDatabaseService.tasks().forEach(task => {
-      if (task.status === 'To do') {
-        this.toDo.push(task)
-      } else if (task.status === 'In progress') {
-        this.inProgress.push(task);
-      } else if (task.status === 'Await feedback') {
-        this.awaitFeedback.push(task);
-      } else {
-        this.done.push(task);
-      }
-    });
+    this.boardService.sortTasks(this.firebaseDatabaseService.tasks());
   }
 
 

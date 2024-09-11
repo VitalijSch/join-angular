@@ -5,16 +5,18 @@
         <span class="title">{{task.title}}</span>
         <span class="description">{{task.description}}</span>
     </div>
+    @if(task.subtasks.length !== 0) {
     <div class="subtasks-container">
         <div class="done-subtasks-container">
-            <div [ngStyle]="{'width': (countCheckedSubtasks / task.subtasks.length * 100) + '%'}"
+            <div [ngStyle]="{'width': (getCheckedSubtasksCount() / task.subtasks.length * 100) + '%'}"
                 class="loading-container">
             </div>
         </div>
         <div class="subtasks">
-            {{countCheckedSubtasks}}/{{task.subtasks.length}} Subtasks
+            {{getCheckedSubtasksCount()}}/{{task.subtasks.length}} Subtasks
         </div>
     </div>
+    }
     <div class="assigned-to-prio-container">
         <div class="assigned-to-container">
             @for (contact of task.assignedTo; track $index) {
