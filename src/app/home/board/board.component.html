@@ -9,3 +9,10 @@
 @if(boardService.showEditTask) {
 <app-edit-task></app-edit-task>
 }
+@if (boardService.showAddTask) {
+<div (click)="boardService.toggleShowAddTask()" class="hidden-container show-hidden-container">
+    <div (click)="$event.stopPropagation()" class="board-add-task-container show-animation">
+        <app-add-task></app-add-task>
+    </div>
+</div>
+}

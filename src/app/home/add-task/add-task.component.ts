@@ -13,6 +13,7 @@ import { TaskPrioComponent } from './task-prio/task-prio.component';
 import { TaskCategoryComponent } from './task-category/task-category.component';
 import { TaskSubtasksComponent } from './task-subtasks/task-subtasks.component';
 import { Router } from '@angular/router';
+import { BoardService } from '../../services/board/board.service';
 
 @Component({
   selector: 'app-add-task',
@@ -36,6 +37,7 @@ export class AddTaskComponent {
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
   public firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
   public addTaskService: AddTaskService = inject(AddTaskService);
+  public boardService: BoardService = inject(BoardService);
   private fb: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
 
@@ -91,8 +93,12 @@ export class AddTaskComponent {
   public async createTask(): Promise<void> {
     if (this.taskForm.valid && this.taskForm.get('selectCategory')?.value !== 'Select task category') {
       await this.firebaseDatabaseService.addTask(this.addTaskService.task);
+      this.boardService.sortTasks(this.firebaseDatabaseService.tasks());
       this.homeService.disabledElement = true;
       this.showCreateTaskMessage = true;
+      if(!this.checkCurrentUrl()) {
+        this.boardService.toggleShowAddTask();
+      }
       setTimeout(async () => {
         this.clearSubtaskForm();
         this.homeService.disabledElement = false;
@@ -111,6 +117,14 @@ export class AddTaskComponent {
     }
     if (this.taskForm.get('selectCategory')?.value === 'Select task category') {
       this.addTaskService.isCategoryInvalid = true;
+    }
+  }
+
+  public checkCurrentUrl(): boolean {
+    if (this.router.url.includes('/home/addTask')) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

@@ -6,6 +6,7 @@ import { Task } from '../../interfaces/task';
 })
 export class BoardService {
   public showEditTask: boolean = false;
+  public showAddTask: boolean = false;
 
   public selectedTask: Task | null = null;
 
@@ -19,6 +20,10 @@ export class BoardService {
     if (!this.showEditTask) {
       this.selectedTask = null;
     }
+  }
+
+  public toggleShowAddTask(): void {
+    this.showAddTask = !this.showAddTask;
   }
 
   public getSelectedTask(task: Task): void {

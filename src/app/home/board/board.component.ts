@@ -4,11 +4,12 @@ import { DragAndDropHeaderComponent } from './drag-and-drop-header/drag-and-drop
 import { DragAndDropComponent } from './drag-and-drop/drag-and-drop.component';
 import { EditTaskComponent } from './edit-task/edit-task.component';
 import { BoardService } from '../../services/board/board.service';
+import { AddTaskComponent } from '../add-task/add-task.component';
 
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [SearchAddTaskComponent, DragAndDropHeaderComponent, DragAndDropComponent, EditTaskComponent],
+  imports: [SearchAddTaskComponent, DragAndDropHeaderComponent, DragAndDropComponent, EditTaskComponent, AddTaskComponent],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss'
 })

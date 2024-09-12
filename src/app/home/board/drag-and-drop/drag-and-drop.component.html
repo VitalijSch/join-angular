@@ -1,5 +1,5 @@
 <div class="drag-and-drop-container">
-    <div class="category-container to-do-container">
+    <div class="category-container">
         @if(boardService.toDo().length === 0) {
         <div class="no-tasks-feedback-container">
             No tasks To do
@@ -10,7 +10,7 @@
         }
         }
     </div>
-    <div class="category-container in-progress-container">
+    <div class="category-container">
         @if(boardService.inProgress().length === 0) {
         <div class="no-tasks-feedback-container">
             No tasks To do
@@ -21,7 +21,7 @@
         }
         }
     </div>
-    <div class="category-container await-feedback-container">
+    <div class="category-container">
         @if(boardService.awaitFeedback().length === 0) {
         <div class="no-tasks-feedback-container">
             No tasks To do
@@ -32,7 +32,7 @@
         }
         }
     </div>
-    <div class="category-container done-container">
+    <div class="category-container">
         @if(boardService.done().length === 0) {
         <div class="no-tasks-feedback-container">
             No tasks To do

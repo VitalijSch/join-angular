@@ -70,19 +70,25 @@
             }
         }
 
-        .contact-container {
-            @include display-flex(unset, unset, center, 16px);
-            padding-left: 16px;
+        .contacts-container {
+            max-height: 158px;
+            overflow-y: auto;
+            @include display-flex(column, unset, unset, 14px);
 
-            .contact-icon {
-                width: 42px;
-                height: 42px;
-                border: 2px solid #FFFFFF;
-                border-radius: 45px;
-                @include display-flex(unset, center, center, unset);
-                font-size: 12px;
-                line-height: 14.4px;
-                color: white;
+            .contact-container {
+                @include display-flex(unset, unset, center, 16px);
+                padding-left: 16px;
+
+                .contact-icon {
+                    width: 42px;
+                    height: 42px;
+                    border: 2px solid #FFFFFF;
+                    border-radius: 45px;
+                    @include display-flex(unset, center, center, unset);
+                    font-size: 12px;
+                    line-height: 14.4px;
+                    color: white;
+                }
             }
         }
     }
@@ -94,30 +100,35 @@
             padding-bottom: 14px;
         }
 
-        .subtask-container {
-            width: fit-content;
-            @include display-flex(unset, unset, center, 16px);
-            cursor: default;
-            border-radius: 10px;
-            padding: 6px 16px;
+        .subtasks-container {
+            max-height: 73px;
+            overflow-y: auto;
 
-            &:hover {
-                background-color: #f0f0f0;
-            }
-
-            svg {
-                border-radius: 51px;
-                cursor: pointer;
+            .subtask-container {
+                width: fit-content;
+                @include display-flex(unset, unset, center, 16px);
+                cursor: default;
+                border-radius: 10px;
+                padding: 6px 16px;
 
                 &:hover {
-                    background-color: #EDF2FA;
-                    backdrop-filter: blur(10px);
+                    background-color: #f0f0f0;
                 }
-            }
 
-            span {
-                font-size: 16px;
-                line-height: 19.2px;
+                svg {
+                    border-radius: 51px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: #EDF2FA;
+                        backdrop-filter: blur(10px);
+                    }
+                }
+
+                span {
+                    font-size: 16px;
+                    line-height: 19.2px;
+                }
             }
         }
     }
