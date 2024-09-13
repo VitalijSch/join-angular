@@ -1,38 +1,38 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { TaskSubtasksComponent } from "../../../add-task/task-subtasks/task-subtasks.component";
+import { TaskCategoryComponent } from "../../../add-task/task-category/task-category.component";
+import { TaskPrioComponent } from "../../../add-task/task-prio/task-prio.component";
+import { TaskDueDateComponent } from "../../../add-task/task-due-date/task-due-date.component";
+import { TaskAssignedToComponent } from "../../../add-task/task-assigned-to/task-assigned-to.component";
+import { TaskDescriptionComponent } from "../../../add-task/task-description/task-description.component";
+import { TaskTitleComponent } from "../../../add-task/task-title/task-title.component";
+import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HomeService } from '../../services/home/home.service';
-import { FirebaseAuthenticationService } from '../../services/firebase-authentication/firebase-authentication.service';
-import { FirebaseDatabaseService } from '../../services/firebase-database/firebase-database.service';
-import { TaskTitleComponent } from "./task-title/task-title.component";
-import { TaskDescriptionComponent } from './task-description/task-description.component';
-import { TaskAssignedToComponent } from './task-assigned-to/task-assigned-to.component';
-import { AddTaskService } from '../../services/add-task/add-task.service';
-import { TaskDueDateComponent } from './task-due-date/task-due-date.component';
-import { TaskPrioComponent } from './task-prio/task-prio.component';
-import { TaskCategoryComponent } from './task-category/task-category.component';
-import { TaskSubtasksComponent } from './task-subtasks/task-subtasks.component';
+import { HomeService } from '../../../../services/home/home.service';
+import { FirebaseAuthenticationService } from '../../../../services/firebase-authentication/firebase-authentication.service';
+import { FirebaseDatabaseService } from '../../../../services/firebase-database/firebase-database.service';
+import { AddTaskService } from '../../../../services/add-task/add-task.service';
+import { BoardService } from '../../../../services/board/board.service';
 import { Router } from '@angular/router';
-import { BoardService } from '../../services/board/board.service';
 
 @Component({
-  selector: 'app-add-task',
+  selector: 'app-edit-task',
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    TaskTitleComponent,
-    TaskDescriptionComponent,
-    TaskAssignedToComponent,
-    TaskDueDateComponent,
-    TaskPrioComponent,
+    TaskSubtasksComponent,
     TaskCategoryComponent,
-    TaskSubtasksComponent
+    TaskPrioComponent,
+    TaskDueDateComponent,
+    TaskAssignedToComponent,
+    TaskDescriptionComponent,
+    TaskTitleComponent
   ],
-  templateUrl: './add-task.component.html',
-  styleUrl: './add-task.component.scss'
+  templateUrl: './edit-task.component.html',
+  styleUrl: './edit-task.component.scss'
 })
-export class AddTaskComponent {
+export class EditTaskComponent {
   public homeService: HomeService = inject(HomeService);
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
   public firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
@@ -47,6 +47,11 @@ export class AddTaskComponent {
 
   public ngOnInit(): void {
     this.moveUserToFrontInContacts();
+    if (this.router.url.includes('board')) {
+      if (this.boardService.selectedTask) {
+        this.addTaskService.task = this.boardService.selectedTask;
+      }
+    }
     this.setupTaskForm();
     this.addTaskService.task.status = this.addTaskService.status;
   }

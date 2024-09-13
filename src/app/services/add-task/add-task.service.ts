@@ -6,6 +6,8 @@ import { Task } from '../../interfaces/task';
   providedIn: 'root'
 })
 export class AddTaskService {
+  public status!: string;
+
   public task: Task = {
     id: '',
     category: 'Select task category',
@@ -15,7 +17,7 @@ export class AddTaskService {
     prio: 'Medium',
     assignedTo: [],
     subtasks: [],
-    status: 'To do'
+    status: ''
   };
 
   public searchedContact: Contact[] = [];
@@ -45,7 +47,7 @@ export class AddTaskService {
       prio: 'Medium',
       assignedTo: [],
       subtasks: [],
-      status: 'To do'
+      status: ''
     };
   }
 

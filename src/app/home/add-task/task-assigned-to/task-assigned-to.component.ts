@@ -5,6 +5,7 @@ import { FirebaseDatabaseService } from '../../../services/firebase-database/fir
 import { CommonModule } from '@angular/common';
 import { FirebaseAuthenticationService } from '../../../services/firebase-authentication/firebase-authentication.service';
 import { Contact } from '../../../interfaces/contact';
+import { BoardService } from '../../../services/board/board.service';
 
 @Component({
   selector: 'app-task-assigned-to',
@@ -17,6 +18,7 @@ export class TaskAssignedToComponent {
   @Input() taskForm!: FormGroup;
 
   public addTaskService: AddTaskService = inject(AddTaskService);
+  public boardService: BoardService = inject(BoardService);
   public firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
 

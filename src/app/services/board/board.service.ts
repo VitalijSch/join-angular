@@ -5,8 +5,9 @@ import { Task } from '../../interfaces/task';
   providedIn: 'root'
 })
 export class BoardService {
-  public showEditTask: boolean = false;
+  public showBigCardTask: boolean = false;
   public showAddTask: boolean = false;
+  public showEditTask: boolean = false;
 
   public selectedTask: Task | null = null;
 
@@ -15,15 +16,20 @@ export class BoardService {
   public awaitFeedback: WritableSignal<Task[]> = signal<Task[]>([]);
   public done: WritableSignal<Task[]> = signal<Task[]>([]);
 
-  public toggleShowEditTask(): void {
-    this.showEditTask = !this.showEditTask;
-    if (!this.showEditTask) {
+  public toggleshowBigCardTask(): void {
+    this.showBigCardTask = !this.showBigCardTask;
+    this.showEditTask = false;
+    if (!this.showBigCardTask) {
       this.selectedTask = null;
     }
   }
 
   public toggleShowAddTask(): void {
     this.showAddTask = !this.showAddTask;
+  }
+
+  public toggleShowEditTask(): void {
+    this.showEditTask = !this.showEditTask;
   }
 
   public getSelectedTask(task: Task): void {

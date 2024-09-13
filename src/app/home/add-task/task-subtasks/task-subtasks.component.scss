@@ -28,7 +28,6 @@
 }
 
 .category-container {
-    height: 220px;
     @include display-flex(column, unset, unset, 5px);
     overflow: hidden;
 

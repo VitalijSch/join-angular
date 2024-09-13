@@ -32,7 +32,7 @@
         </svg>
         }
         @if (addTaskService.showContacts) {
-        <div class="all-contact-container">
+        <div [ngStyle]="{'max-height': boardService.showAddTask ? '188px' : ''}" class="all-contact-container">
             @for (contact of addTaskService.searchedContact; track $index) {
             <div (click)="toggleSelectedContact(contact)" [ngClass]="{'selected-contact': contact.selected}"
                 class="contact-container">

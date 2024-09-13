@@ -1,10 +1,11 @@
-<div (click)="boardService.toggleShowEditTask()" class="hidden-container show-hidden-container">
-    <div (click)="$event.stopPropagation()" class="edit-task-container show-animation">
+<div (click)="boardService.toggleshowBigCardTask()" class="hidden-container show-hidden-container">
+    <div (click)="$event.stopPropagation()" class="big-card-task-container show-animation">
+        @if(!boardService.showEditTask) {
         <div class="header-container">
             <span
                 [ngStyle]="{'background-color': boardService.selectedTask?.category === 'User Story' ? '#0038FF':'#1FD7C1'}"
                 class="category">{{boardService.selectedTask?.category}}</span>
-            <svg (click)="boardService.toggleShowEditTask()" class="close-icon" width="32" height="32"
+            <svg (click)="boardService.toggleshowBigCardTask()" class="close-icon" width="32" height="32"
                 viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <mask id="mask0_71720_5528" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="4" y="4" width="24"
                     height="24">
@@ -130,7 +131,7 @@
                 Delete
             </div>
             <div class="line-container"></div>
-            <div>
+            <div (click)="boardService.toggleShowEditTask()">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_217703_3882" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                         width="24" height="24">
@@ -145,5 +146,8 @@
                 Edit
             </div>
         </div>
+    } @else {
+        <app-edit-task></app-edit-task>
+    }
     </div>
 </div>

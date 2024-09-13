@@ -6,8 +6,8 @@
     <app-drag-and-drop-header></app-drag-and-drop-header>
     <app-drag-and-drop></app-drag-and-drop>
 </div>
-@if(boardService.showEditTask) {
-<app-edit-task></app-edit-task>
+@if(boardService.showBigCardTask) {
+<app-big-card-task></app-big-card-task>
 }
 @if (boardService.showAddTask) {
 <div (click)="boardService.toggleShowAddTask()" class="hidden-container show-hidden-container">

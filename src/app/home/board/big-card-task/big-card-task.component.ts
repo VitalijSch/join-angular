@@ -2,15 +2,16 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { BoardService } from '../../../services/board/board.service';
 import { FirebaseDatabaseService } from '../../../services/firebase-database/firebase-database.service';
+import { EditTaskComponent } from "./edit-task/edit-task.component";
 
 @Component({
-  selector: 'app-edit-task',
+  selector: 'app-big-card-task',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './edit-task.component.html',
-  styleUrl: './edit-task.component.scss'
+  imports: [CommonModule, EditTaskComponent],
+  templateUrl: './big-card-task.component.html',
+  styleUrl: './big-card-task.component.scss'
 })
-export class EditTaskComponent {
+export class BigCardTaskComponent {
   public boardService: BoardService = inject(BoardService);
   private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
 
@@ -25,7 +26,7 @@ export class EditTaskComponent {
   }
 
   public async deleteTask(id: string): Promise<void> {
-    this.boardService.toggleShowEditTask();
+    this.boardService.toggleshowBigCardTask();
     await this.firebaseDatabaseService.deleteTask(id);
     this.boardService.sortTasks(this.firebaseDatabaseService.tasks());
   }
