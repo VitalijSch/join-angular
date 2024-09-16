@@ -47,7 +47,12 @@ export class AddTaskComponent {
 
   public ngOnInit(): void {
     this.moveUserToFrontInContacts();
+    this.addTaskService.resetPrio();
+    this.addTaskService.resetTask();
     this.setupTaskForm();
+    if (this.router.url.includes('addTask')) {
+      this.addTaskService.status = 'To do';
+    }
     this.addTaskService.task.status = this.addTaskService.status;
   }
 
@@ -55,7 +60,6 @@ export class AddTaskComponent {
     this.firebaseDatabaseService.contacts().forEach(contact => {
       contact.selected = false;
     });
-    this.addTaskService.task.assignedTo = this.firebaseDatabaseService.contacts();
     const currentUserEmail = this.firebaseAuthenticationService.auth.currentUser?.email;
     const userIndex = this.addTaskService.task.assignedTo.findIndex(contact => contact.email === currentUserEmail);
     if (userIndex !== -1) {
@@ -97,10 +101,10 @@ export class AddTaskComponent {
       this.boardService.sortTasks(this.firebaseDatabaseService.tasks());
       this.homeService.disabledElement = true;
       this.showCreateTaskMessage = true;
-      if (!this.checkCurrentUrl()) {
-        this.boardService.toggleShowAddTask();
-      }
       setTimeout(async () => {
+        if (!this.checkCurrentUrl()) {
+          this.boardService.toggleShowAddTask();
+        }
         this.clearSubtaskForm();
         this.homeService.disabledElement = false;
         await this.router.navigate(['/home/board']);

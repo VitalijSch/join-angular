@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { AddTaskService } from '../../../services/add-task/add-task.service';
+import { BoardService } from '../../../services/board/board.service';
 
 @Component({
   selector: 'app-task-prio',
@@ -11,15 +12,25 @@ import { AddTaskService } from '../../../services/add-task/add-task.service';
 })
 export class TaskPrioComponent {
   public addTaskService: AddTaskService = inject(AddTaskService);
+  private boardService: BoardService = inject(BoardService);
+
+  public ngOnInit(): void {
+    this.addTaskService.resetPrio();
+    if (this.boardService.selectedTask !== null) {
+      this.selectedPrio(this.boardService.selectedTask.prio);
+    } else {
+      this.selectedPrio('Medium');
+    }
+  }
 
   public selectedPrio(prio: string): void {
-    if (prio === 'urgent') {
+    if (prio === 'Urgent') {
       this.toggleUrgent();
     }
-    if (prio === 'medium') {
+    if (prio === 'Medium') {
       this.toggleMedium();
     }
-    if (prio === 'low') {
+    if (prio === 'Low') {
       this.toggleLow();
     }
   }

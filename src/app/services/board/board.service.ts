@@ -16,7 +16,7 @@ export class BoardService {
   public awaitFeedback: WritableSignal<Task[]> = signal<Task[]>([]);
   public done: WritableSignal<Task[]> = signal<Task[]>([]);
 
-  public toggleshowBigCardTask(): void {
+  public toggleShowBigCardTask(): void {
     this.showBigCardTask = !this.showBigCardTask;
     this.showEditTask = false;
     if (!this.showBigCardTask) {

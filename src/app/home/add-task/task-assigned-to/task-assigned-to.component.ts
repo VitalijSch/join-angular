@@ -54,15 +54,15 @@ export class TaskAssignedToComponent {
     let index = this.firebaseDatabaseService.contacts().findIndex(contact => contact === currentContact);
     let contactSelected = this.firebaseDatabaseService.contacts()[index].selected;
     this.firebaseDatabaseService.contacts()[index].selected = !contactSelected;
-    this.saveContactss();
+    this.saveContacts();
   }
 
   public deleteSelectedContact(index: number): void {
     this.addTaskService.task.assignedTo[index].selected = false;
-    this.saveContactss();
+    this.saveContacts();
   }
 
-  private saveContactss(): void {
+  private saveContacts(): void {
     const activeContacts = this.firebaseDatabaseService.contacts().filter(contact => contact.selected);
     this.addTaskService.task.assignedTo = [];
     this.addTaskService.task.assignedTo = activeContacts;

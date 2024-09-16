@@ -20,9 +20,6 @@ export class SidebarComponent {
 
   public currentUrl(path: string): string {
     if (this.router.url.includes(`${path}`)) {
-      if(path.includes('addTask')) {
-        this.addTaskService.status = 'To do'
-      }
       return `${path}`;
     } else {
       return '';

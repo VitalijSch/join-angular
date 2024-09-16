@@ -53,7 +53,7 @@ export class AddTaskService {
 
   public resetPrio(): void {
     this.selectUrgent = false;
-    this.selectMedium = true;
+    this.selectMedium = false;
     this.selectLow = false;
   }
 }

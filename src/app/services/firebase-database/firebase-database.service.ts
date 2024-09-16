@@ -15,9 +15,9 @@ export class FirebaseDatabaseService {
   private unsubscribeTask!: Unsubscribe;
 
   public contacts: WritableSignal<Contact[]> = signal<Contact[]>([]);
-  public letters: string[] = [];
-
   public tasks: WritableSignal<Task[]> = signal<Task[]>([]);
+
+  public letters: string[] = [];
 
   constructor() {
     this.getContact();

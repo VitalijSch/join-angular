@@ -32,7 +32,7 @@ export class TaskComponent {
   }
 
   public showSelectedTask(task: Task): void {
-    this.boardService.toggleshowBigCardTask();
+    this.boardService.toggleShowBigCardTask();
     this.boardService.getSelectedTask(task);
   }
 }

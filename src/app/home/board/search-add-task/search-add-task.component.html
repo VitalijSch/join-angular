@@ -1,6 +1,6 @@
 <div class="search-add-task-container">
     <div class="search-container">
-        <input #search (input)="searchTask(search.value)" type="text" name="search" id="seach" placeholder="Find Task">
+        <input #search (input)="searchTask(search.value)" autocomplete="off" type="text" name="search" id="seach" placeholder="Find Task">
         <div class="line-search-icon-container">
             <div class="line-container"></div>
             <svg (click)="focusInput()" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">

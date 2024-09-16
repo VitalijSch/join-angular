@@ -13,7 +13,6 @@ import { FirebaseAuthenticationService } from '../../../../services/firebase-aut
 import { FirebaseDatabaseService } from '../../../../services/firebase-database/firebase-database.service';
 import { AddTaskService } from '../../../../services/add-task/add-task.service';
 import { BoardService } from '../../../../services/board/board.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-task',
@@ -39,34 +38,17 @@ export class EditTaskComponent {
   public addTaskService: AddTaskService = inject(AddTaskService);
   public boardService: BoardService = inject(BoardService);
   private fb: FormBuilder = inject(FormBuilder);
-  private router: Router = inject(Router);
 
   public taskForm!: FormGroup;
 
   public showCreateTaskMessage: boolean = false;
 
   public ngOnInit(): void {
-    this.moveUserToFrontInContacts();
-    if (this.router.url.includes('board')) {
-      if (this.boardService.selectedTask) {
-        this.addTaskService.task = this.boardService.selectedTask;
-      }
+    if (this.boardService.selectedTask) {
+      this.addTaskService.task = this.boardService.selectedTask;
     }
     this.setupTaskForm();
     this.addTaskService.task.status = this.addTaskService.status;
-  }
-
-  private moveUserToFrontInContacts(): void {
-    this.firebaseDatabaseService.contacts().forEach(contact => {
-      contact.selected = false;
-    });
-    this.addTaskService.task.assignedTo = this.firebaseDatabaseService.contacts();
-    const currentUserEmail = this.firebaseAuthenticationService.auth.currentUser?.email;
-    const userIndex = this.addTaskService.task.assignedTo.findIndex(contact => contact.email === currentUserEmail);
-    if (userIndex !== -1) {
-      const [userContact] = this.addTaskService.task.assignedTo.splice(userIndex, 1);
-      this.addTaskService.task.assignedTo.unshift(userContact);
-    }
   }
 
   private setupTaskForm(): void {
@@ -84,32 +66,18 @@ export class EditTaskComponent {
     this.addTaskService.showCategory = false;
     this.taskForm.get('searchContact')?.reset();
     this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts();
+    this.firebaseDatabaseService.getTask();
   }
 
-  public clearSubtaskForm(): void {
-    this.addTaskService.resetTask();
-    this.addTaskService.resetPrio();
-    this.addTaskService.isCategoryInvalid = false;
-    this.firebaseDatabaseService.contacts().forEach(contact => {
-      contact.selected = false;
-    });
-    this.setupTaskForm();
+  public closeEditTask(): void {
+    this.boardService.getSelectedTask(this.addTaskService.task);
+    this.boardService.toggleShowEditTask();
   }
 
   public async createTask(): Promise<void> {
     if (this.taskForm.valid && this.taskForm.get('selectCategory')?.value !== 'Select task category') {
-      await this.firebaseDatabaseService.addTask(this.addTaskService.task);
-      this.boardService.sortTasks(this.firebaseDatabaseService.tasks());
-      this.homeService.disabledElement = true;
-      this.showCreateTaskMessage = true;
-      if (!this.checkCurrentUrl()) {
-        this.boardService.toggleShowAddTask();
-      }
-      setTimeout(async () => {
-        this.clearSubtaskForm();
-        this.homeService.disabledElement = false;
-        await this.router.navigate(['/home/board']);
-      }, 1500);
+      await this.firebaseDatabaseService.updateTask(this.addTaskService.task);
+      this.boardService.toggleShowEditTask();
     }
     this.showErrorMessage();
   }
@@ -123,14 +91,6 @@ export class EditTaskComponent {
     }
     if (this.taskForm.get('selectCategory')?.value === 'Select task category') {
       this.addTaskService.isCategoryInvalid = true;
-    }
-  }
-
-  public checkCurrentUrl(): boolean {
-    if (this.router.url.includes('/home/addTask')) {
-      return true;
-    } else {
-      return false;
     }
   }
 }

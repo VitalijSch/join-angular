@@ -85,8 +85,8 @@
         </div>
     </div>
 </form>
-<div [ngStyle]="{'display': checkCurrentUrl() ? '' : 'none'}"
-    [ngClass]="{'show-animation': showCreateTaskMessage && checkCurrentUrl()}" class="create-task-container">
+<div [ngStyle]="{'display': showCreateTaskMessage ? '' : 'none'}"
+    [ngClass]="{'show-animation': showCreateTaskMessage}" class="create-task-container">
     <span>Task added to board</span>
     <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path

@@ -26,7 +26,7 @@ export class BigCardTaskComponent {
   }
 
   public async deleteTask(id: string): Promise<void> {
-    this.boardService.toggleshowBigCardTask();
+    this.boardService.toggleShowBigCardTask();
     await this.firebaseDatabaseService.deleteTask(id);
     this.boardService.sortTasks(this.firebaseDatabaseService.tasks());
   }
