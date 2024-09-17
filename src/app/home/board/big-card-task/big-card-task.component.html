@@ -3,8 +3,8 @@
         @if(!boardService.showEditTask) {
         <div class="header-container">
             <span
-                [ngStyle]="{'background-color': boardService.selectedTask?.category === 'User Story' ? '#0038FF':'#1FD7C1'}"
-                class="category">{{boardService.selectedTask?.category}}</span>
+                [ngStyle]="{'background-color': boardService.selectedTask()?.category === 'User Story' ? '#0038FF':'#1FD7C1'}"
+                class="category">{{boardService.selectedTask()?.category}}</span>
             <svg (click)="boardService.toggleShowBigCardTask()" class="close-icon" width="32" height="32"
                 viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <mask id="mask0_71720_5528" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="4" y="4" width="24"
@@ -19,20 +19,20 @@
             </svg>
         </div>
         <div class="title">
-            {{boardService.selectedTask?.title}}
+            {{boardService.selectedTask()?.title}}
         </div>
         <div class="description">
-            {{boardService.selectedTask?.description}}
+            {{boardService.selectedTask()?.description}}
         </div>
         <div class="due-date">
             <span>Due date:</span>
-            <span>{{boardService.selectedTask?.dueDate}}</span>
+            <span>{{formattedDate()}}</span>
         </div>
         <div class="prio">
             <span>Priority:</span>
             <span>
-                {{boardService.selectedTask?.prio}}
-                @if(boardService.selectedTask?.prio === 'Urgent') {
+                {{boardService.selectedTask()?.prio}}
+                @if(boardService.selectedTask()?.prio === 'Urgent') {
                 <svg width="17" height="12" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_221045_4288)">
                         <path
@@ -48,7 +48,7 @@
                         </clipPath>
                     </defs>
                 </svg>
-                } @else if(boardService.selectedTask?.prio === 'Medium') {
+                } @else if(boardService.selectedTask()?.prio === 'Medium') {
                 <svg width="17" height="12" viewBox="0 0 21 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_221045_4295)">
                         <path
@@ -76,11 +76,11 @@
                 }
             </span>
         </div>
-        @if(boardService.selectedTask?.assignedTo?.length !== 0 ) {
+        @if(boardService.selectedTask()?.assignedTo?.length !== 0 ) {
         <div class="assigned-to">
             <span>Assigned to:</span>
             <div class="contacts-container">
-                @for (contact of boardService.selectedTask?.assignedTo; track $index) {
+                @for (contact of boardService.selectedTask()?.assignedTo; track $index) {
                 <div class="contact-container">
                     <div [ngStyle]="{'background-color': contact.avatarColor}" class="contact-icon">
                         {{contact.avatarLetters}}</div>
@@ -90,19 +90,19 @@
             </div>
         </div>
         }
-        @if(boardService.selectedTask?.subtasks?.length !== 0) {
+        @if(boardService.selectedTask()?.subtasks?.length !== 0) {
         <div class="subtasks">
             <span class="p-b-14">Subtasks</span>
             <div class="subtasks-container">
-                @for (subtask of boardService.selectedTask?.subtasks; track $index) {
+                @for (subtask of boardService.selectedTask()?.subtasks; track $index) {
                 <div class="subtask-container">
                     @if(!subtask.checked) {
-                    <svg (click)="checkedSubtask(boardService.selectedTask?.id || '', $index)" width="24" height="24"
+                    <svg (click)="checkedSubtask(boardService.selectedTask()?.id || '', $index)" width="24" height="24"
                         viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="4" y="4.96582" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2" />
                     </svg>
                     } @else {
-                    <svg (click)="checkedSubtask(boardService.selectedTask?.id || '', $index)" width="24" height="25"
+                    <svg (click)="checkedSubtask(boardService.selectedTask()?.id || '', $index)" width="24" height="25"
                         viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M20 11.9658V17.9658C20 19.6227 18.6569 20.9658 17 20.9658H7C5.34315 20.9658 4 19.6227 4 17.9658V7.96582C4 6.30897 5.34315 4.96582 7 4.96582H15"
@@ -118,7 +118,7 @@
         </div>
         }
         <div class="delete-edit-container">
-            <div (click)="deleteTask(boardService.selectedTask?.id ?? '')">
+            <div (click)="deleteTask(boardService.selectedTask()?.id ?? '')">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_217703_4146" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                         width="24" height="24">

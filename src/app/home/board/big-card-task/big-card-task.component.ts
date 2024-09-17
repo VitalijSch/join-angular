@@ -19,7 +19,7 @@ export class BigCardTaskComponent {
     for (const task of this.firebaseDatabaseService.tasks()) {
       if (task.id === taskId) {
         task.subtasks[index].checked = !task.subtasks[index].checked;
-        this.boardService.selectedTask = task;
+        this.boardService.selectedTask.set(task);
         await this.firebaseDatabaseService.updateTask(task);
       }
     }
@@ -29,5 +29,14 @@ export class BigCardTaskComponent {
     this.boardService.toggleShowBigCardTask();
     await this.firebaseDatabaseService.deleteTask(id);
     this.boardService.sortTasks(this.firebaseDatabaseService.tasks());
+  }
+
+  public formattedDate(): string {
+    const formattedDate = this.boardService.selectedTask()?.dueDate;
+    if (formattedDate) {
+      return formattedDate.split('-').reverse().join('/');
+    } else {
+      return '';
+    }
   }
 }

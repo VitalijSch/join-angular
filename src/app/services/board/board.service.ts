@@ -9,7 +9,7 @@ export class BoardService {
   public showAddTask: boolean = false;
   public showEditTask: boolean = false;
 
-  public selectedTask: Task | null = null;
+  public selectedTask: WritableSignal<Task | null> = signal<Task |null>(null);
 
   public toDo: WritableSignal<Task[]> = signal<Task[]>([]);
   public inProgress: WritableSignal<Task[]> = signal<Task[]>([]);
@@ -20,7 +20,7 @@ export class BoardService {
     this.showBigCardTask = !this.showBigCardTask;
     this.showEditTask = false;
     if (!this.showBigCardTask) {
-      this.selectedTask = null;
+      this.selectedTask.set(null);
     }
   }
 
@@ -30,10 +30,6 @@ export class BoardService {
 
   public toggleShowEditTask(): void {
     this.showEditTask = !this.showEditTask;
-  }
-
-  public getSelectedTask(task: Task): void {
-    this.selectedTask = task;
   }
 
   public sortTasks(tasks: Task[]): void {

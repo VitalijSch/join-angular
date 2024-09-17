@@ -16,8 +16,9 @@ export class TaskPrioComponent {
 
   public ngOnInit(): void {
     this.addTaskService.resetPrio();
-    if (this.boardService.selectedTask !== null) {
-      this.selectedPrio(this.boardService.selectedTask.prio);
+    const task = this.boardService.selectedTask();
+    if (task) {
+      this.selectedPrio(task.prio);
     } else {
       this.selectedPrio('Medium');
     }

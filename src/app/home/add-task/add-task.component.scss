@@ -48,7 +48,6 @@
 
         .right-container {
             width: 440px;
-            height: 416px;
             @include display-flex(column, unset, unset, 24px);
         }
     }

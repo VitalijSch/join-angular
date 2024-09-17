@@ -1,45 +1,48 @@
 <div class="drag-and-drop-container">
-    <div class="category-container">
+    <div id="toDoList" (cdkDropListDropped)="onDrop($event)" cdkDropList class="category-container">
         @if(boardService.toDo().length === 0) {
         <div class="no-tasks-feedback-container">
             No tasks To do
         </div>
         } @else {
         @for (task of boardService.toDo(); track $index) {
-        <app-task [task]="task"></app-task>
+        <app-task cdkDrag [cdkDragData]="task" [task]="task"></app-task>
         }
         }
     </div>
-    <div class="category-container">
+
+    <div id="inProgressList" (cdkDropListDropped)="onDrop($event)" cdkDropList class="category-container">
         @if(boardService.inProgress().length === 0) {
         <div class="no-tasks-feedback-container">
-            No tasks To do
+            No tasks In Progress
         </div>
         } @else {
         @for (task of boardService.inProgress(); track $index) {
-        <app-task [task]="task"></app-task>
+        <app-task cdkDrag [cdkDragData]="task" [task]="task"></app-task>
         }
         }
     </div>
-    <div class="category-container">
+
+    <div id="awaitFeedbackList" (cdkDropListDropped)="onDrop($event)" cdkDropList class="category-container">
         @if(boardService.awaitFeedback().length === 0) {
         <div class="no-tasks-feedback-container">
-            No tasks To do
+            No tasks Awaiting Feedback
         </div>
         } @else {
         @for (task of boardService.awaitFeedback(); track $index) {
-        <app-task [task]="task"></app-task>
+        <app-task cdkDrag [cdkDragData]="task" [task]="task"></app-task>
         }
         }
     </div>
-    <div class="category-container">
+
+    <div id="doneList" (cdkDropListDropped)="onDrop($event)" cdkDropList class="category-container">
         @if(boardService.done().length === 0) {
         <div class="no-tasks-feedback-container">
-            No tasks To do
+            No tasks Done
         </div>
         } @else {
         @for (task of boardService.done(); track $index) {
-        <app-task [task]="task"></app-task>
+        <app-task cdkDrag [cdkDragData]="task" [task]="task"></app-task>
         }
         }
     </div>
