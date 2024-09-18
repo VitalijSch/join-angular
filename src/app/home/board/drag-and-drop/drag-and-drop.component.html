@@ -1,8 +1,9 @@
 <div class="drag-and-drop-container">
-    <div id="toDoList" (cdkDropListDropped)="onDrop($event)" cdkDropList class="category-container">
+    <div id="toDoList" (cdkDropListDropped)="onDrop($event)" cdkDropList
+        [cdkDropListConnectedTo]="['inProgressList', 'awaitFeedbackList', 'doneList']" class="category-container">
         @if(boardService.toDo().length === 0) {
         <div class="no-tasks-feedback-container">
-            No tasks To do
+            No tasks to do
         </div>
         } @else {
         @for (task of boardService.toDo(); track $index) {
@@ -11,10 +12,11 @@
         }
     </div>
 
-    <div id="inProgressList" (cdkDropListDropped)="onDrop($event)" cdkDropList class="category-container">
+    <div id="inProgressList" (cdkDropListDropped)="onDrop($event)" cdkDropList
+        [cdkDropListConnectedTo]="['toDoList', 'awaitFeedbackList', 'doneList']" class="category-container">
         @if(boardService.inProgress().length === 0) {
         <div class="no-tasks-feedback-container">
-            No tasks In Progress
+            No tasks in progress
         </div>
         } @else {
         @for (task of boardService.inProgress(); track $index) {
@@ -23,10 +25,11 @@
         }
     </div>
 
-    <div id="awaitFeedbackList" (cdkDropListDropped)="onDrop($event)" cdkDropList class="category-container">
+    <div id="awaitFeedbackList" (cdkDropListDropped)="onDrop($event)" cdkDropList
+        [cdkDropListConnectedTo]="['toDoList', 'inProgressList', 'doneList']" class="category-container">
         @if(boardService.awaitFeedback().length === 0) {
         <div class="no-tasks-feedback-container">
-            No tasks Awaiting Feedback
+            No tasks awaiting feedback
         </div>
         } @else {
         @for (task of boardService.awaitFeedback(); track $index) {
@@ -35,10 +38,11 @@
         }
     </div>
 
-    <div id="doneList" (cdkDropListDropped)="onDrop($event)" cdkDropList class="category-container">
+    <div id="doneList" (cdkDropListDropped)="onDrop($event)" cdkDropList
+        [cdkDropListConnectedTo]="['toDoList', 'inProgressList', 'awaitFeedbackList']" class="category-container">
         @if(boardService.done().length === 0) {
         <div class="no-tasks-feedback-container">
-            No tasks Done
+            No tasks done
         </div>
         } @else {
         @for (task of boardService.done(); track $index) {

@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FirebaseDatabaseService } from '../../../services/firebase-database/firebase-database.service';
 import { TaskComponent } from './task/task.component';
 import { BoardService } from '../../../services/board/board.service';
@@ -16,25 +16,9 @@ export class DragAndDropComponent {
   public firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
   public boardService: BoardService = inject(BoardService);
 
-  constructor() {
-    effect(() => {
-      const tasks = this.firebaseDatabaseService.tasks();
-      if (tasks.length > 0) {
-        this.boardService.sortTasks(tasks);
-      }
-    }, { allowSignalWrites: true });
-  }
-
-  public onDrop(event: CdkDragDrop<Task>): void {
+  public async onDrop(event: CdkDragDrop<Task>): Promise<void> {
     const draggedTask = event.item.data;
-    const previousContainerId = event.previousContainer.id;
     const currentContainerId = event.container.id;
-  
-    console.log('Dragged Task:', draggedTask);
-    console.log('Previous Container ID:', previousContainerId);
-    console.log('Current Container ID:', currentContainerId);
-  
-    // Überprüfe anhand der expliziten IDs den aktuellen Container und aktualisiere den Status des Tasks
     const index = this.firebaseDatabaseService.tasks().findIndex(task => task.id === draggedTask.id);
     if (index !== -1) {
       if (currentContainerId === 'toDoList') {
@@ -47,12 +31,6 @@ export class DragAndDropComponent {
         this.firebaseDatabaseService.tasks()[index].status = 'Done';
       }
     }
-  
-    console.log(this.firebaseDatabaseService.tasks());
-    this.boardService.sortTasks(this.firebaseDatabaseService.tasks());
-    console.log(this.boardService.toDo());
-    console.log(this.boardService.inProgress());
-    console.log(this.boardService.awaitFeedback());
-    console.log(this.boardService.done());
+    await this.firebaseDatabaseService.updateTask(this.firebaseDatabaseService.tasks()[index]);
   }
 }

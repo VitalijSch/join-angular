@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, effect, ElementRef, inject, ViewChild } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
@@ -6,6 +6,8 @@ import { FirebaseAuthenticationService } from '../services/firebase-authenticati
 import { filter } from 'rxjs';
 import { HomeService } from '../services/home/home.service';
 import { CommonModule } from '@angular/common';
+import { FirebaseDatabaseService } from '../services/firebase-database/firebase-database.service';
+import { BoardService } from '../services/board/board.service';
 
 @Component({
   selector: 'app-home',
@@ -18,8 +20,19 @@ export class HomeComponent {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
   private firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
+  private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
+  private boardService: BoardService = inject(BoardService);
   private router: Router = inject(Router);
   public homeService: HomeService = inject(HomeService);
+
+  constructor() {
+    effect(() => {
+      const tasks = this.firebaseDatabaseService.tasks();
+      if (tasks.length > 0) {
+        this.boardService.sortTasks(tasks);
+      }
+    }, { allowSignalWrites: true });
+  }
 
   public async ngOnInit(): Promise<void> {
     await this.firebaseAuthenticationService.checkIfUserIsLogged();
