@@ -1,21 +1,29 @@
 @import './../../../styles/colors.scss';
+@import './../../../styles/mixins.scss';
 
 .privacy-policy-container {
     background-color: $background-color;
     padding: 100px 100px 40px 100px;
     position: relative;
 
-    svg {
-        position: absolute;
-        top: 127.6px;
-        right: 100px;
-        padding: 1px;
-        cursor: pointer;
 
-        &:hover {
-            transform: scale(1.1);
-            border-radius: 50px;
-            background-color: #f0f0f0;
+    .arrow-container {
+        max-width: 1440px;
+        width: 100%;
+        margin: 0 auto;
+        @include display-flex(unset, flex-end, center, unset);
+
+        svg {
+            position: fixed;
+            top: 223.6px;
+            padding: 1px;
+            cursor: pointer;
+
+            &:hover {
+                transform: scale(1.1);
+                border-radius: 50px;
+                background-color: #f0f0f0;
+            }
         }
     }
 
