@@ -30,6 +30,8 @@ export class HomeComponent {
       const tasks = this.firebaseDatabaseService.tasks();
       if (tasks.length > 0) {
         this.boardService.sortTasks(tasks);
+        this.firebaseDatabaseService.sortTasks(tasks);
+        this.boardService.updateSearchTask(true);
       }
     }, { allowSignalWrites: true });
   }

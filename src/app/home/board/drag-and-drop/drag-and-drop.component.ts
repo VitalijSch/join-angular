@@ -19,6 +19,7 @@ export class DragAndDropComponent {
   public async onDrop(event: CdkDragDrop<Task>): Promise<void> {
     const draggedTask = event.item.data;
     const currentContainerId = event.container.id;
+    const currentIndex = event.currentIndex;
     const index = this.firebaseDatabaseService.tasks().findIndex(task => task.id === draggedTask.id);
     if (index !== -1) {
       if (currentContainerId === 'toDoList') {
@@ -29,6 +30,32 @@ export class DragAndDropComponent {
         this.firebaseDatabaseService.tasks()[index].status = 'Await feedback';
       } else if (currentContainerId === 'doneList') {
         this.firebaseDatabaseService.tasks()[index].status = 'Done';
+      }
+    }
+    await this.firebaseDatabaseService.sortTasks(this.firebaseDatabaseService.tasks());
+    if (currentContainerId === 'toDoList') {
+      const taskIndex = this.firebaseDatabaseService.taskList().toDo.findIndex(todo => todo.id === this.firebaseDatabaseService.tasks()[index].id);
+      if (taskIndex !== -1) {
+        const task = this.firebaseDatabaseService.taskList().toDo.splice(taskIndex, 1)[0];
+        this.firebaseDatabaseService.taskList().toDo.splice(currentIndex, 0, task);
+      }
+    } else if (currentContainerId === 'inProgressList') {
+      const taskIndex = this.firebaseDatabaseService.taskList().inProgress.findIndex(todo => todo.id === this.firebaseDatabaseService.tasks()[index].id);
+      if (taskIndex !== -1) {
+        const task = this.firebaseDatabaseService.taskList().inProgress.splice(taskIndex, 1)[0];
+        this.firebaseDatabaseService.taskList().inProgress.splice(currentIndex, 0, task);
+      }
+    } else if (currentContainerId === 'awaitFeedbackList') {
+      const taskIndex = this.firebaseDatabaseService.taskList().awaitFeedback.findIndex(todo => todo.id === this.firebaseDatabaseService.tasks()[index].id);
+      if (taskIndex !== -1) {
+        const task = this.firebaseDatabaseService.taskList().awaitFeedback.splice(taskIndex, 1)[0];
+        this.firebaseDatabaseService.taskList().awaitFeedback.splice(currentIndex, 0, task);
+      }
+    } else if (currentContainerId === 'doneList') {
+      const taskIndex = this.firebaseDatabaseService.taskList().done.findIndex(todo => todo.id === this.firebaseDatabaseService.tasks()[index].id);
+      if (taskIndex !== -1) {
+        const task = this.firebaseDatabaseService.taskList().done.splice(taskIndex, 1)[0];
+        this.firebaseDatabaseService.taskList().done.splice(currentIndex, 0, task);
       }
     }
     await this.firebaseDatabaseService.updateTask(this.firebaseDatabaseService.tasks()[index]);

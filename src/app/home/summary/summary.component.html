@@ -21,7 +21,7 @@
                         </g>
                     </svg>
                     <div class="flex-container">
-                        <span>{{boardService.toDo().length}}</span>
+                        <span>{{firebaseDatabaseService.taskList().toDo.length}}</span>
                         <span>To-do</span>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                             stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                     <div class="flex-container">
-                        <span>{{boardService.done().length}}</span>
+                        <span>{{firebaseDatabaseService.taskList().done.length}}</span>
                         <span>Done</span>
                     </div>
                 </div>
@@ -73,11 +73,11 @@
                     <span>Task in<br>Board</span>
                 </div>
                 <div (click)="homeService.navigateToRoute('board')">
-                    <span>{{boardService.inProgress().length}}</span>
+                    <span>{{firebaseDatabaseService.taskList().inProgress.length}}</span>
                     <span>Task in<br>Progress</span>
                 </div>
                 <div (click)="homeService.navigateToRoute('board')">
-                    <span>{{boardService.awaitFeedback().length}}</span>
+                    <span>{{firebaseDatabaseService.taskList().awaitFeedback.length}}</span>
                     <span>Awaiting<br>Feedback</span>
                 </div>
             </div>

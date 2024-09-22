@@ -4,6 +4,7 @@ import { collection, deleteDoc, doc, onSnapshot, setDoc, updateDoc } from 'fireb
 import { Unsubscribe } from 'firebase/auth';
 import { Contact } from '../../interfaces/contact';
 import { Task } from '../../interfaces/task';
+import { TaskList } from '../../interfaces/task-list';
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +14,24 @@ export class FirebaseDatabaseService {
 
   private unsubscribeContact!: Unsubscribe;
   private unsubscribeTask!: Unsubscribe;
+  private unsubscribeTaskList!: Unsubscribe;
 
   public contacts: WritableSignal<Contact[]> = signal<Contact[]>([]);
   public tasks: WritableSignal<Task[]> = signal<Task[]>([]);
+  public taskList: WritableSignal<TaskList> = signal<TaskList>({
+    id: '',
+    toDo: [],
+    inProgress: [],
+    awaitFeedback: [],
+    done: []
+  });
 
   public letters: string[] = [];
 
   constructor() {
     this.getContact();
     this.getTask();
+    this.getTaskList();
   }
 
   private contactCollection(): CollectionReference<DocumentData> {
@@ -30,6 +40,10 @@ export class FirebaseDatabaseService {
 
   private taskCollection(): CollectionReference<DocumentData> {
     return collection(this.firestore, 'tasks');
+  }
+
+  private taskListCollection(): CollectionReference<DocumentData> {
+    return collection(this.firestore, 'taskList');
   }
 
   public getContact(): void {
@@ -51,6 +65,14 @@ export class FirebaseDatabaseService {
         currentTasks.push(doc.data() as Task);
       });
       this.tasks.set(currentTasks);
+    });
+  }
+
+  public getTaskList(): void {
+    this.unsubscribeTaskList = onSnapshot(this.taskListCollection(), (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        this.taskList.set(doc.data() as TaskList);
+      });
     });
   }
 
@@ -78,6 +100,17 @@ export class FirebaseDatabaseService {
     }
   }
 
+  public async addTaskList(task: TaskList): Promise<void> {
+    try {
+      const userDocRef = doc(this.taskListCollection());
+      task.id = userDocRef.id;
+      await setDoc(userDocRef, task);
+      this.taskList.set(this.taskList());
+    } catch (error) {
+      console.error('Error adding user:', error);
+    }
+  }
+
   public async updateContact(contact: Contact): Promise<void> {
     try {
       const contactDocRef = doc(this.contactCollection(), contact.id);
@@ -97,6 +130,17 @@ export class FirebaseDatabaseService {
       const JSONTask = JSON.parse(JSON.stringify(task));
       await updateDoc(taskDocRef, JSONTask);
       this.tasks.set(this.tasks());
+    } catch (error) {
+      console.error('Error updating contact:', error);
+    }
+  }
+
+  public async updateTaskList(task: TaskList): Promise<void> {
+    try {
+      const taskDocRef = doc(this.taskListCollection(), task.id);
+      const JSONTask = JSON.parse(JSON.stringify(task));
+      await updateDoc(taskDocRef, JSONTask);
+      this.taskList.set(this.taskList());
     } catch (error) {
       console.error('Error updating contact:', error);
     }
@@ -149,12 +193,27 @@ export class FirebaseDatabaseService {
     });
   }
 
+  public async sortTasks(tasks: Task[]): Promise<void> {
+    this.taskList().toDo = tasks.filter(task => task.status === 'To do');
+    this.taskList().inProgress = tasks.filter(task => task.status === 'In progress');
+    this.taskList().awaitFeedback = tasks.filter(task => task.status === 'Await feedback');
+    this.taskList().done = tasks.filter(task => task.status !== 'To do' && task.status !== 'In progress' && task.status !== 'Await feedback');
+    if(this.taskList().id === '') {
+      await this.addTaskList(this.taskList());
+    } else {
+      await this.updateTaskList(this.taskList());
+    }
+  }
+
   public ngOnDestroy(): void {
     if (this.unsubscribeContact) {
       this.unsubscribeContact();
     }
     if (this.unsubscribeTask) {
       this.unsubscribeTask();
+    }
+    if (this.unsubscribeTaskList) {
+      this.unsubscribeTaskList();
     }
   }
 }

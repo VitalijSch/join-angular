@@ -29,6 +29,7 @@ export class BigCardTaskComponent {
     this.boardService.toggleShowBigCardTask();
     await this.firebaseDatabaseService.deleteTask(id);
     this.boardService.sortTasks(this.firebaseDatabaseService.tasks());
+    this.firebaseDatabaseService.sortTasks(this.firebaseDatabaseService.tasks());
   }
 
   public formattedDate(): string {

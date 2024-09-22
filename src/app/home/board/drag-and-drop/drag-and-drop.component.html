@@ -6,7 +6,7 @@
             No tasks to do
         </div>
         } @else {
-        @for (task of boardService.toDo(); track $index) {
+        @for (task of firebaseDatabaseService.taskList().toDo; track $index) {
         <app-task cdkDrag [cdkDragData]="task" [task]="task"></app-task>
         }
         }
@@ -19,7 +19,7 @@
             No tasks in progress
         </div>
         } @else {
-        @for (task of boardService.inProgress(); track $index) {
+        @for (task of firebaseDatabaseService.taskList().inProgress; track $index) {
         <app-task cdkDrag [cdkDragData]="task" [task]="task"></app-task>
         }
         }
@@ -32,7 +32,7 @@
             No tasks awaiting feedback
         </div>
         } @else {
-        @for (task of boardService.awaitFeedback(); track $index) {
+        @for (task of firebaseDatabaseService.taskList().awaitFeedback; track $index) {
         <app-task cdkDrag [cdkDragData]="task" [task]="task"></app-task>
         }
         }
@@ -45,7 +45,7 @@
             No tasks done
         </div>
         } @else {
-        @for (task of boardService.done(); track $index) {
+        @for (task of firebaseDatabaseService.taskList().done; track $index) {
         <app-task cdkDrag [cdkDragData]="task" [task]="task"></app-task>
         }
         }

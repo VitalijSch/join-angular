@@ -1,5 +1,6 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { Task } from '../../interfaces/task';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +10,19 @@ export class BoardService {
   public showAddTask: boolean = false;
   public showEditTask: boolean = false;
 
-  public selectedTask: WritableSignal<Task | null> = signal<Task |null>(null);
+  public selectedTask: WritableSignal<Task | null> = signal<Task | null>(null);
 
   public toDo: WritableSignal<Task[]> = signal<Task[]>([]);
   public inProgress: WritableSignal<Task[]> = signal<Task[]>([]);
   public awaitFeedback: WritableSignal<Task[]> = signal<Task[]>([]);
   public done: WritableSignal<Task[]> = signal<Task[]>([]);
+
+  private searchTaskSource = new BehaviorSubject<boolean>(false);
+  public searchedTask = this.searchTaskSource.asObservable();
+
+  public updateSearchTask(status: boolean) {
+    this.searchTaskSource.next(status);
+  }
 
   public toggleShowBigCardTask(): void {
     this.showBigCardTask = !this.showBigCardTask;

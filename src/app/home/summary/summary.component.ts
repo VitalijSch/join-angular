@@ -31,10 +31,10 @@ export class SummaryComponent {
   }
 
   public getUrgentCount(): number {
-    const countToDo = this.boardService.toDo().filter(task => task.prio === 'Urgent');
-    const countInProgress = this.boardService.inProgress().filter(task => task.prio === 'Urgent');
-    const countAwaitFeedback = this.boardService.awaitFeedback().filter(task => task.prio === 'Urgent');
-    const countDone = this.boardService.done().filter(task => task.prio === 'Urgent');
+    const countToDo = this.firebaseDatabaseService.taskList().toDo.filter(task => task.prio === 'Urgent');
+    const countInProgress = this.firebaseDatabaseService.taskList().inProgress.filter(task => task.prio === 'Urgent');
+    const countAwaitFeedback = this.firebaseDatabaseService.taskList().awaitFeedback.filter(task => task.prio === 'Urgent');
+    const countDone = this.firebaseDatabaseService.taskList().done.filter(task => task.prio === 'Urgent');
     return countToDo.length + countInProgress.length + countAwaitFeedback.length + countDone.length;
   }
 
