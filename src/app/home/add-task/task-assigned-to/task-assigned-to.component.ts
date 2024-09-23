@@ -23,7 +23,7 @@ export class TaskAssignedToComponent {
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
 
   public ngOnInit(): void {
-    this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts();
+    this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts;
   }
 
   public openContacts(): void {
@@ -33,27 +33,27 @@ export class TaskAssignedToComponent {
   public closeContacts(): void {
     this.addTaskService.showContacts = false;
     this.taskForm.get('searchContact')?.reset();
-    this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts();
+    this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts;
   }
 
   public searchContacts(): void {
     const searchValue = this.taskForm.get('searchContact')?.value;
     if (searchValue !== '') {
       this.addTaskService.searchedContact = [];
-      this.firebaseDatabaseService.contacts().forEach(contact => {
+      this.firebaseDatabaseService.contacts.forEach(contact => {
         if (contact.name.toLowerCase().includes(searchValue.toLowerCase())) {
           this.addTaskService.searchedContact.push(contact);
         }
       });
     } else {
-      this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts();
+      this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts;
     }
   }
 
   public toggleSelectedContact(currentContact: Contact): void {
-    let index = this.firebaseDatabaseService.contacts().findIndex(contact => contact === currentContact);
-    let contactSelected = this.firebaseDatabaseService.contacts()[index].selected;
-    this.firebaseDatabaseService.contacts()[index].selected = !contactSelected;
+    let index = this.firebaseDatabaseService.contacts.findIndex(contact => contact === currentContact);
+    let contactSelected = this.firebaseDatabaseService.contacts[index].selected;
+    this.firebaseDatabaseService.contacts[index].selected = !contactSelected;
     this.saveContacts();
   }
 
@@ -63,7 +63,7 @@ export class TaskAssignedToComponent {
   }
 
   private saveContacts(): void {
-    const activeContacts = this.firebaseDatabaseService.contacts().filter(contact => contact.selected);
+    const activeContacts = this.firebaseDatabaseService.contacts.filter(contact => contact.selected);
     this.addTaskService.task.assignedTo = [];
     this.addTaskService.task.assignedTo = activeContacts;
   }

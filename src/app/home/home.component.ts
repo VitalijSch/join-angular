@@ -1,18 +1,17 @@
-import { Component, effect, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FirebaseAuthenticationService } from '../services/firebase-authentication/firebase-authentication.service';
-import { filter } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { HomeService } from '../services/home/home.service';
 import { CommonModule } from '@angular/common';
 import { FirebaseDatabaseService } from '../services/firebase-database/firebase-database.service';
-import { BoardService } from '../services/board/board.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule,HeaderComponent, SidebarComponent, RouterOutlet],
+  imports: [CommonModule, HeaderComponent, SidebarComponent, RouterOutlet],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -21,20 +20,10 @@ export class HomeComponent {
 
   private firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
   private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
-  private boardService: BoardService = inject(BoardService);
   private router: Router = inject(Router);
   public homeService: HomeService = inject(HomeService);
 
-  constructor() {
-    effect(() => {
-      const tasks = this.firebaseDatabaseService.tasks();
-      if (tasks.length > 0) {
-        this.boardService.sortTasks(tasks);
-        this.firebaseDatabaseService.sortTasks(tasks);
-        this.boardService.updateSearchTask(true);
-      }
-    }, { allowSignalWrites: true });
-  }
+  private subscriptions = new Subscription();
 
   public async ngOnInit(): Promise<void> {
     await this.firebaseAuthenticationService.checkIfUserIsLogged();
@@ -43,6 +32,19 @@ export class HomeComponent {
     ).subscribe(() => {
       this.scrollToTop();
     });
+    const contacts = this.firebaseDatabaseService.contacts$.subscribe(contacts => {
+      this.firebaseDatabaseService.contacts = contacts;
+    });
+    const tasks = this.firebaseDatabaseService.tasks$.subscribe(tasks => {
+      this.firebaseDatabaseService.tasks = tasks;
+    });
+    const taskList = this.firebaseDatabaseService.taskList$.subscribe(taskList => {
+      this.firebaseDatabaseService.taskList = taskList;
+      this.firebaseDatabaseService.sortTasksByStatus(this.firebaseDatabaseService.tasks);
+    });
+    this.subscriptions.add(contacts);
+    this.subscriptions.add(tasks);
+    this.subscriptions.add(taskList);
   }
 
   private scrollToTop(): void {
@@ -50,5 +52,9 @@ export class HomeComponent {
     if (container) {
       container.scrollTo({ top: 0, behavior: 'auto' });
     }
+  }
+
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

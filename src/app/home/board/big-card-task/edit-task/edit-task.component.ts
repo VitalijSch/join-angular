@@ -66,12 +66,12 @@ export class EditTaskComponent {
     this.addTaskService.showContacts = false;
     this.addTaskService.showCategory = false;
     this.taskForm.get('searchContact')?.reset();
-    this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts();
+    this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts;
     this.firebaseDatabaseService.getTask();
   }
 
   public closeEditTask(): void {
-    this.firebaseDatabaseService.tasks().forEach(task => {
+    this.firebaseDatabaseService.tasks.forEach(task => {
       if(task.id !== this.boardService.selectedTask()?.id) {
         this.boardService.selectedTask.set(task);
       }

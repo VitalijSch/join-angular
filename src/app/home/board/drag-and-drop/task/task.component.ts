@@ -19,7 +19,7 @@ export class TaskComponent {
 
   public getCheckedSubtasksCount(): number {
     let countCheckedSubtasks = 0;
-    this.firebaseDatabaseService.tasks().forEach(task => {
+    this.firebaseDatabaseService.tasks.forEach(task => {
       if (task.id === this.task.id) {
         task.subtasks.forEach(subtask => {
           if (subtask.checked) {

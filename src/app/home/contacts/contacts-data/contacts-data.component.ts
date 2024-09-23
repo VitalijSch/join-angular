@@ -15,8 +15,8 @@ export class ContactsDataComponent {
   private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
 
   public async deleteContact(): Promise<void> {
-    const indexOfContact = this.firebaseDatabaseService.contacts().findIndex(contact => contact.email === this.homeService.currentContact.email);
-    const idOfContact = this.firebaseDatabaseService.contacts()[indexOfContact].id;
+    const indexOfContact = this.firebaseDatabaseService.contacts.findIndex(contact => contact.email === this.homeService.currentContact.email);
+    const idOfContact = this.firebaseDatabaseService.contacts[indexOfContact].id;
     if (idOfContact) {
       this.homeService.resetCurrentContact();
       await this.firebaseDatabaseService.deleteContact(idOfContact);

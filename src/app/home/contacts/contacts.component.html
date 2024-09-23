@@ -26,7 +26,7 @@
                 {{letter}}
             </div>
             <div class="line-container"></div>
-            @for (contact of firebaseDatabaseService.contacts(); track $index) {
+            @for (contact of firebaseDatabaseService.contacts; track $index) {
             @if(contact.name.startsWith(letter)) {
             <div (click)="homeService.getCurrentContact(contact)"
                 [ngClass]="{'active-contact': contact.email === homeService.currentContact.email}" class="contact">

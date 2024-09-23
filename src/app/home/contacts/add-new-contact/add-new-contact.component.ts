@@ -38,7 +38,7 @@ export class AddNewContactComponent {
     const name = this.contactForm.get('name')?.value;
     const email = this.contactForm.get('email')?.value;
     const phoneNumber = this.contactForm.get('phoneNumber')?.value;
-    const emailExists = this.firebaseDatabaseService.contacts().some(contact => contact.email === email);
+    const emailExists = this.firebaseDatabaseService.contacts.some(contact => contact.email === email);
     this.checkIfEmailExistAtContacts(emailExists);
     if (this.contactForm.valid && !emailExists) {
       await this.addContact(name, email, phoneNumber);

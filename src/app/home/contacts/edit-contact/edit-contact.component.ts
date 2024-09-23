@@ -34,8 +34,8 @@ export class EditContactComponent {
   }
 
   public async deleteContact(): Promise<void> {
-    const indexOfContact = this.firebaseDatabaseService.contacts().findIndex(contact => contact.email === this.homeService.currentContact.email);
-    const idOfContact = this.firebaseDatabaseService.contacts()[indexOfContact].id;
+    const indexOfContact = this.firebaseDatabaseService.contacts.findIndex(contact => contact.email === this.homeService.currentContact.email);
+    const idOfContact = this.firebaseDatabaseService.contacts[indexOfContact].id;
     if (idOfContact) {
       this.homeService.resetCurrentContact();
       this.homeService.toggleEditContactContainer();
@@ -48,9 +48,9 @@ export class EditContactComponent {
     const email = this.contactForm.get('email')?.value;
     const phoneNumber = this.contactForm.get('phoneNumber')?.value;
     if (this.hasContactChanged(name, email, phoneNumber) && this.contactForm.valid) {
-      const indexOfContact = this.firebaseDatabaseService.contacts().findIndex(contact => contact.email === this.homeService.currentContact.email);
+      const indexOfContact = this.firebaseDatabaseService.contacts.findIndex(contact => contact.email === this.homeService.currentContact.email);
       await this.firebaseDatabaseService.updateContact(this.editContact(name, email, phoneNumber, indexOfContact));
-      this.homeService.currentContact = this.firebaseDatabaseService.contacts()[indexOfContact];
+      this.homeService.currentContact = this.firebaseDatabaseService.contacts[indexOfContact];
     }
     this.homeService.toggleEditContactContainer();
   }
@@ -62,11 +62,11 @@ export class EditContactComponent {
   }
 
   private editContact(name: string, email: string, phoneNumber: string | number, indexOfContact: number): Contact {
-    this.firebaseDatabaseService.contacts()[indexOfContact].name = name;
-    this.firebaseDatabaseService.contacts()[indexOfContact].email = email;
-    this.firebaseDatabaseService.contacts()[indexOfContact].phoneNumber = phoneNumber;
-    this.firebaseDatabaseService.contacts()[indexOfContact].avatarLetters = this.getContactInitials(name);
-    const currentContact = this.firebaseDatabaseService.contacts()[indexOfContact];
+    this.firebaseDatabaseService.contacts[indexOfContact].name = name;
+    this.firebaseDatabaseService.contacts[indexOfContact].email = email;
+    this.firebaseDatabaseService.contacts[indexOfContact].phoneNumber = phoneNumber;
+    this.firebaseDatabaseService.contacts[indexOfContact].avatarLetters = this.getContactInitials(name);
+    const currentContact = this.firebaseDatabaseService.contacts[indexOfContact];
     return currentContact;
   }
 

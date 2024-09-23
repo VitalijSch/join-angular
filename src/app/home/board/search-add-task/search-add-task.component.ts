@@ -33,8 +33,6 @@ export class SearchAddTaskComponent {
   }
 
   public async searchTask(content: string): Promise<void> {
-    this.boardService.sortTasks(this.firebaseDatabaseService.tasks());
-    await this.firebaseDatabaseService.sortTasks(this.firebaseDatabaseService.tasks());
     const filteredToDo = this.boardService.toDo().filter(task => task.title.toLocaleLowerCase().includes(content.toLocaleLowerCase()) || task.description.startsWith(content));
     this.boardService.toDo.set(filteredToDo);
     const filteredInProgress = this.boardService.inProgress().filter(task => task.title.toLocaleLowerCase().includes(content.toLocaleLowerCase()) || task.description.startsWith(content));

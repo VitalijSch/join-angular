@@ -31,16 +31,16 @@ export class SummaryComponent {
   }
 
   public getUrgentCount(): number {
-    const countToDo = this.firebaseDatabaseService.taskList().toDo.filter(task => task.prio === 'Urgent');
-    const countInProgress = this.firebaseDatabaseService.taskList().inProgress.filter(task => task.prio === 'Urgent');
-    const countAwaitFeedback = this.firebaseDatabaseService.taskList().awaitFeedback.filter(task => task.prio === 'Urgent');
-    const countDone = this.firebaseDatabaseService.taskList().done.filter(task => task.prio === 'Urgent');
+    const countToDo = this.firebaseDatabaseService.taskList.toDo.filter(task => task.prio === 'Urgent');
+    const countInProgress = this.firebaseDatabaseService.taskList.inProgress.filter(task => task.prio === 'Urgent');
+    const countAwaitFeedback = this.firebaseDatabaseService.taskList.awaitFeedback.filter(task => task.prio === 'Urgent');
+    const countDone = this.firebaseDatabaseService.taskList.done.filter(task => task.prio === 'Urgent');
     return countToDo.length + countInProgress.length + countAwaitFeedback.length + countDone.length;
   }
 
   public getUpcomingDeadline(): string | null {
     const now = new Date();
-    const tasks = this.firebaseDatabaseService.tasks();
+    const tasks = this.firebaseDatabaseService.tasks;
     if (tasks.length === 0) {
       return null;
     }

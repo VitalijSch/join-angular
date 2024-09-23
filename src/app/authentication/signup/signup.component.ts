@@ -74,7 +74,7 @@ export class SignupComponent {
     this.checkCheckbox();
     if (this.userForm.valid && this.isChecked && this.passwordsMatch) {
       await this.firebaseAuthenticationService.registerWithEmailPassword(name, email, password);
-      const emailExists = this.firebaseDatabaseService.contacts().some(contact => contact.email === email);
+      const emailExists = this.firebaseDatabaseService.contacts.some(contact => contact.email === email);
       if (!emailExists) {
         await this.addContact(name, email);
       }

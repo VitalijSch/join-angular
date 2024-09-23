@@ -1,12 +1,12 @@
 <div class="drag-and-drop-container">
     <div id="toDoList" (cdkDropListDropped)="onDrop($event)" cdkDropList
         [cdkDropListConnectedTo]="['inProgressList', 'awaitFeedbackList', 'doneList']" class="category-container">
-        @if(boardService.toDo().length === 0) {
+        @if(firebaseDatabaseService.taskList.toDo.length === 0) {
         <div class="no-tasks-feedback-container">
             No tasks to do
         </div>
         } @else {
-        @for (task of firebaseDatabaseService.taskList().toDo; track $index) {
+        @for (task of firebaseDatabaseService.taskList.toDo; track $index) {
         <app-task cdkDrag [cdkDragData]="task" [task]="task"></app-task>
         }
         }
@@ -14,12 +14,12 @@
 
     <div id="inProgressList" (cdkDropListDropped)="onDrop($event)" cdkDropList
         [cdkDropListConnectedTo]="['toDoList', 'awaitFeedbackList', 'doneList']" class="category-container">
-        @if(boardService.inProgress().length === 0) {
+        @if(firebaseDatabaseService.taskList.inProgress.length === 0) {
         <div class="no-tasks-feedback-container">
             No tasks in progress
         </div>
         } @else {
-        @for (task of firebaseDatabaseService.taskList().inProgress; track $index) {
+        @for (task of firebaseDatabaseService.taskList.inProgress; track $index) {
         <app-task cdkDrag [cdkDragData]="task" [task]="task"></app-task>
         }
         }
@@ -27,12 +27,12 @@
 
     <div id="awaitFeedbackList" (cdkDropListDropped)="onDrop($event)" cdkDropList
         [cdkDropListConnectedTo]="['toDoList', 'inProgressList', 'doneList']" class="category-container">
-        @if(boardService.awaitFeedback().length === 0) {
+        @if(firebaseDatabaseService.taskList.awaitFeedback.length === 0) {
         <div class="no-tasks-feedback-container">
             No tasks awaiting feedback
         </div>
         } @else {
-        @for (task of firebaseDatabaseService.taskList().awaitFeedback; track $index) {
+        @for (task of firebaseDatabaseService.taskList.awaitFeedback; track $index) {
         <app-task cdkDrag [cdkDragData]="task" [task]="task"></app-task>
         }
         }
@@ -40,12 +40,12 @@
 
     <div id="doneList" (cdkDropListDropped)="onDrop($event)" cdkDropList
         [cdkDropListConnectedTo]="['toDoList', 'inProgressList', 'awaitFeedbackList']" class="category-container">
-        @if(boardService.done().length === 0) {
+        @if(firebaseDatabaseService.taskList.done.length === 0) {
         <div class="no-tasks-feedback-container">
             No tasks done
         </div>
         } @else {
-        @for (task of firebaseDatabaseService.taskList().done; track $index) {
+        @for (task of firebaseDatabaseService.taskList.done; track $index) {
         <app-task cdkDrag [cdkDragData]="task" [task]="task"></app-task>
         }
         }

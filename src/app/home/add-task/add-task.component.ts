@@ -57,7 +57,7 @@ export class AddTaskComponent {
   }
 
   private moveUserToFrontInContacts(): void {
-    this.firebaseDatabaseService.contacts().forEach(contact => {
+    this.firebaseDatabaseService.contacts.forEach(contact => {
       contact.selected = false;
     });
     const currentUserEmail = this.firebaseAuthenticationService.auth.currentUser?.email;
@@ -82,14 +82,14 @@ export class AddTaskComponent {
     this.addTaskService.showContacts = false;
     this.addTaskService.showCategory = false;
     this.taskForm.get('searchContact')?.reset();
-    this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts();
+    this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts;
   }
 
   public clearSubtaskForm(): void {
     this.addTaskService.resetTask();
     this.addTaskService.resetPrio();
     this.addTaskService.isCategoryInvalid = false;
-    this.firebaseDatabaseService.contacts().forEach(contact => {
+    this.firebaseDatabaseService.contacts.forEach(contact => {
       contact.selected = false;
     });
     this.setupTaskForm();
@@ -98,8 +98,6 @@ export class AddTaskComponent {
   public async createTask(): Promise<void> {
     if (this.taskForm.valid && this.taskForm.get('selectCategory')?.value !== 'Select task category') {
       await this.firebaseDatabaseService.addTask(this.addTaskService.task);
-      this.boardService.sortTasks(this.firebaseDatabaseService.tasks());
-      this.firebaseDatabaseService.sortTasks(this.firebaseDatabaseService.tasks());
       this.homeService.disabledElement = true;
       this.showCreateTaskMessage = true;
       setTimeout(async () => {
