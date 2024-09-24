@@ -44,7 +44,7 @@ export class EditTaskComponent {
   public showCreateTaskMessage: boolean = false;
 
   public ngOnInit(): void {
-    const task = this.boardService.selectedTask();
+    const task = this.boardService.selectedTask;
     if (task) {
       this.addTaskService.task = task;
     }
@@ -72,8 +72,8 @@ export class EditTaskComponent {
 
   public closeEditTask(): void {
     this.firebaseDatabaseService.tasks.forEach(task => {
-      if(task.id !== this.boardService.selectedTask()?.id) {
-        this.boardService.selectedTask.set(task);
+      if(task.id !== this.boardService.selectedTask?.id) {
+        this.boardService.selectedTask = task;
       }
     });
     this.boardService.toggleShowEditTask();

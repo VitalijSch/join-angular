@@ -58,5 +58,6 @@ export class DragAndDropComponent {
       }
     }
     await this.firebaseDatabaseService.updateTask(this.firebaseDatabaseService.tasks[index]);
+    await this.firebaseDatabaseService.updateTaskList(this.firebaseDatabaseService.taskList);
   }
 }

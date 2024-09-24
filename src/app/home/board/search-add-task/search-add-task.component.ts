@@ -33,14 +33,14 @@ export class SearchAddTaskComponent {
   }
 
   public async searchTask(content: string): Promise<void> {
-    const filteredToDo = this.boardService.toDo().filter(task => task.title.toLocaleLowerCase().includes(content.toLocaleLowerCase()) || task.description.startsWith(content));
-    this.boardService.toDo.set(filteredToDo);
-    const filteredInProgress = this.boardService.inProgress().filter(task => task.title.toLocaleLowerCase().includes(content.toLocaleLowerCase()) || task.description.startsWith(content));
-    this.boardService.inProgress.set(filteredInProgress);
-    const filteredAwaitFeedback = this.boardService.awaitFeedback().filter(task => task.title.toLocaleLowerCase().includes(content.toLocaleLowerCase()) || task.description.startsWith(content));
-    this.boardService.awaitFeedback.set(filteredAwaitFeedback);
-    const filteredDone = this.boardService.done().filter(task => task.title.toLocaleLowerCase().includes(content.toLocaleLowerCase()) || task.description.startsWith(content));
-    this.boardService.done.set(filteredDone);
+    const filteredToDo = this.firebaseDatabaseService.taskList.toDo.filter(task => task.title.toLocaleLowerCase().includes(content.toLocaleLowerCase()) || task.description.startsWith(content));
+    this.firebaseDatabaseService.taskList.toDo = filteredToDo;
+    const filteredInProgress = this.firebaseDatabaseService.taskList.inProgress.filter(task => task.title.toLocaleLowerCase().includes(content.toLocaleLowerCase()) || task.description.startsWith(content));
+    this.firebaseDatabaseService.taskList.inProgress = filteredInProgress;
+    const filteredAwaitFeedback = this.firebaseDatabaseService.taskList.awaitFeedback.filter(task => task.title.toLocaleLowerCase().includes(content.toLocaleLowerCase()) || task.description.startsWith(content));
+    this.firebaseDatabaseService.taskList.awaitFeedback = filteredAwaitFeedback;
+    const filteredDone = this.firebaseDatabaseService.taskList.done.filter(task => task.title.toLocaleLowerCase().includes(content.toLocaleLowerCase()) || task.description.startsWith(content));
+    this.firebaseDatabaseService.taskList.done = filteredDone;
   }
 
   public showAddTaskWithRightStatus(): void {
