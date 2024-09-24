@@ -35,14 +35,11 @@ export class HomeComponent {
     const contacts = this.firebaseDatabaseService.contacts$.subscribe(contacts => {
       this.firebaseDatabaseService.contacts = contacts;
     });
-    const taskList = this.firebaseDatabaseService.taskList$.subscribe(taskList => {
-      this.firebaseDatabaseService.taskList = taskList;
-    });
-    const tasks = this.firebaseDatabaseService.tasks$.subscribe(async tasks => {
+    const tasks = this.firebaseDatabaseService.tasks$.subscribe(tasks => {
       this.firebaseDatabaseService.tasks = tasks;
-      if (this.firebaseDatabaseService.taskList.id !== '') {
-        await this.firebaseDatabaseService.sortTasksByStatus(tasks);
-      }
+    });
+    const taskList = this.firebaseDatabaseService.taskList$.subscribe(async taskList => {
+      this.firebaseDatabaseService.taskList = taskList;
     });
     this.subscriptions.add(contacts);
     this.subscriptions.add(tasks);

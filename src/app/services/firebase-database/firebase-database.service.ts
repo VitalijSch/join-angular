@@ -19,7 +19,7 @@ export class FirebaseDatabaseService {
 
   private contactsSubject: BehaviorSubject<Contact[]> = new BehaviorSubject<Contact[]>([]);
   private tasksSubject: BehaviorSubject<Task[]> = new BehaviorSubject<Task[]>([]);
-  private taskListSubject: BehaviorSubject<TaskList> = new BehaviorSubject<TaskList>({
+  public taskListSubject: BehaviorSubject<TaskList> = new BehaviorSubject<TaskList>({
     id: '',
     toDo: [],
     inProgress: [],
@@ -91,7 +91,6 @@ export class FirebaseDatabaseService {
       } else {
         querySnapshot.forEach((doc) => {
           this.taskList = doc.data() as TaskList;
-          console.log('TaskList gefunden:', this.taskList);
         });
         this.taskListSubject.next(this.taskList);
       }

@@ -98,6 +98,7 @@ export class AddTaskComponent {
   public async createTask(): Promise<void> {
     if (this.taskForm.valid && this.taskForm.get('selectCategory')?.value !== 'Select task category') {
       await this.firebaseDatabaseService.addTask(this.addTaskService.task);
+      await this.firebaseDatabaseService.sortTasksByStatus(this.firebaseDatabaseService.tasks);
       this.homeService.disabledElement = true;
       this.showCreateTaskMessage = true;
       setTimeout(async () => {

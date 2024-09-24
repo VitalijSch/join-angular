@@ -32,6 +32,7 @@ export class DragAndDropComponent {
         this.firebaseDatabaseService.tasks[index].status = 'Done';
       }
     }
+    await this.firebaseDatabaseService.sortTasksByStatus(this.firebaseDatabaseService.tasks);
     if (currentContainerId === 'toDoList') {
       const taskIndex = this.firebaseDatabaseService.taskList.toDo.findIndex(todo => todo.id === this.firebaseDatabaseService.tasks[index].id);
       if (taskIndex !== -1) {
@@ -57,7 +58,6 @@ export class DragAndDropComponent {
         this.firebaseDatabaseService.taskList.done.splice(currentIndex, 0, task);
       }
     }
-    await this.firebaseDatabaseService.updateTask(this.firebaseDatabaseService.tasks[index]);
     await this.firebaseDatabaseService.updateTaskList(this.firebaseDatabaseService.taskList);
   }
 }
