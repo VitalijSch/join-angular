@@ -4,6 +4,7 @@ import { BoardService } from '../../../services/board/board.service';
 import { FirebaseDatabaseService } from '../../../services/firebase-database/firebase-database.service';
 import { EditTaskComponent } from "./edit-task/edit-task.component";
 import { take } from 'rxjs';
+import { Task } from '../../../interfaces/task';
 
 @Component({
   selector: 'app-big-card-task',
@@ -21,24 +22,29 @@ export class BigCardTaskComponent {
       if (task.id === taskId) {
         task.subtasks[index].checked = !task.subtasks[index].checked;
         this.boardService.selectedTask = task;
-        await this.firebaseDatabaseService.updateTask(task);
+        // await this.firebaseDatabaseService.updateTask(task);
       }
     }
   }
 
-  public async deleteTask(id: string): Promise<void> {
+  public async deleteTask(t: Task): Promise<void> {
     this.boardService.toggleShowBigCardTask();
-    await this.firebaseDatabaseService.deleteTask(id);
-    this.removeTaskById(id);
+    this.spliceTaskFromTaskList(t);
+    await this.firebaseDatabaseService.updateTaskList(this.firebaseDatabaseService.taskList);
   }
 
-  private removeTaskById(taskId: string): void {
-    this.firebaseDatabaseService.taskList$.pipe(take(1)).subscribe(taskList => {
-      taskList.toDo = taskList.toDo.filter(task => task.id !== taskId);
-      taskList.inProgress = taskList.inProgress.filter(task => task.id !== taskId);
-      taskList.awaitFeedback = taskList.awaitFeedback.filter(task => task.id !== taskId);
-      taskList.done = taskList.done.filter(task => task.id !== taskId);
-      this.firebaseDatabaseService.updateTaskList(taskList);
+  private spliceTaskFromTaskList(t: Task): void {
+    const lists = [
+      this.firebaseDatabaseService.taskList.toDo,
+      this.firebaseDatabaseService.taskList.inProgress,
+      this.firebaseDatabaseService.taskList.awaitFeedback,
+      this.firebaseDatabaseService.taskList.done
+    ];
+    lists.forEach(list => {
+      const index = list.findIndex(task => task === t);
+      if (index !== -1) {
+        list.splice(index, 1);
+      }
     });
   }
 

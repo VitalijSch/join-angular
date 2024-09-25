@@ -13,6 +13,7 @@ import { FirebaseAuthenticationService } from '../../../../services/firebase-aut
 import { FirebaseDatabaseService } from '../../../../services/firebase-database/firebase-database.service';
 import { AddTaskService } from '../../../../services/add-task/add-task.service';
 import { BoardService } from '../../../../services/board/board.service';
+import { Task } from '../../../../interfaces/task';
 
 @Component({
   selector: 'app-edit-task',
@@ -67,12 +68,11 @@ export class EditTaskComponent {
     this.addTaskService.showCategory = false;
     this.taskForm.get('searchContact')?.reset();
     this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts;
-    this.firebaseDatabaseService.getTask();
   }
 
   public closeEditTask(): void {
     this.firebaseDatabaseService.tasks.forEach(task => {
-      if(task.id !== this.boardService.selectedTask?.id) {
+      if (task.id !== this.boardService.selectedTask?.id) {
         this.boardService.selectedTask = task;
       }
     });
@@ -81,7 +81,17 @@ export class EditTaskComponent {
 
   public async createTask(): Promise<void> {
     if (this.taskForm.valid && this.taskForm.get('selectCategory')?.value !== 'Select task category') {
-      await this.firebaseDatabaseService.updateTask(this.addTaskService.task);
+      const lists = [
+        this.firebaseDatabaseService.taskList.toDo,
+        this.firebaseDatabaseService.taskList.inProgress,
+        this.firebaseDatabaseService.taskList.awaitFeedback,
+        this.firebaseDatabaseService.taskList.done
+      ];
+      lists.forEach(list => {
+        let task: Task = list.filter(task => task === this.addTaskService.task)[0];
+        task = this.addTaskService.task;
+      });
+      await this.firebaseDatabaseService.updateTaskList(this.firebaseDatabaseService.taskList);
       this.boardService.toggleShowEditTask();
     }
     this.showErrorMessage();

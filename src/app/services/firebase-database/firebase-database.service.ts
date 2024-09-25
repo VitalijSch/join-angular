@@ -14,11 +14,9 @@ export class FirebaseDatabaseService {
   private firestore: Firestore = inject(Firestore);
 
   private unsubscribeContact!: Unsubscribe;
-  private unsubscribeTask!: Unsubscribe;
   private unsubscribeTaskList!: Unsubscribe;
 
   private contactsSubject: BehaviorSubject<Contact[]> = new BehaviorSubject<Contact[]>([]);
-  private tasksSubject: BehaviorSubject<Task[]> = new BehaviorSubject<Task[]>([]);
   public taskListSubject: BehaviorSubject<TaskList> = new BehaviorSubject<TaskList>({
     id: '',
     toDo: [],
@@ -28,27 +26,21 @@ export class FirebaseDatabaseService {
   });
 
   public contacts$: Observable<Contact[]> = this.contactsSubject.asObservable();
-  public tasks$: Observable<Task[]> = this.tasksSubject.asObservable();
   public taskList$: Observable<TaskList> = this.taskListSubject.asObservable();
 
   public contacts!: Contact[];
-  public tasks!: Task[];
   public taskList!: TaskList;
+  public tasks: Task[] = [];
 
   public letters: string[] = [];
 
   constructor() {
     this.getContact();
-    this.getTask();
     this.getTaskList();
   }
 
   private contactCollection(): CollectionReference<DocumentData> {
     return collection(this.firestore, 'contacts');
-  }
-
-  private taskCollection(): CollectionReference<DocumentData> {
-    return collection(this.firestore, 'tasks');
   }
 
   private taskListCollection(): CollectionReference<DocumentData> {
@@ -64,16 +56,6 @@ export class FirebaseDatabaseService {
       this.contactsSubject.next(this.contacts);
       this.getLettersForContacts();
       this.sortContactsByName();
-    });
-  }
-
-  public getTask(): void {
-    this.unsubscribeTask = onSnapshot(this.taskCollection(), (querySnapshot) => {
-      this.tasks = [];
-      querySnapshot.forEach((doc) => {
-        this.tasks.push(doc.data() as Task);
-      });
-      this.tasksSubject.next(this.tasks);
     });
   }
 
@@ -109,16 +91,6 @@ export class FirebaseDatabaseService {
     }
   }
 
-  public async addTask(task: Task): Promise<void> {
-    try {
-      const userDocRef = doc(this.taskCollection());
-      task.id = userDocRef.id;
-      await setDoc(userDocRef, task);
-    } catch (error) {
-      console.error('Error adding user:', error);
-    }
-  }
-
   public async addTaskList(taskList: TaskList): Promise<void> {
     try {
       const userDocRef = doc(this.taskListCollection());
@@ -136,16 +108,6 @@ export class FirebaseDatabaseService {
       await updateDoc(contactDocRef, JSONContact);
       this.getLettersForContacts();
       this.sortContactsByName();
-    } catch (error) {
-      console.error('Error updating contact:', error);
-    }
-  }
-
-  public async updateTask(task: Task): Promise<void> {
-    try {
-      const taskDocRef = doc(this.taskCollection(), task.id);
-      const JSONTask = JSON.parse(JSON.stringify(task));
-      await updateDoc(taskDocRef, JSONTask);
     } catch (error) {
       console.error('Error updating contact:', error);
     }
@@ -169,17 +131,6 @@ export class FirebaseDatabaseService {
       this.contactsSubject.next(currentContacts);
       this.getLettersForContacts();
       this.sortContactsByName();
-    } catch (error) {
-      console.error('Error deleting user:', error);
-    }
-  }
-
-  public async deleteTask(id: string): Promise<void> {
-    try {
-      const customerDocRef = doc(this.taskCollection(), id);
-      await deleteDoc(customerDocRef);
-      const currentTasks = this.tasksSubject.getValue().filter(task => task.id !== id);
-      this.tasksSubject.next(currentTasks);
     } catch (error) {
       console.error('Error deleting user:', error);
     }
@@ -214,26 +165,20 @@ export class FirebaseDatabaseService {
     });
   }
 
-  public async sortTasksByStatus(tasks: Task[]): Promise<void> {
+  public async sortTasksByStatus(task: Task): Promise<void> {
     this.taskList$.pipe(take(1)).subscribe(taskList => {
-      tasks.forEach(task => {
-        taskList.toDo = taskList.toDo.filter(t => t.id !== task.id);
-        taskList.inProgress = taskList.inProgress.filter(t => t.id !== task.id);
-        taskList.awaitFeedback = taskList.awaitFeedback.filter(t => t.id !== task.id);
-        taskList.done = taskList.done.filter(t => t.id !== task.id);
-        if (task.status === 'To do') {
-          taskList.toDo.push(task);
-        }
-        if (task.status === 'In progress') {
-          taskList.inProgress.push(task);
-        }
-        if (task.status === 'Await feedback') {
-          taskList.awaitFeedback.push(task);
-        }
-        if (task.status === 'Done') {
-          taskList.done.push(task);
-        }
-      });
+      if (task.status === 'To do') {
+        taskList.toDo.push(task);
+      }
+      if (task.status === 'In progress') {
+        taskList.inProgress.push(task);
+      }
+      if (task.status === 'Await feedback') {
+        taskList.awaitFeedback.push(task);
+      }
+      if (task.status === 'Done') {
+        taskList.done.push(task);
+      }
       this.updateTaskList(taskList);
     });
 
@@ -242,9 +187,6 @@ export class FirebaseDatabaseService {
   public ngOnDestroy(): void {
     if (this.unsubscribeContact) {
       this.unsubscribeContact();
-    }
-    if (this.unsubscribeTask) {
-      this.unsubscribeTask();
     }
     if (this.unsubscribeTaskList) {
       this.unsubscribeTaskList();

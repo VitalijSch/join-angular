@@ -7,6 +7,7 @@ import { filter, Subscription } from 'rxjs';
 import { HomeService } from '../services/home/home.service';
 import { CommonModule } from '@angular/common';
 import { FirebaseDatabaseService } from '../services/firebase-database/firebase-database.service';
+import { Task } from '../interfaces/task';
 
 @Component({
   selector: 'app-home',
@@ -35,14 +36,13 @@ export class HomeComponent {
     const contacts = this.firebaseDatabaseService.contacts$.subscribe(contacts => {
       this.firebaseDatabaseService.contacts = contacts;
     });
-    const tasks = this.firebaseDatabaseService.tasks$.subscribe(tasks => {
-      this.firebaseDatabaseService.tasks = tasks;
-    });
-    const taskList = this.firebaseDatabaseService.taskList$.subscribe(async taskList => {
+    const taskList = this.firebaseDatabaseService.taskList$.subscribe(taskList => {
       this.firebaseDatabaseService.taskList = taskList;
+      const tasks: Task[] = [];
+      this.firebaseDatabaseService.tasks = tasks.concat(taskList.toDo, taskList.inProgress, taskList.awaitFeedback, taskList.done);
+      console.log(this.firebaseDatabaseService.tasks)
     });
     this.subscriptions.add(contacts);
-    this.subscriptions.add(tasks);
     this.subscriptions.add(taskList);
   }
 
