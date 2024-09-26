@@ -14,18 +14,19 @@ import { ContactColorsService } from '../../services/contact-colors/contact-colo
   styleUrl: './signup.component.scss'
 })
 export class SignupComponent {
+  public passwordsMatch: boolean = false;
+  public isChecked: boolean = false;
+  public showCheckboxFeedback: boolean = false;
+
+  public userForm!: FormGroup;
+
   public authenticationService: AuthenticationService = inject(AuthenticationService);
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
+
   private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
   private contactColorsServie: ContactColorsService = inject(ContactColorsService);
   private location: Location = inject(Location);
   private fb: FormBuilder = inject(FormBuilder);
-
-  public userForm!: FormGroup;
-
-  public passwordsMatch: boolean = false;
-  public isChecked: boolean = false;
-  public showCheckboxFeedback: boolean = false;
 
   public ngOnInit(): void {
     this.setupUserForm();
@@ -55,14 +56,6 @@ export class SignupComponent {
     }
   }
 
-  private checkPassword(): void {
-    if (this.userForm.get('password')?.value === this.userForm.get('confirmPassword')?.value) {
-      this.passwordsMatch = true;
-    } else {
-      this.passwordsMatch = false;
-    }
-  }
-
   public toggleCheckbox(): void {
     this.isChecked = !this.isChecked;
   }
@@ -81,15 +74,6 @@ export class SignupComponent {
     }
   }
 
-  private checkCheckbox(): void {
-    if (!this.isChecked) {
-      this.showCheckboxFeedback = true;
-      setTimeout(() => {
-        this.showCheckboxFeedback = false;
-      }, 2000);
-    }
-  }
-
   public async addContact(name: string, email: string): Promise<void> {
     const contact = {
       name: name,
@@ -99,6 +83,23 @@ export class SignupComponent {
       avatarColor: this.contactColorsServie.getRandomColor()
     }
     await this.firebaseDatabaseService.addContact(contact);
+  }
+
+  private checkPassword(): void {
+    if (this.userForm.get('password')?.value === this.userForm.get('confirmPassword')?.value) {
+      this.passwordsMatch = true;
+    } else {
+      this.passwordsMatch = false;
+    }
+  }
+
+  private checkCheckbox(): void {
+    if (!this.isChecked) {
+      this.showCheckboxFeedback = true;
+      setTimeout(() => {
+        this.showCheckboxFeedback = false;
+      }, 2000);
+    }
   }
 
   private getContactInitials(name: string): string {

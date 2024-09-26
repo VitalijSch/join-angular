@@ -11,6 +11,7 @@ import { AddTaskService } from '../../../services/add-task/add-task.service';
 })
 export class DragAndDropHeaderComponent {
   public boardService: BoardService = inject(BoardService);
+  
   private addTaskService: AddTaskService = inject(AddTaskService);
 
   public showAddTaskWithRightStatus(status: string): void {

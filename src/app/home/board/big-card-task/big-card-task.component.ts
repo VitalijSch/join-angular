@@ -3,7 +3,6 @@ import { Component, inject } from '@angular/core';
 import { BoardService } from '../../../services/board/board.service';
 import { FirebaseDatabaseService } from '../../../services/firebase-database/firebase-database.service';
 import { EditTaskComponent } from "./edit-task/edit-task.component";
-import { take } from 'rxjs';
 import { Task } from '../../../interfaces/task';
 
 @Component({
@@ -15,14 +14,23 @@ import { Task } from '../../../interfaces/task';
 })
 export class BigCardTaskComponent {
   public boardService: BoardService = inject(BoardService);
+
   private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
 
-  public async checkedSubtask(taskId: string, index: number): Promise<void> {
+  private lists = [
+    this.firebaseDatabaseService.taskList.toDo,
+    this.firebaseDatabaseService.taskList.inProgress,
+    this.firebaseDatabaseService.taskList.awaitFeedback,
+    this.firebaseDatabaseService.taskList.done
+  ];
+
+  public async checkedSubtask(currentTask: Task, index: number): Promise<void> {
     for (const task of this.firebaseDatabaseService.tasks) {
-      if (task.id === taskId) {
+      if (currentTask === task) {
         task.subtasks[index].checked = !task.subtasks[index].checked;
         this.boardService.selectedTask = task;
-        // await this.firebaseDatabaseService.updateTask(task);
+        this.updateSelectedTaskInLists();
+        await this.firebaseDatabaseService.updateTaskList(this.firebaseDatabaseService.taskList);
       }
     }
   }
@@ -33,21 +41,6 @@ export class BigCardTaskComponent {
     await this.firebaseDatabaseService.updateTaskList(this.firebaseDatabaseService.taskList);
   }
 
-  private spliceTaskFromTaskList(t: Task): void {
-    const lists = [
-      this.firebaseDatabaseService.taskList.toDo,
-      this.firebaseDatabaseService.taskList.inProgress,
-      this.firebaseDatabaseService.taskList.awaitFeedback,
-      this.firebaseDatabaseService.taskList.done
-    ];
-    lists.forEach(list => {
-      const index = list.findIndex(task => task === t);
-      if (index !== -1) {
-        list.splice(index, 1);
-      }
-    });
-  }
-
   public formattedDate(): string {
     const formattedDate = this.boardService.selectedTask?.dueDate;
     if (formattedDate) {
@@ -55,5 +48,23 @@ export class BigCardTaskComponent {
     } else {
       return '';
     }
+  }
+
+  private spliceTaskFromTaskList(t: Task): void {
+    this.lists.forEach(list => {
+      const index = list.findIndex(task => task === t);
+      if (index !== -1) {
+        list.splice(index, 1);
+      }
+    });
+  }
+
+  private updateSelectedTaskInLists(): void {
+    this.lists.forEach(list => {
+      const taskIndex = list.findIndex(task => task === this.boardService.selectedTask);
+      if (taskIndex !== -1 && this.boardService.selectedTask) {
+        list[taskIndex] = this.boardService.selectedTask;
+      }
+    });
   }
 }

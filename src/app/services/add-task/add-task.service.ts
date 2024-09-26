@@ -6,10 +6,20 @@ import { Task } from '../../interfaces/task';
   providedIn: 'root'
 })
 export class AddTaskService {
+  public isTitleInvalid: boolean = false;
+  public isDueDateInvalid: boolean = false;
+  public isCategoryInvalid: boolean = false;
+
+  public selectUrgent: boolean = false;
+  public selectMedium: boolean = true;
+  public selectLow: boolean = false;
+
+  public showContacts: boolean = false;
+  public showCategory: boolean = false;
+
   public status!: string;
 
   public task: Task = {
-    id: '',
     category: 'Select task category',
     title: '',
     description: '',
@@ -22,24 +32,12 @@ export class AddTaskService {
 
   public searchedContact: Contact[] = [];
 
-  public showContacts: boolean = false;
-  public showCategory: boolean = false;
-
-  public isTitleInvalid: boolean = false;
-  public isDueDateInvalid: boolean = false;
-  public isCategoryInvalid: boolean = false;
-
-  public selectUrgent: boolean = false;
-  public selectMedium: boolean = true;
-  public selectLow: boolean = false;
-
   public toggleShowCategory(): void {
     this.showCategory = !this.showCategory;
   }
 
   public resetTask(): void {
     this.task = {
-      id: '',
       category: 'Select task category',
       title: '',
       description: '',

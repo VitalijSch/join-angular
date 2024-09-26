@@ -5,11 +5,11 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private router: Router = inject(Router);
-
   public showPassword: boolean = false;
   public showConfirmPassword: boolean = false;
   public playAnimation: boolean = true;
+
+  private router: Router = inject(Router);
 
   public togglePassword(inputField: string): void {
     if (inputField === 'password') {

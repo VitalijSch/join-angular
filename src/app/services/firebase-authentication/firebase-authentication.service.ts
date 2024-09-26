@@ -7,40 +7,27 @@ import { FirebaseError } from 'firebase/app';
   providedIn: 'root'
 })
 export class FirebaseAuthenticationService {
+  public showErrorMessage: string = '';
+  public showSuccessfullyMessage: boolean = false;
+
   public auth: Auth = getAuth();
 
   private router: Router = inject(Router);
 
   private unsubscribe: (() => void) | undefined;
 
-  public showErrorMessage: string = '';
-  public showSuccessfullyMessage: boolean = false;
-
-  public async registerWithEmailPassword(name: string, email: string, password: string): Promise<void> {
-    try {
-      this.showSuccessfullyMessage = true;
-      const userCredential: UserCredential = await createUserWithEmailAndPassword(this.auth, email, password);
-      await updateProfile(userCredential.user, {
-        displayName: name
-      });
-      await this.handleAnimationAndNavigation();
-    } catch (error) {
-      if (error) {
-        if (error instanceof FirebaseError) {
-          if (error.code === 'auth/email-already-in-use') {
-            this.showSuccessfullyMessage = false;
-            this.handleErrorMessage('This email address is already taken.');
-          }
-        }
-      }
+  public ngOnDestroy(): void {
+    if (this.unsubscribe) {
+      this.unsubscribe();
     }
   }
 
-  private async handleAnimationAndNavigation(): Promise<void> {
-    setTimeout(async () => {
-      this.showSuccessfullyMessage = false;
-      await this.router.navigate(['/authentication/login']);
-    }, 1000);
+  public async registerWithEmailPassword(name: string, email: string, password: string): Promise<void> {
+    try {
+      this.registerUser(name, email, password);
+    } catch (error) {
+      this.registerUserError(error);
+    }
   }
 
   public handleErrorMessage(text: string): void {
@@ -64,13 +51,7 @@ export class FirebaseAuthenticationService {
       await signInWithEmailAndPassword(this.auth, email, password);
       await this.router.navigate(['/home/summary']);
     } catch (error) {
-      if (error instanceof FirebaseError) {
-        if (error.code === 'auth/invalid-credential') {
-          this.handleErrorMessage('Check your email and password. Please try again.');
-        } else {
-          console.error('Error during user login:', error);
-        }
-      }
+      this.loginAsUserError(error);
     }
   }
 
@@ -81,18 +62,6 @@ export class FirebaseAuthenticationService {
       await signOut(this.auth);
     } catch (error) {
       console.error("Error signing out: ", error);
-    }
-  }
-
-  private async deleteAnonymUser(): Promise<void> {
-    try {
-      const user = this.auth.currentUser;
-      if (user && user.isAnonymous) {
-        await user.delete();
-        console.log("Anonymous user has been deleted.");
-      }
-    } catch (error) {
-      console.error("Failed to delete anonymous user: ", error);
     }
   }
 
@@ -121,9 +90,7 @@ export class FirebaseAuthenticationService {
   public async checkIfUserIsLogged(): Promise<void> {
     this.unsubscribe = onAuthStateChanged(this.auth, async (user) => {
       if (user) {
-        console.log('User is logged in:', user);
       } else {
-        console.log('User is logged out');
         this.deleteAnonymUser();
         if (!this.router.url.includes('privacyPolicy') && !this.router.url.includes('legalNotice')) {
           await this.router.navigate(['/authentication/login']);
@@ -132,9 +99,52 @@ export class FirebaseAuthenticationService {
     });
   }
 
-  public ngOnDestroy(): void {
-    if (this.unsubscribe) {
-      this.unsubscribe();
+  private loginAsUserError(error: unknown): void {
+    if (error instanceof FirebaseError) {
+      if (error.code === 'auth/invalid-credential') {
+        this.handleErrorMessage('Check your email and password. Please try again.');
+      } else {
+        console.error('Error during user login:', error);
+      }
     }
+  }
+
+  private async deleteAnonymUser(): Promise<void> {
+    try {
+      const user = this.auth.currentUser;
+      if (user && user.isAnonymous) {
+        await user.delete();
+        console.log("Anonymous user has been deleted.");
+      }
+    } catch (error) {
+      console.error("Failed to delete anonymous user: ", error);
+    }
+  }
+
+  private async registerUser(name: string, email: string, password: string): Promise<void> {
+    this.showSuccessfullyMessage = true;
+    const userCredential: UserCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+    await updateProfile(userCredential.user, {
+      displayName: name
+    });
+    await this.handleAnimationAndNavigation();
+  }
+
+  private registerUserError(error: unknown): void {
+    if (error) {
+      if (error instanceof FirebaseError) {
+        if (error.code === 'auth/email-already-in-use') {
+          this.showSuccessfullyMessage = false;
+          this.handleErrorMessage('This email address is already taken.');
+        }
+      }
+    }
+  }
+
+  private async handleAnimationAndNavigation(): Promise<void> {
+    setTimeout(async () => {
+      this.showSuccessfullyMessage = false;
+      await this.router.navigate(['/authentication/login']);
+    }, 1000);
   }
 }

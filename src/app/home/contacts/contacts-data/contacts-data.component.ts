@@ -12,6 +12,7 @@ import { FirebaseDatabaseService } from '../../../services/firebase-database/fir
 })
 export class ContactsDataComponent {
   public homeService: HomeService = inject(HomeService);
+  
   private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
 
   public async deleteContact(): Promise<void> {

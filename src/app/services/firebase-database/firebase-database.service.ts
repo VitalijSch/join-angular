@@ -11,12 +11,21 @@ import { BehaviorSubject, Observable, take } from 'rxjs';
   providedIn: 'root'
 })
 export class FirebaseDatabaseService {
+  public contacts!: Contact[];
+  public taskList!: TaskList;
+  public tasks: Task[] = [];
+  public letters: string[] = [];
+
+  private newTaskList: TaskList = {
+    id: '',
+    toDo: [],
+    inProgress: [],
+    awaitFeedback: [],
+    done: []
+  };
+
   private firestore: Firestore = inject(Firestore);
 
-  private unsubscribeContact!: Unsubscribe;
-  private unsubscribeTaskList!: Unsubscribe;
-
-  private contactsSubject: BehaviorSubject<Contact[]> = new BehaviorSubject<Contact[]>([]);
   public taskListSubject: BehaviorSubject<TaskList> = new BehaviorSubject<TaskList>({
     id: '',
     toDo: [],
@@ -24,27 +33,26 @@ export class FirebaseDatabaseService {
     awaitFeedback: [],
     done: []
   });
+  private contactsSubject: BehaviorSubject<Contact[]> = new BehaviorSubject<Contact[]>([]);
 
   public contacts$: Observable<Contact[]> = this.contactsSubject.asObservable();
   public taskList$: Observable<TaskList> = this.taskListSubject.asObservable();
 
-  public contacts!: Contact[];
-  public taskList!: TaskList;
-  public tasks: Task[] = [];
-
-  public letters: string[] = [];
+  private unsubscribeContact!: Unsubscribe;
+  private unsubscribeTaskList!: Unsubscribe;
 
   constructor() {
     this.getContact();
     this.getTaskList();
   }
 
-  private contactCollection(): CollectionReference<DocumentData> {
-    return collection(this.firestore, 'contacts');
-  }
-
-  private taskListCollection(): CollectionReference<DocumentData> {
-    return collection(this.firestore, 'taskList');
+  public ngOnDestroy(): void {
+    if (this.unsubscribeContact) {
+      this.unsubscribeContact();
+    }
+    if (this.unsubscribeTaskList) {
+      this.unsubscribeTaskList();
+    }
   }
 
   public getContact(): void {
@@ -62,14 +70,7 @@ export class FirebaseDatabaseService {
   public getTaskList(): void {
     this.unsubscribeTaskList = onSnapshot(this.taskListCollection(), (querySnapshot) => {
       if (querySnapshot.empty) {
-        const newTaskList: TaskList = {
-          id: '',
-          toDo: [],
-          inProgress: [],
-          awaitFeedback: [],
-          done: []
-        };
-        this.addTaskList(newTaskList);
+        this.addTaskList(this.newTaskList);
       } else {
         querySnapshot.forEach((doc) => {
           this.taskList = doc.data() as TaskList;
@@ -136,6 +137,32 @@ export class FirebaseDatabaseService {
     }
   }
 
+  public async sortTasksByStatus(task: Task): Promise<void> {
+    this.taskList$.pipe(take(1)).subscribe(taskList => {
+      if (task.status === 'To do') {
+        taskList.toDo.push(task);
+      }
+      if (task.status === 'In progress') {
+        taskList.inProgress.push(task);
+      }
+      if (task.status === 'Await feedback') {
+        taskList.awaitFeedback.push(task);
+      }
+      if (task.status === 'Done') {
+        taskList.done.push(task);
+      }
+      this.updateTaskList(taskList);
+    });
+  }
+
+  private contactCollection(): CollectionReference<DocumentData> {
+    return collection(this.firestore, 'contacts');
+  }
+
+  private taskListCollection(): CollectionReference<DocumentData> {
+    return collection(this.firestore, 'taskList');
+  }
+
   private getLettersForContacts(): void {
     this.letters = [];
     this.contacts$.forEach(contacts => {
@@ -163,33 +190,5 @@ export class FirebaseDatabaseService {
         return 0;
       });
     });
-  }
-
-  public async sortTasksByStatus(task: Task): Promise<void> {
-    this.taskList$.pipe(take(1)).subscribe(taskList => {
-      if (task.status === 'To do') {
-        taskList.toDo.push(task);
-      }
-      if (task.status === 'In progress') {
-        taskList.inProgress.push(task);
-      }
-      if (task.status === 'Await feedback') {
-        taskList.awaitFeedback.push(task);
-      }
-      if (task.status === 'Done') {
-        taskList.done.push(task);
-      }
-      this.updateTaskList(taskList);
-    });
-
-  }
-
-  public ngOnDestroy(): void {
-    if (this.unsubscribeContact) {
-      this.unsubscribeContact();
-    }
-    if (this.unsubscribeTaskList) {
-      this.unsubscribeTaskList();
-    }
   }
 }

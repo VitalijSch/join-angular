@@ -17,7 +17,7 @@
         [cdkDropListConnectedTo]="['toDoList', 'awaitFeedbackList', 'doneList']" class="category-container">
         @if(firebaseDatabaseService.taskList.inProgress.length === 0) {
         <div class="no-tasks-feedback-container">
-            No tasks in progress
+            No tasks to do
         </div>
         } @else {
         @for (task of firebaseDatabaseService.taskList.inProgress; track $index) {
@@ -30,7 +30,7 @@
         [cdkDropListConnectedTo]="['toDoList', 'inProgressList', 'doneList']" class="category-container">
         @if(firebaseDatabaseService.taskList.awaitFeedback.length === 0) {
         <div class="no-tasks-feedback-container">
-            No tasks awaiting feedback
+            No tasks to do
         </div>
         } @else {
         @for (task of firebaseDatabaseService.taskList.awaitFeedback; track $index) {
@@ -43,7 +43,7 @@
         [cdkDropListConnectedTo]="['toDoList', 'inProgressList', 'awaitFeedbackList']" class="category-container">
         @if(firebaseDatabaseService.taskList.done.length === 0) {
         <div class="no-tasks-feedback-container">
-            No tasks done
+            No tasks to do
         </div>
         } @else {
         @for (task of firebaseDatabaseService.taskList.done; track $index) {

@@ -14,13 +14,14 @@ import { ContactColorsService } from '../../../services/contact-colors/contact-c
   styleUrl: './add-new-contact.component.scss'
 })
 export class AddNewContactComponent {
+  public contactForm!: FormGroup;
+
   public homeService: HomeService = inject(HomeService);
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
+
   private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
   private contactColorsServie: ContactColorsService = inject(ContactColorsService);
   private fb: FormBuilder = inject(FormBuilder);
-
-  public contactForm!: FormGroup;
 
   ngOnInit(): void {
     this.setupContactForm();
@@ -48,12 +49,6 @@ export class AddNewContactComponent {
     }
   }
 
-  private checkIfEmailExistAtContacts(emailExists: boolean): void {
-    if (emailExists) {
-      this.firebaseAuthenticationService.handleErrorMessage('This email address is already taken.');
-    }
-  }
-
   public async addContact(name: string, email: string, phoneNumber: number | string): Promise<void> {
     phoneNumber = phoneNumber === undefined ? '' : phoneNumber;
     const contact = {
@@ -65,6 +60,12 @@ export class AddNewContactComponent {
     }
     await this.firebaseDatabaseService.addContact(contact);
     this.homeService.currentContact = contact;
+  }
+
+  private checkIfEmailExistAtContacts(emailExists: boolean): void {
+    if (emailExists) {
+      this.firebaseAuthenticationService.handleErrorMessage('This email address is already taken.');
+    }
   }
 
   private getContactInitials(name: string): string {

@@ -46,6 +46,10 @@ export class SummaryComponent {
     }
     const urgentUpcomingTasks = this.filterUrgentFutureTasks(tasks, now);
     const sortedTasks = this.sortTasksByDueDate(urgentUpcomingTasks);
+    return this.getFormattedUrgentUpcomingTasks(sortedTasks);
+  }
+
+  private getFormattedUrgentUpcomingTasks(sortedTasks: string | Task[]): string {
     if (typeof sortedTasks !== 'string') {
       const formattedDate = this.formatTaskDueDate(sortedTasks);
       return formattedDate;

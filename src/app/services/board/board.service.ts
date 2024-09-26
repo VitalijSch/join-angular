@@ -13,6 +13,7 @@ export class BoardService {
   public selectedTask: Task | null = null;
 
   private searchTaskSource = new BehaviorSubject<boolean>(false);
+  
   public searchedTask = this.searchTaskSource.asObservable();
 
   public updateSearchTask(status: boolean) {

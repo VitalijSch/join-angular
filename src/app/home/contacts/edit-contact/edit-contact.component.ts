@@ -14,12 +14,13 @@ import { Contact } from '../../../interfaces/contact';
   styleUrl: './edit-contact.component.scss'
 })
 export class EditContactComponent {
+  public contactForm!: FormGroup;
+
   public homeService: HomeService = inject(HomeService);
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
+  
   private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
   private fb: FormBuilder = inject(FormBuilder);
-
-  public contactForm!: FormGroup;
 
   public ngOnInit(): void {
     this.setupContactForm();

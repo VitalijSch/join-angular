@@ -15,12 +15,13 @@ export class TaskComponent {
   @Input() task!: Task;
 
   public boardService: BoardService = inject(BoardService);
+  
   private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
 
   public getCheckedSubtasksCount(): number {
     let countCheckedSubtasks = 0;
     this.firebaseDatabaseService.tasks.forEach(task => {
-      if (task.id === this.task.id) {
+      if (task === this.task) {
         task.subtasks.forEach(subtask => {
           if (subtask.checked) {
             countCheckedSubtasks++;

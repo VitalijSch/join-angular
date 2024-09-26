@@ -12,6 +12,7 @@ import { AuthenticationService } from '../services/authentication/authentication
 })
 export class AuthenticationComponent {
   public authenticationService: AuthenticationService = inject(AuthenticationService);
+  
   private router: Router = inject(Router);
 
   public ngOnInit(): void {

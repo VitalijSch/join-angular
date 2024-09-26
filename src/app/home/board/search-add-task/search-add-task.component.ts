@@ -3,6 +3,7 @@ import { BoardService } from '../../../services/board/board.service';
 import { FirebaseDatabaseService } from '../../../services/firebase-database/firebase-database.service';
 import { AddTaskService } from '../../../services/add-task/add-task.service';
 import { Subscription } from 'rxjs';
+import { Task } from '../../../interfaces/task';
 
 @Component({
   selector: 'app-search-add-task',
@@ -15,6 +16,7 @@ export class SearchAddTaskComponent {
   @ViewChild('search') search!: ElementRef;
 
   public boardService: BoardService = inject(BoardService);
+
   private addTaskService: AddTaskService = inject(AddTaskService);
   private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
 
@@ -32,17 +34,6 @@ export class SearchAddTaskComponent {
     this.search.nativeElement.focus();
   }
 
-  public async searchTask(content: string): Promise<void> {
-    const filteredToDo = this.firebaseDatabaseService.taskList.toDo.filter(task => task.title.toLocaleLowerCase().includes(content.toLocaleLowerCase()) || task.description.startsWith(content));
-    this.firebaseDatabaseService.taskList.toDo = filteredToDo;
-    const filteredInProgress = this.firebaseDatabaseService.taskList.inProgress.filter(task => task.title.toLocaleLowerCase().includes(content.toLocaleLowerCase()) || task.description.startsWith(content));
-    this.firebaseDatabaseService.taskList.inProgress = filteredInProgress;
-    const filteredAwaitFeedback = this.firebaseDatabaseService.taskList.awaitFeedback.filter(task => task.title.toLocaleLowerCase().includes(content.toLocaleLowerCase()) || task.description.startsWith(content));
-    this.firebaseDatabaseService.taskList.awaitFeedback = filteredAwaitFeedback;
-    const filteredDone = this.firebaseDatabaseService.taskList.done.filter(task => task.title.toLocaleLowerCase().includes(content.toLocaleLowerCase()) || task.description.startsWith(content));
-    this.firebaseDatabaseService.taskList.done = filteredDone;
-  }
-
   public showAddTaskWithRightStatus(): void {
     this.addTaskService.status = 'To do';
     this.boardService.toggleShowAddTask();
@@ -50,5 +41,21 @@ export class SearchAddTaskComponent {
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  public searchTask(content: string): void {
+    if(content === '') this.firebaseDatabaseService.getTaskList();
+    this.firebaseDatabaseService.taskList.toDo = this.filterTasks(this.firebaseDatabaseService.taskList.toDo, content);
+    this.firebaseDatabaseService.taskList.inProgress = this.filterTasks(this.firebaseDatabaseService.taskList.inProgress, content);
+    this.firebaseDatabaseService.taskList.awaitFeedback = this.filterTasks(this.firebaseDatabaseService.taskList.awaitFeedback, content);
+    this.firebaseDatabaseService.taskList.done = this.filterTasks(this.firebaseDatabaseService.taskList.done, content);
+  }
+
+  private filterTasks(tasks: Task[], content: string): Task[] {
+    const lowerCaseContent = content.toLocaleLowerCase();
+    return tasks.filter(task =>
+      task.title.toLocaleLowerCase().includes(lowerCaseContent) ||
+      task.description.startsWith(lowerCaseContent)
+    );
   }
 }

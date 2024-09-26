@@ -2,7 +2,6 @@ import { Contact } from "./contact";
 import { Subtask } from "./subtask";
 
 export interface Task {
-    id: string;
     category: string;
     title: string;
     description: string;

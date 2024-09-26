@@ -7,8 +7,15 @@ import { Contact } from '../../interfaces/contact';
   providedIn: 'root'
 })
 export class HomeService {
-  private location: Location = inject(Location);
-  private router: Router = inject(Router);
+  public showAddNewContactContainer: boolean = false;
+  public showAddNewContactAnimation: boolean = false;
+
+  public showEditContactContainer: boolean = false;
+  public showEditContactAnimation: boolean = false;
+
+  public closeAddContactAnimation: boolean = false;
+
+  public disabledElement: boolean = false;
 
   public currentContact: Contact = {
     name: '',
@@ -18,15 +25,8 @@ export class HomeService {
     avatarColor: ''
   };
 
-  public showAddNewContactContainer: boolean = false;
-  public showAddNewContactAnimation: boolean = false;
-
-  public showEditContactContainer: boolean = false;
-  public showEditContactAnimation: boolean = false;
-  
-  public closeAddContactAnimation: boolean = false;
-
-  public disabledElement: boolean = false;
+  private location: Location = inject(Location);
+  private router: Router = inject(Router);
 
   public goBack(): void {
     this.location.back();

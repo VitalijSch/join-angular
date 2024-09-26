@@ -3,7 +3,6 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HomeService } from '../../services/home/home.service';
 import { FirebaseAuthenticationService } from '../../services/firebase-authentication/firebase-authentication.service';
-import { AddTaskService } from '../../services/add-task/add-task.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,7 +13,6 @@ import { AddTaskService } from '../../services/add-task/add-task.service';
 })
 export class SidebarComponent {
   public homeService: HomeService = inject(HomeService);
-  private addTaskService: AddTaskService = inject(AddTaskService);
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
   public router: Router = inject(Router);
 

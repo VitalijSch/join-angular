@@ -13,14 +13,15 @@ import { EncryptionService } from '../../services/encryption/encryption.service'
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  public authenticationService: AuthenticationService = inject(AuthenticationService);
-  public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
-  private encryptionService: EncryptionService = inject(EncryptionService);
-  private fb: FormBuilder = inject(FormBuilder);
+  public rememberMe: boolean = false;
 
   public userForm!: FormGroup;
 
-  public rememberMe: boolean = false;
+  public authenticationService: AuthenticationService = inject(AuthenticationService);
+  public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
+
+  private encryptionService: EncryptionService = inject(EncryptionService);
+  private fb: FormBuilder = inject(FormBuilder);
 
   public async ngOnInit(): Promise<void> {
     this.setupUserForm();
@@ -42,6 +43,26 @@ export class LoginComponent {
     if (this.userForm.get('confirmPassword')?.value === '') {
       this.authenticationService.showConfirmPassword = false;
     }
+  }
+
+  public toggleRememberMe(): void {
+    this.rememberMe = !this.rememberMe;
+  }
+
+  public async loginAsUser(): Promise<void> {
+    if (this.userForm.valid) {
+      const email = this.userForm.get('email')?.value;
+      const password = this.userForm.get('password')?.value;
+      this.handleRememberMe(email, password);
+      await this.firebaseAuthenticationService.loginAsUser(email, password);
+    }
+  }
+
+  public async loginAsGuest(): Promise<void> {
+    if (!this.rememberMe) {
+      this.removeLoginDataFromLocalStorage();
+    }
+    await this.firebaseAuthenticationService.loginAsGuest();
   }
 
   private checkRememberMe(): void {
@@ -70,19 +91,6 @@ export class LoginComponent {
     }
   }
 
-  public toggleRememberMe(): void {
-    this.rememberMe = !this.rememberMe;
-  }
-
-  public async loginAsUser(): Promise<void> {
-    if (this.userForm.valid) {
-      const email = this.userForm.get('email')?.value;
-      const password = this.userForm.get('password')?.value;
-      this.handleRememberMe(email, password);
-      await this.firebaseAuthenticationService.loginAsUser(email, password);
-    }
-  }
-
   private handleRememberMe(email: string, password: string): void {
     if (this.rememberMe) {
       this.encryptLoginData(email, password);
@@ -105,12 +113,5 @@ export class LoginComponent {
       localStorage.removeItem('email');
       localStorage.removeItem('password');
     }
-  }
-
-  public async loginAsGuest(): Promise<void> {
-    if (!this.rememberMe) {
-      this.removeLoginDataFromLocalStorage();
-    }
-    await this.firebaseAuthenticationService.loginAsGuest();
   }
 }

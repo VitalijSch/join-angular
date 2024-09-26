@@ -33,16 +33,24 @@ import { Task } from '../../../../interfaces/task';
   styleUrl: './edit-task.component.scss'
 })
 export class EditTaskComponent {
+  public showCreateTaskMessage: boolean = false;
+
+  public taskForm!: FormGroup;
+
   public homeService: HomeService = inject(HomeService);
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
   public firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
   public addTaskService: AddTaskService = inject(AddTaskService);
   public boardService: BoardService = inject(BoardService);
+
   private fb: FormBuilder = inject(FormBuilder);
 
-  public taskForm!: FormGroup;
-
-  public showCreateTaskMessage: boolean = false;
+  private lists = [
+    this.firebaseDatabaseService.taskList.toDo,
+    this.firebaseDatabaseService.taskList.inProgress,
+    this.firebaseDatabaseService.taskList.awaitFeedback,
+    this.firebaseDatabaseService.taskList.done
+  ];
 
   public ngOnInit(): void {
     const task = this.boardService.selectedTask;
@@ -72,7 +80,7 @@ export class EditTaskComponent {
 
   public closeEditTask(): void {
     this.firebaseDatabaseService.tasks.forEach(task => {
-      if (task.id !== this.boardService.selectedTask?.id) {
+      if (task !== this.boardService.selectedTask) {
         this.boardService.selectedTask = task;
       }
     });
@@ -81,13 +89,7 @@ export class EditTaskComponent {
 
   public async createTask(): Promise<void> {
     if (this.taskForm.valid && this.taskForm.get('selectCategory')?.value !== 'Select task category') {
-      const lists = [
-        this.firebaseDatabaseService.taskList.toDo,
-        this.firebaseDatabaseService.taskList.inProgress,
-        this.firebaseDatabaseService.taskList.awaitFeedback,
-        this.firebaseDatabaseService.taskList.done
-      ];
-      lists.forEach(list => {
+      this.lists.forEach(list => {
         let task: Task = list.filter(task => task === this.addTaskService.task)[0];
         task = this.addTaskService.task;
       });

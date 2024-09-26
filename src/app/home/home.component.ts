@@ -19,31 +19,47 @@ import { Task } from '../interfaces/task';
 export class HomeComponent {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
 
+  public homeService: HomeService = inject(HomeService);
+
   private firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
   private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
   private router: Router = inject(Router);
-  public homeService: HomeService = inject(HomeService);
 
   private subscriptions = new Subscription();
 
   public async ngOnInit(): Promise<void> {
     await this.firebaseAuthenticationService.checkIfUserIsLogged();
+    this.handleNavigationEnd();
+    this.subscribeToContacts();
+    this.subscribeToTaskList();
+  }
+
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  private subscribeToContacts(): void {
+    const contacts = this.firebaseDatabaseService.contacts$.subscribe(contacts => {
+      this.firebaseDatabaseService.contacts = contacts;
+    });
+    this.subscriptions.add(contacts);
+  }
+
+  private subscribeToTaskList(): void {
+    const taskList = this.firebaseDatabaseService.taskList$.subscribe(taskList => {
+      this.firebaseDatabaseService.taskList = taskList;
+      const tasks: Task[] = [];
+      this.firebaseDatabaseService.tasks = tasks.concat(taskList.toDo, taskList.inProgress, taskList.awaitFeedback, taskList.done);
+    });
+    this.subscriptions.add(taskList);
+  }
+
+  private handleNavigationEnd(): void {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.scrollToTop();
     });
-    const contacts = this.firebaseDatabaseService.contacts$.subscribe(contacts => {
-      this.firebaseDatabaseService.contacts = contacts;
-    });
-    const taskList = this.firebaseDatabaseService.taskList$.subscribe(taskList => {
-      this.firebaseDatabaseService.taskList = taskList;
-      const tasks: Task[] = [];
-      this.firebaseDatabaseService.tasks = tasks.concat(taskList.toDo, taskList.inProgress, taskList.awaitFeedback, taskList.done);
-      console.log(this.firebaseDatabaseService.tasks)
-    });
-    this.subscriptions.add(contacts);
-    this.subscriptions.add(taskList);
   }
 
   private scrollToTop(): void {
@@ -51,9 +67,5 @@ export class HomeComponent {
     if (container) {
       container.scrollTo({ top: 0, behavior: 'auto' });
     }
-  }
-
-  public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
   }
 }
