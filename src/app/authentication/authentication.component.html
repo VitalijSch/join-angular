@@ -1,7 +1,8 @@
 <div class="authentication-background-container">
     <div class="authentication-container">
         <div class="top-container">
-            <svg [class.logo-animation]="authenticationService.playAnimation" class="start-logo-animation" width="100" height="122" viewBox="0 0 274 335" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg [class.logo-animation]="authenticationService.playAnimation" class="start-logo-animation" width="100"
+                height="122" viewBox="0 0 274 335" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M196.314 0H135.623V69.8251H196.314V0Z" fill="#2A3647" />
                 <path
                     d="M135.623 126.614H196.315V225.091C196.592 248.787 189.848 272.031 176.94 291.868C164.195 311.141 139.591 334.072 94.0723 334.072C44.4917 334.072 15.5931 310.626 0 297.777L38.2825 250.554C53.5021 262.981 68.1615 273.204 94.3057 273.204C114.101 273.204 121.99 265.138 126.612 258.104C132.896 248.334 136.146 236.908 135.95 225.279L135.623 126.614Z"
@@ -15,17 +16,14 @@
                     d="M247.436 324.834V286.944H254.905L262.935 302.56C265.002 306.643 266.842 310.838 268.444 315.127C268.024 310.438 267.837 305.045 267.837 299.042V286.944H274V324.834H267.044L258.92 308.89C256.77 304.702 254.853 300.397 253.178 295.994C253.178 300.684 253.505 305.983 253.505 312.501V324.787L247.436 324.834Z"
                     fill="#2A3647" />
             </svg>
-            @if(checkCurrentRoute()) {
-            <div [class.fade-in-animation]="authenticationService.playAnimation" class="signup-container start-fade-in-animation">
-                <span>Not a Join User?</span>
-                <button (click)="authenticationService.navigateToRoute('/authentication/signup')">Sign up</button>
-            </div>
-            }
+            <app-signup-button class="big-screen"></app-signup-button>
         </div>
         <div [class.fade-in-animation]="authenticationService.playAnimation" class="start-fade-in-animation">
             <router-outlet></router-outlet>
         </div>
-        <div [class.fade-in-animation]="authenticationService.playAnimation" class="bottom-container start-fade-in-animation">
+        <app-signup-button class="small-screen"></app-signup-button>
+        <div [class.fade-in-animation]="authenticationService.playAnimation"
+            class="bottom-container start-fade-in-animation">
             <span (click)="authenticationService.navigateToRoute('/home/privacyPolicy')">Privacy Policy</span>
             <span (click)="authenticationService.navigateToRoute('/home/legalNotice')">Legal notice</span>
         </div>

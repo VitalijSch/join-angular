@@ -121,3 +121,48 @@ form {
         }
     }
 }
+
+@media(max-width: 1050px) {
+    .login-container {
+        padding: 32px;
+    }
+}
+
+@media(max-width: 700px) {
+    .login-container {
+        padding: 32px;
+
+        h2 {
+            font-size: 47px;
+            line-height: 56.4px;
+        }
+
+        .line-container {
+            width: 88px;
+            height: 3px;
+        }
+    }
+
+    form {
+
+        .input-container {
+            width: 364px;
+        }
+
+        .button-container {
+            @include display-flex(column, unset, unset, 21px);
+
+            button {
+                width: 180px !important;
+                font-size: 16px;
+                line-height: 19.2px;
+            }
+        }
+    }
+}
+
+@media(max-width: 700px) {
+    .login-container {
+        margin-top: 80px;
+    }
+}

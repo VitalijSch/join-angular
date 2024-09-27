@@ -30,6 +30,10 @@ export class SearchAddTaskComponent {
     });
   }
 
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   public focusInput(): void {
     this.search.nativeElement.focus();
   }
@@ -39,12 +43,8 @@ export class SearchAddTaskComponent {
     this.boardService.toggleShowAddTask();
   }
 
-  public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  public searchTask(content: string): void {
-    if(content === '') this.firebaseDatabaseService.getTaskList();
+  public async searchTask(content: string): Promise<void> {
+    await this.firebaseDatabaseService.getTaskList();
     this.firebaseDatabaseService.taskList.toDo = this.filterTasks(this.firebaseDatabaseService.taskList.toDo, content);
     this.firebaseDatabaseService.taskList.inProgress = this.filterTasks(this.firebaseDatabaseService.taskList.inProgress, content);
     this.firebaseDatabaseService.taskList.awaitFeedback = this.filterTasks(this.firebaseDatabaseService.taskList.awaitFeedback, content);

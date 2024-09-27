@@ -67,16 +67,20 @@ export class FirebaseDatabaseService {
     });
   }
 
-  public getTaskList(): void {
-    this.unsubscribeTaskList = onSnapshot(this.taskListCollection(), (querySnapshot) => {
-      if (querySnapshot.empty) {
-        this.addTaskList(this.newTaskList);
-      } else {
-        querySnapshot.forEach((doc) => {
-          this.taskList = doc.data() as TaskList;
-        });
-        this.taskListSubject.next(this.taskList);
-      }
+  public getTaskList(): Promise<void> {
+    return new Promise((resolve) => {
+      this.unsubscribeTaskList = onSnapshot(this.taskListCollection(), (querySnapshot) => {
+        if (querySnapshot.empty) {
+          this.addTaskList(this.newTaskList);
+          resolve();
+        } else {
+          querySnapshot.forEach((doc) => {
+            this.taskList = doc.data() as TaskList;
+          });
+          this.taskListSubject.next(this.taskList);
+          resolve();
+        }
+      });
     });
   }
 

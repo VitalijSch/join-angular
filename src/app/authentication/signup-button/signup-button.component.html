@@ -1,0 +1,6 @@
+@if(checkCurrentRoute()) {
+<div [class.fade-in-animation]="authenticationService.playAnimation" class="signup-button-container start-fade-in-animation">
+    <span>Not a Join User?</span>
+    <button (click)="authenticationService.navigateToRoute('/authentication/signup')">Sign up</button>
+</div>
+}
