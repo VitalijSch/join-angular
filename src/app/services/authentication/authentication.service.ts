@@ -22,7 +22,7 @@ export class AuthenticationService {
   public handleAnimation(): void {
     setTimeout(() => {
       this.playAnimation = false;
-    }, 2000);
+    }, 1400);
   }
 
   public async navigateToRoute(path: string): Promise<void> {

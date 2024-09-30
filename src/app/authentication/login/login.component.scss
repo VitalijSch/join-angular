@@ -122,12 +122,6 @@ form {
     }
 }
 
-@media(max-width: 1050px) {
-    .login-container {
-        padding: 32px;
-    }
-}
-
 @media(max-width: 700px) {
     .login-container {
         padding: 32px;
@@ -164,5 +158,31 @@ form {
 @media(max-width: 700px) {
     .login-container {
         margin-top: 80px;
+    }
+}
+
+@media(max-width: 600px) {
+    form {
+
+        .input-container {
+            width: 320px;
+        }
+    }
+}
+
+@media(max-width: 400px) {
+    .login-container {
+        padding: 20px;
+    }
+
+    form {
+
+        .input-container {
+            width: 260px;
+
+            input {
+                padding-right: 45px;
+            }
+        }
     }
 }

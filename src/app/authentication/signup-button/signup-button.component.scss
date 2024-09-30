@@ -36,3 +36,16 @@
     opacity: 0;
     animation: fadeIn 0.4s ease-in 1s forwards;
 }
+
+@media(max-width: 400px) {
+    .signup-button-container {
+
+        span {
+            font-size: 13px;
+        }
+
+        button {
+            font-size: 13px;
+        }
+    }
+}
