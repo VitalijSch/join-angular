@@ -165,8 +165,75 @@ form {
     animation: slideFromBottomToCenter 0.5s ease-out forwards;
 }
 
-@media(max-width: 1050px) {
+@media(max-width: 1440px) and (max-height: 700px) {
+    form {
+        gap: 10px;
+    }
+}
+
+@media(max-width: 700px) {
     .signup-container {
-        margin-top: 125px;
+        padding: 32px;
+
+        .back-arrow {
+            top: 45px;
+            left: 30px;
+        }
+
+        h2 {
+            font-size: 47px;
+            line-height: 56.4px;
+        }
+
+        .line-container {
+            width: 88px;
+            height: 3px;
+        }
+    }
+
+    form {
+        gap: 21px;
+
+        .input-container {
+            width: 364px;
+        }
+
+        button {
+            width: 180px !important;
+            font-size: 16px;
+            line-height: 19.2px;
+        }
+    }
+}
+
+@media(max-width: 600px) {
+    form {
+
+        .input-container {
+            width: 320px;
+        }
+    }
+}
+
+@media(max-width: 400px) {
+    .signup-container {
+        padding: 20px;
+
+        .back-arrow {
+            top: 35px;
+            left: 20px;
+
+        }
+    }
+
+    form {
+
+        .input-container {
+            width: 260px;
+
+            input {
+                padding-right: 45px;
+            }
+        }
     }
 }

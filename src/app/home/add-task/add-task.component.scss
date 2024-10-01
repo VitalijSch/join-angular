@@ -32,7 +32,7 @@
 
     .main-container {
         height: 100%;
-        @include display-flex(unset, space-between, unset, unset);
+        @include display-flex(unset, space-between, unset, 50px);
 
         .left-container {
             width: 440px;
@@ -133,3 +133,17 @@
 .show-animation {
     animation: slideFromBottomToCenterTask 0.5s ease-out forwards;
 }
+
+@media(max-width: 1400px) {
+    .add-task-container {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+}
+
+// @media(max-width: 1240px) {
+//     .add-task-container {
+//         padding-left: 20px;
+//         padding-right: 20px;
+//     }
+// }

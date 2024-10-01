@@ -44,3 +44,12 @@
 .color-red {
     color: #FF8190;
 }
+
+@media(max-width: 1250px) {
+    .category-container {
+
+        input {
+            width: 350px;
+        }
+    }
+}

@@ -1,3 +1,11 @@
+@if(!isLandscape) {
 <div [ngClass]="{'disabled-element': homeService.disabledElement}">
     <router-outlet></router-outlet>
 </div>
+} @else {
+<div class="landscape-container">
+    <p class="rotate-message">
+        Bitte drehen Sie Ihr Gerät, um fortzufahren.
+    </p>
+</div>
+}

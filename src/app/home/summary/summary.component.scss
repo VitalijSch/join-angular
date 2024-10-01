@@ -249,3 +249,19 @@
         }
     }
 }
+
+@media(max-width: 1350px) {
+    .summary-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .left-container {
+        align-self: center;
+    }
+
+    .right-container {
+        align-self: center;
+        text-align: center;
+    }
+}

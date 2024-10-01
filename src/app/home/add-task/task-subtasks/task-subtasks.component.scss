@@ -122,3 +122,15 @@
         }
     }
 }
+
+@media(max-width: 1250px) {
+    .category-container {
+
+        .input-container {
+
+            input {
+                width: 350px;
+            }
+        }
+    }
+}
