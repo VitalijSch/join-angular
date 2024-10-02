@@ -55,15 +55,18 @@ export class FirebaseDatabaseService {
     }
   }
 
-  public getContact(): void {
-    this.unsubscribeContact = onSnapshot(this.contactCollection(), (querySnapshot) => {
-      this.contacts = [];
-      querySnapshot.forEach((doc) => {
-        this.contacts.push(doc.data() as Contact);
+  public getContact(): Promise<void> {
+    return new Promise((resolve) => {
+      this.unsubscribeContact = onSnapshot(this.contactCollection(), (querySnapshot) => {
+        this.contacts = [];
+        querySnapshot.forEach((doc) => {
+          this.contacts.push(doc.data() as Contact);
+        });
+        this.contactsSubject.next(this.contacts);
+        this.getLettersForContacts();
+        this.sortContactsByName();
+        resolve();
       });
-      this.contactsSubject.next(this.contacts);
-      this.getLettersForContacts();
-      this.sortContactsByName();
     });
   }
 

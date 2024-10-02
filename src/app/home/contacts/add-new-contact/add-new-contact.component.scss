@@ -165,3 +165,98 @@
 .show-animation {
     animation: slideFromRightToLeft 0.5s ease-out forwards;
 }
+
+.d-none {
+    display: none;
+}
+
+.d-none-mobile {
+    display: block;
+}
+
+@media(max-width: 1270px) {
+    .hidden-container {
+
+        .add-new-contact-container {
+            max-width: 700px;
+            max-height: 760px;
+            @include display-flex(column, unset, unset, unset);
+        }
+    }
+
+    .left-container {
+        border-radius: 30px 30px 0 0;
+
+        div {
+
+            h3 {
+                font-size: 47px;
+                line-height: 56.4px;
+            }
+
+            span {
+                font-size: 20px;
+                line-height: 24px;
+            }
+        }
+    }
+
+    .right-container {
+        border-radius: 0 0 30px 30px;
+        position: relative;
+
+        .close-icon-container {
+            display: none;
+        }
+
+        .contact-data-container {
+            padding-top: 50px;
+
+            .contact-big-icon {
+                width: 120px;
+                height: 120px;
+                position: absolute;
+                top: -60px;
+                left: 50%;
+                right: 50%;
+                transform: translateX(-50%);
+                margin: 0;
+            }
+
+            .contact-data {
+
+                .input-container {
+                    width: 364px;
+                }
+            }
+        }
+
+        .button-container {
+            padding: 0;
+            align-self: center;
+
+            button {
+
+                &:nth-child(1) {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .d-none-mobile {
+        display: none;
+    }
+
+    .d-none {
+        display: block;
+        position: absolute;
+        top: 24px;
+        right: 24px;
+        border-radius: 56px;
+
+        &:hover {
+            background-color: #29ABE2;
+        }
+    }
+}

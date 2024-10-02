@@ -4,6 +4,7 @@
 .contacts-container {
     height: 100%;
     display: flex;
+    overflow: hidden;
 
     .left-container {
         width: 456px;

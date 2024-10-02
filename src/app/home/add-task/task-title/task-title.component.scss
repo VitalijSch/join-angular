@@ -12,7 +12,7 @@
 
     input {
         max-width: 440px;
-        width: 100%;
+        width: 440px;
         height: 48px;
         border: 1px solid #D1D1D1;
         border-radius: 10px;
@@ -45,7 +45,7 @@
     color: #FF8190;
 }
 
-@media(max-width: 1250px) {
+@media(max-width: 1400px) {
     .category-container {
 
         input {

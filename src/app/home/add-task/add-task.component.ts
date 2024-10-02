@@ -116,14 +116,16 @@ export class AddTaskComponent {
   }
 
   private moveUserToFrontInContacts(): void {
-    this.firebaseDatabaseService.contacts.forEach(contact => {
-      contact.selected = false;
-    });
-    const currentUserEmail = this.firebaseAuthenticationService.auth.currentUser?.email;
-    const userIndex = this.addTaskService.task.assignedTo.findIndex(contact => contact.email === currentUserEmail);
-    if (userIndex !== -1) {
-      const [userContact] = this.addTaskService.task.assignedTo.splice(userIndex, 1);
-      this.addTaskService.task.assignedTo.unshift(userContact);
+    if (this.firebaseDatabaseService.contacts !== undefined) {
+      this.firebaseDatabaseService.contacts.forEach(contact => {
+        contact.selected = false;
+      });
+      const currentUserEmail = this.firebaseAuthenticationService.auth.currentUser?.email;
+      const userIndex = this.addTaskService.task.assignedTo.findIndex(contact => contact.email === currentUserEmail);
+      if (userIndex !== -1) {
+        const [userContact] = this.addTaskService.task.assignedTo.splice(userIndex, 1);
+        this.addTaskService.task.assignedTo.unshift(userContact);
+      }
     }
   }
 

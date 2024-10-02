@@ -132,3 +132,29 @@
 .show-animation-back {
     animation: slideFromLeftToRight 1s ease-out forwards;
 }
+
+@media(max-width: 1350px) {
+    .contacts-data-container {
+
+        .headline-container {
+
+            h2 {
+                font-size: 52px;
+            }
+        }
+
+        .contact-data-container {
+
+            .contact-data-top-container {
+                gap: 10px;
+
+                .contact-data-edit-delete-container {
+
+                    span {
+                        font-size: 32px;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -22,7 +22,8 @@ export class TaskAssignedToComponent {
   public firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
 
-  public ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
+    await this.firebaseDatabaseService.getContact();
     this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts;
   }
 
