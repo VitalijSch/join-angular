@@ -111,6 +111,18 @@ body {
     }
 }
 
+@keyframes fadeInSummary {
+    0% {
+        opacity: 1;
+        z-index: 1;
+    }
+
+    100% {
+        opacity: 0;
+        z-index: -1;
+    }
+}
+
 @keyframes fadeBackground {
     0% {
         background-color: $primary-color;

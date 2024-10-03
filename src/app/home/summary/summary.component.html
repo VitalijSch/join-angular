@@ -5,6 +5,7 @@
             <h2>Join 360</h2>
             <div class="line-container"></div>
             <span>Key Metrics at a Glance</span>
+            <div class="line-container-mobile"></div>
         </div>
         <div class="bottom-container">
             <div class="first-container">
@@ -69,15 +70,15 @@
                 </div>
             </div>
             <div class="third-container">
-                <div (click)="homeService.navigateToRoute('board')">
+                <div (click)="homeService.navigateToRoute('board')" class="flex-container">
                     <span>{{firebaseDatabaseService.tasks.length}}</span>
                     <span>Task in<br>Board</span>
                 </div>
-                <div (click)="homeService.navigateToRoute('board')">
+                <div (click)="homeService.navigateToRoute('board')" class="flex-container">
                     <span>{{firebaseDatabaseService.taskList.inProgress.length}}</span>
                     <span>Task in<br>Progress</span>
                 </div>
-                <div (click)="homeService.navigateToRoute('board')">
+                <div (click)="homeService.navigateToRoute('board')" class="flex-container">
                     <span>{{firebaseDatabaseService.taskList.awaitFeedback.length}}</span>
                     <span>Awaiting<br>Feedback</span>
                 </div>
@@ -88,4 +89,8 @@
     <div class="right-container">
         <span>{{getGreeting()}},<br><span class="user">{{firebaseAuthenticationService.getUserName()}}</span></span>
     </div>
+</div>
+<div class="mobile-greeting-container">
+    {{getGreeting()}},<br>
+    <span>{{firebaseAuthenticationService.getUserName()}}</span>
 </div>

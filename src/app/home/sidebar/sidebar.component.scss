@@ -13,6 +13,10 @@
     padding: 45px 0;
     @include display-flex(column, space-between, center, unset);
 
+    svg {
+        display: block;
+    }
+
     span {
         font-size: 16px;
         line-height: 19.2px;
@@ -30,6 +34,11 @@
 
             &:hover {
                 background-color: #2A3D59;
+            }
+
+            svg {
+                width: unset;
+                height: unset;
             }
         }
 
@@ -78,6 +87,48 @@
                 font-weight: 400;
                 color: #CDCDCD;
             }
+        }
+    }
+}
+
+@media(max-width: 1080px) {
+    .sidebar-container {
+        padding: 0 27px;
+        @include display-flex(unset, unset, center, 27px);
+
+        svg {
+            display: none;
+        }
+
+        .navigation-container {
+            height: 100%;
+            @include display-flex(unset, space-evenly, center, 27px);
+
+            div {
+                height: 100%;
+                width: 80px;
+                @include display-flex(column, center, center, 4px);
+                padding: 8px 0;
+                border-radius: 8px;
+                cursor: pointer;
+    
+                &:hover {
+                    background-color: #2A3D59;
+                }
+
+                svg {
+                    display: block;
+                }
+
+                span {
+                    font-size: 14px;
+                    line-height: 16.8px;
+                }
+            }
+        }
+
+        .legal-info-container {
+            display: none;
         }
     }
 }

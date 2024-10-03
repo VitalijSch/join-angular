@@ -13,6 +13,10 @@
     position: relative;
     z-index: 1;
 
+    svg {
+        display: none;
+    }
+
     span {
         font-size: 20px;
         line-height: 24px;
@@ -22,6 +26,7 @@
         @include display-flex(unset, unset, center, 16px);
 
         svg {
+            display: block;
             cursor: pointer;
 
             &:hover {
@@ -82,9 +87,54 @@
             border-radius: 8px;
             cursor: pointer;
 
+            &:first-child {
+                display: none;
+            }
+
             &:hover {
                 background-color: #2A3D59;
 
+            }
+        }
+    }
+}
+
+@media(max-width: 1080px) {
+    .header-container {
+        padding: 20px 16px;
+
+        svg {
+            display: block;
+        }
+
+        span {
+            display: none;
+        }
+
+        .user-icon-container {
+
+            svg {
+                display: none;
+            }
+
+            .user-icon {
+
+                span {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    .dropdown-background-container {
+
+        .dropdown-menu-container {
+
+            span {
+
+                &:first-child {
+                    display: block;
+                }
             }
         }
     }
