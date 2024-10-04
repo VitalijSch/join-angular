@@ -150,3 +150,75 @@
         gap: 10px;
     }
 }
+
+@media(max-width: 1080px) {
+    .add-task-container {
+        max-height: unset;
+        padding-top: 20px;
+        padding-bottom: 20px;
+
+        .main-container {
+            overflow: auto;
+            width: 100%;
+            flex-direction: column;
+            gap: unset;
+
+            &::-webkit-scrollbar {
+                width: 0;
+            }
+
+            .line-container {
+                display: none;
+            }
+
+            .left-container {
+                margin-bottom: 20px;
+            }
+        }
+
+        .bottom-container {
+            max-width: unset;
+            padding-top: 10px;
+
+            .button-container {
+
+                button {
+
+                    &:nth-child(1) {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media(max-width: 400px) {
+    .add-task-container {
+
+        .bottom-container {
+
+            span {
+                font-size: 12px;
+            }
+
+            .button-container {
+
+                button {
+
+                    &:nth-child(2) {
+                        width: 140px;
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media(min-width: 1081px) and (max-height: 800px) {
+    .add-task-container {
+        padding-top: 20px;
+        gap: 10px;
+    }
+}

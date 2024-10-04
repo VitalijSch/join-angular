@@ -176,6 +176,7 @@
 
 @media(max-width: 1270px) {
     .hidden-container {
+        padding: 0 20px;
 
         .add-new-contact-container {
             max-width: 700px;
@@ -185,6 +186,8 @@
     }
 
     .left-container {
+        max-height: 352px;
+        height: 100%;
         border-radius: 30px 30px 0 0;
 
         div {

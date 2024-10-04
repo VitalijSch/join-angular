@@ -43,3 +43,13 @@
         }
     }
 }
+
+@media(max-width: 1080px) {
+    .category-container {
+
+        textarea {
+            max-width: unset;
+            width: unset;
+        }
+    }
+}

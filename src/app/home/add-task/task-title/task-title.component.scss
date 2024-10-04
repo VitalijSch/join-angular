@@ -53,3 +53,13 @@
         }
     }
 }
+
+@media(max-width: 1080px) {
+    .category-container {
+
+        input {
+            max-width: unset;
+            width: unset;
+        }
+    }
+}

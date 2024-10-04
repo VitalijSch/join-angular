@@ -132,3 +132,13 @@
         }
     }
 }
+
+@media(max-width: 460px) {
+    .sidebar-container {
+        padding: 0;
+
+        .navigation-container {
+            gap: 0;
+        }
+    }
+}

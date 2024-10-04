@@ -358,7 +358,7 @@
                 height: 110px;
 
                 .urgent-container {
-    
+
                     svg {
                         width: 40px;
                         height: 40px;
@@ -396,6 +396,84 @@
                 font-size: 14px;
                 line-height: 16.8px;
                 color: $primary-color;
+            }
+        }
+    }
+}
+
+@media(max-width: 420px) {
+    .left-container {
+
+        .bottom-container {
+            width: 310px;
+
+            .second-container {
+                width: 310px;
+
+                .deadline-container {
+
+                    span {
+
+                        &:first-child {
+                            font-size: 16px;
+                            line-height: 19.2px;
+                        }
+
+                        &:last-child {
+                            font-size: 14px;
+                            line-height: 16.8px;
+                        }
+                    }
+                }
+            }
+
+            .third-container {
+
+                div {
+                    max-width: 95px;
+                }
+            }
+        }
+    }
+}
+
+@media(max-height: 750px) {
+    .left-container {
+        padding: 0;
+
+        .top-container {
+            gap: 5px;
+            padding-bottom: 5px;
+        }
+    }
+}
+
+@media(min-width: 1000px) and (max-height: 800px) {
+    .left-container {
+
+        .top-container {
+            display: none;
+        }
+
+        .bottom-container {
+            height: fit-content;
+            justify-content: unset;
+            gap: 10px;
+
+            .first-container {
+                height: 135px;
+            }
+
+            .second-container {
+                height: 135px;
+            }
+
+            .third-container {
+                height: 135px;
+
+                div {
+                    height: 135px;
+                }
             }
         }
     }

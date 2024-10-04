@@ -131,3 +131,28 @@
         }
     }
 }
+
+@media(max-width: 1080px) {
+    .category-container {
+
+        .input-container {
+            max-width: unset;
+            width: unset;
+        }
+
+        ul {
+            width: unset;
+
+            .edit-input-container {
+                width: unset;
+            }
+
+            .subtask-container {
+
+                .edit-or-delete-container {
+                    @include display-flex(unset, center, center, 4px);
+                }
+            }
+        }
+    }
+}

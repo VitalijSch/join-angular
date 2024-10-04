@@ -101,3 +101,17 @@
         }
     }
 }
+
+@media(max-width: 1080px) {
+    .category-container {
+
+        .choose-category-container {
+            max-width: unset;
+            width: unset;
+        }
+
+        input {
+            max-width: unset;
+        }
+    }
+}

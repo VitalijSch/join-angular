@@ -175,3 +175,17 @@
         }
     }
 }
+
+@media(max-width: 1080px) {
+    .category-container {
+
+        input {
+            max-width: unset;
+            width: 100%;
+        }
+
+        .selected-contact-container {
+            gap: 0;
+        }
+    }
+}
