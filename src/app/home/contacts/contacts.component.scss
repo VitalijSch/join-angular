@@ -67,6 +67,13 @@
         border-radius: 10px;
     }
 
+    svg {
+
+        &:last-child {
+            display: none;
+        }
+    }
+
     .top-scrollbar-arrow {
         position: absolute;
         top: 20px;
@@ -151,5 +158,42 @@
 }
 
 @media(max-width: 800px) {
-    
+    .contacts-container {
+
+        .left-container {
+            width: 100%;
+        }
+
+        .toggle-left-container {
+            display: none;
+        }
+    }
+
+    .button-container {
+        display: none;
+    }
+
+    .contact-container {
+        padding: 0;
+        margin: 0;
+
+        &::-webkit-scrollbar {
+            width: 0;
+        }
+
+        svg {
+            display: none;
+
+            &:last-child {
+                display: block;
+                position: absolute;
+                right: 20px;
+                bottom: 50px;
+            }
+        }
+    }
+
+    .contacts-data-mobile {
+        width: 100%;
+    }
 }

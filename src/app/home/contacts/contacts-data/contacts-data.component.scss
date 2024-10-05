@@ -7,24 +7,38 @@
     @include display-flex(column, unset, unset, 30px);
 
     .headline-container {
-        @include display-flex(unset, unset, center, 30px);
 
-        h2 {
-            font-weight: 700;
-            font-size: 61px;
-            line-height: 73.2px;
+        .headline-container-mobile {
+            @include display-flex(unset, unset, center, 30px);
+
+            h2 {
+                font-weight: 700;
+                font-size: 61px;
+                line-height: 73.2px;
+            }
+
+            span {
+                font-size: 27px;
+                line-height: 32.4px;
+                color: $primary-color;
+            }
+
+            .stroke-container {
+                width: 3px;
+                height: 59px;
+                background-color: $effect-color;
+            }
+
+            .stroke-container-mobile {
+                display: none;
+                width: 90px;
+                height: 3px;
+                background-color: $effect-color;
+            }
         }
 
-        span {
-            font-size: 27px;
-            line-height: 32.4px;
-            color: $primary-color;
-        }
-
-        .stroke-container {
-            width: 3px;
-            height: 59px;
-            background-color: $effect-color;
+        svg {
+            display: none
         }
     }
 
@@ -125,6 +139,11 @@
     }
 }
 
+.edit-icon-container {
+    display: none;
+    width: 100%;
+}
+
 .show-animation {
     animation: slideFromRightToLeft 0.3s ease-out forwards;
 }
@@ -162,5 +181,64 @@
 @media(max-width: 1080px) {
     .contacts-data-container {
         padding: 100px 20px;
+    }
+}
+
+@media(max-width: 800px) {
+    .contacts-data-container {
+        height: 100%;
+        display: none;
+        padding-top: 40px;
+
+        .headline-container {
+            @include display-flex(unset, space-between, start, unset);
+
+            .headline-container-mobile {
+                flex-direction: column;
+                align-items: unset;
+                gap: 10px;
+
+                .stroke-container {
+                    display: none;
+                }
+
+                .stroke-container-mobile {
+                    display: block;
+                }
+            }
+
+            svg {
+                display: block;
+            }
+        }
+
+        .contact-data-container {
+
+            .contact-information {
+                padding-bottom: 0;
+            }
+
+            .contact-data-top-container {
+
+                .contact-data-edit-delete-container {
+
+                    span {
+                        font-size: 47px;
+                    }
+
+                    .edit-delete-container {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
+    .toggle-contacts-data-container {
+        display: flex;
+    }
+
+    .edit-icon-container {
+        @include display-flex(unset, flex-end, center, unset);
     }
 }

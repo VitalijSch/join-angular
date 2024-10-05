@@ -1,8 +1,18 @@
-<div class="contacts-data-container">
+<div [ngClass]="{'toggle-contacts-data-container': homeService.currentContact.email !== ''}"
+    class="contacts-data-container">
     <div class="headline-container">
-        <h2>Contacts</h2>
-        <div class="stroke-container"></div>
-        <span>Better with a Team</span>
+        <div class="headline-container-mobile">
+            <h2>Contacts</h2>
+            <div class="stroke-container"></div>
+            <span>Better with a Team</span>
+            <div class="stroke-container-mobile"></div>
+        </div>
+        <svg (click)="homeService.resetCurrentContact()" width="38" height="38" viewBox="0 0 38 38" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M13.0097 17.8855H30.1871C31.0362 17.8855 31.7246 18.5739 31.7246 19.4231C31.7246 20.2722 31.0362 20.9606 30.1871 20.9606H13.0097L20.17 28.1209C20.7704 28.7213 20.7704 29.6946 20.17 30.295C19.5697 30.8954 18.5963 30.8954 17.996 30.295L8.53824 20.8373C7.75719 20.0562 7.75719 18.7899 8.53824 18.0089L17.996 8.55115C18.5963 7.9508 19.5697 7.9508 20.17 8.55115C20.7704 9.1515 20.7704 10.1249 20.17 10.7252L13.0097 17.8855Z"
+                fill="#29ABE2" />
+        </svg>
     </div>
     <div [ngClass]="{'show-animation': homeService.currentContact.email !== ''}" class="contact-data-container">
         <div class="contact-data-top-container">
@@ -53,5 +63,36 @@
     <div [ngClass]="{'show-animation': homeService.showAddNewContactAnimation, 'show-animation-back': homeService.closeAddContactAnimation}"
         class="add-contact-container">
         Contact succesfully created
+    </div>
+    <div class="edit-icon-container">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#filter0_d_71395_18084)">
+                <rect x="4" width="56" height="56" rx="28" fill="#2A3647" shape-rendering="crispEdges" />
+                <rect x="4.5" y="0.5" width="55" height="55" rx="27.5" stroke="#2A3647" shape-rendering="crispEdges" />
+                <mask id="mask0_71395_18084" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="16" y="12" width="32"
+                    height="32">
+                    <rect x="16" y="12" width="32" height="32" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_71395_18084)">
+                    <path
+                        d="M31.9997 38.6666C31.2663 38.6666 30.6386 38.4055 30.1163 37.8833C29.5941 37.361 29.333 36.7333 29.333 35.9999C29.333 35.2666 29.5941 34.6388 30.1163 34.1166C30.6386 33.5944 31.2663 33.3333 31.9997 33.3333C32.733 33.3333 33.3608 33.5944 33.883 34.1166C34.4052 34.6388 34.6663 35.2666 34.6663 35.9999C34.6663 36.7333 34.4052 37.361 33.883 37.8833C33.3608 38.4055 32.733 38.6666 31.9997 38.6666ZM31.9997 30.6666C31.2663 30.6666 30.6386 30.4055 30.1163 29.8833C29.5941 29.361 29.333 28.7333 29.333 27.9999C29.333 27.2666 29.5941 26.6388 30.1163 26.1166C30.6386 25.5944 31.2663 25.3333 31.9997 25.3333C32.733 25.3333 33.3608 25.5944 33.883 26.1166C34.4052 26.6388 34.6663 27.2666 34.6663 27.9999C34.6663 28.7333 34.4052 29.361 33.883 29.8833C33.3608 30.4055 32.733 30.6666 31.9997 30.6666ZM31.9997 22.6666C31.2663 22.6666 30.6386 22.4055 30.1163 21.8833C29.5941 21.361 29.333 20.7333 29.333 19.9999C29.333 19.2666 29.5941 18.6388 30.1163 18.1166C30.6386 17.5944 31.2663 17.3333 31.9997 17.3333C32.733 17.3333 33.3608 17.5944 33.883 18.1166C34.4052 18.6388 34.6663 19.2666 34.6663 19.9999C34.6663 20.7333 34.4052 21.361 33.883 21.8833C33.3608 22.4055 32.733 22.6666 31.9997 22.6666Z"
+                        fill="white" />
+                </g>
+            </g>
+            <defs>
+                <filter id="filter0_d_71395_18084" x="0" y="0" width="64" height="64" filterUnits="userSpaceOnUse"
+                    color-interpolation-filters="sRGB">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                        result="hardAlpha" />
+                    <feOffset dy="4" />
+                    <feGaussianBlur stdDeviation="2" />
+                    <feComposite in2="hardAlpha" operator="out" />
+                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_71395_18084" />
+                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_71395_18084" result="shape" />
+                </filter>
+            </defs>
+        </svg>
     </div>
 </div>
