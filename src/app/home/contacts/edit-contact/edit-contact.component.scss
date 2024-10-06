@@ -248,3 +248,9 @@
         }
     }
 }
+
+@media(max-width: 800px) {
+    .show-animation {
+        animation: slideFromBottomToCenter 0.5s ease-out forwards;
+    }
+}

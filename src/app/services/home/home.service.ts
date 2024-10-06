@@ -13,6 +13,8 @@ export class HomeService {
   public showEditContactContainer: boolean = false;
   public showEditContactAnimation: boolean = false;
 
+  public showEditDeleteContainer: boolean = false;
+
   public closeAddContactAnimation: boolean = false;
 
   public disabledElement: boolean = false;
@@ -42,6 +44,15 @@ export class HomeService {
 
   public toggleEditContactContainer(): void {
     this.showEditContactContainer = !this.showEditContactContainer;
+  }
+
+  public closeEditDeleteContainer(): void {
+    this.showEditDeleteContainer = false;
+  }
+
+  public toggleEditDeleteContainer(event: { stopPropagation: () => void; }): void {
+    event.stopPropagation();
+    this.showEditDeleteContainer = !this.showEditDeleteContainer;
   }
 
   public getCurrentContact(contact: Contact): void {

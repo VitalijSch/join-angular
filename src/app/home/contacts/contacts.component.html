@@ -45,7 +45,8 @@
                 xmlns="http://www.w3.org/2000/svg">
                 <path d="M10 0L5 4L0 0L10 0Z" fill="#A8A8A8" />
             </svg>
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg (click)="homeService.toggleAddNewContactContainer()" width="64" height="64" viewBox="0 0 64 64"
+                fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g filter="url(#filter0_d_71395_17379)">
                     <rect x="4" width="56" height="56" rx="28" fill="#2A3647" shape-rendering="crispEdges" />
                     <rect x="4.5" y="0.5" width="55" height="55" rx="27.5" stroke="#2A3647"
@@ -77,7 +78,8 @@
             </svg>
         </div>
     </div>
-    <app-contacts-data [ngClass]="{'contacts-data-mobile': homeService.currentContact.email !== ''}"></app-contacts-data>
+    <app-contacts-data
+        [ngClass]="{'contacts-data-mobile': homeService.currentContact.email !== ''}"></app-contacts-data>
 </div>
 @if(homeService.showAddNewContactContainer) {
 <app-add-new-contact></app-add-new-contact>

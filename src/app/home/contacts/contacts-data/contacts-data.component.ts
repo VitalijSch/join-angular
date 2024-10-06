@@ -12,7 +12,7 @@ import { FirebaseDatabaseService } from '../../../services/firebase-database/fir
 })
 export class ContactsDataComponent {
   public homeService: HomeService = inject(HomeService);
-  
+
   private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
 
   public async deleteContact(): Promise<void> {
@@ -22,5 +22,11 @@ export class ContactsDataComponent {
       this.homeService.resetCurrentContact();
       await this.firebaseDatabaseService.deleteContact(idOfContact);
     }
+  }
+
+  public toggleEditDeleteContainerMobile(): void {
+    this.homeService.toggleEditContactContainer();
+    console.log(this.homeService.showEditContactContainer)
+    this.homeService.closeEditDeleteContainer();
   }
 }
