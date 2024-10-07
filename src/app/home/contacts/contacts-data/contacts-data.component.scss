@@ -2,9 +2,11 @@
 @import './../../../../styles/mixins.scss';
 
 .contacts-data-container {
+    height: 100%;
     flex: 1;
     padding: 100px 70px;
     @include display-flex(column, unset, unset, 30px);
+    position: relative;
 
     .headline-container {
 
@@ -126,10 +128,14 @@
     .add-contact-container {
         width: 326px;
         height: 74px;
+        position: absolute;
+        bottom: 110px;
+        left: 70px;
         background-color: $primary-color;
         color: $secondary-color;
         @include display-flex(unset, center, center, unset);
         margin-top: 120px;
+        padding: 25px;
         border: unset;
         border-radius: 20px;
         box-shadow: 0px 0px 4px 0px #0000001A;
@@ -141,6 +147,9 @@
 
 .edit-icon-container {
     display: none;
+    position: absolute;
+    bottom: 50px;
+    right: 20px;
     width: 100%;
 }
 
@@ -150,12 +159,12 @@
     height: 100px;
     position: absolute;
     right: 10px;
-    bottom: 20px;
+    bottom: 50px;
     border-radius: 20px 20px 0 20px;
     padding: 10px;
     background-color: white;
     box-shadow: 0px 4px 4px 0px #00000040;
-    animation: slideFromRightToLeft 0.3s ease-out forwards;
+    animation: slideFromRightToLeft 0.1s ease-out forwards;
 
     div {
         width: 100%;
@@ -167,7 +176,7 @@
 }
 
 .show-animation {
-    animation: slideFromRightToLeft 0.3s ease-out forwards;
+    animation: slideFromRightToLeft 0.3s ease-out 0.1s forwards;
 }
 
 .show-animation-back {
@@ -203,13 +212,15 @@
 @media(max-width: 1080px) {
     .contacts-data-container {
         padding: 100px 20px;
+
+        .add-contact-container {
+            left: 20px;
+        }
     }
 }
 
 @media(max-width: 800px) {
     .contacts-data-container {
-        position: relative;
-        height: 100%;
         display: none;
         padding-top: 40px;
 
@@ -236,6 +247,7 @@
         }
 
         .contact-data-container {
+            transform: translateX(0) !important;
 
             .contact-information {
                 padding-bottom: 0;
@@ -267,5 +279,66 @@
 
     .edit-delete-container-mobile {
         @include display-flex(column, space-evenly, center, unset);
+    }
+
+    .show-animation {
+        animation: slideFromBottomToCenter 0.5s ease-out forwards;
+    }
+
+    .show-animation-back {
+        animation: slideFromBottomToCenter 1s ease-out forwards;
+    }
+}
+
+@media(max-width: 550px) {
+    .contacts-data-container {
+        padding: 20px;
+
+        .headline-container {
+
+            .headline-container-mobile {
+
+                h2 {
+                    font-size: 40px;
+                }
+            }
+
+            svg {
+                margin-top: 14px;
+            }
+        }
+
+        .contact-data-container {
+
+            .contact-data-top-container {
+
+                .contact-big-icon {
+                    width: 80px;
+                    height: 80px;
+                    font-size: 27px;
+                }
+
+                .contact-data-edit-delete-container {
+
+                    span {
+                        font-size: 23px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media(min-width: 1000px) and (max-height: 740px) {
+    .contacts-data-container {
+        padding: 10px 20px;
+        gap: 10px;
+
+        .contact-data-container {
+
+            .contact-information {
+                padding: 0;
+            }
+        }
     }
 }

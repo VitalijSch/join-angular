@@ -52,3 +52,26 @@
         color: $effect-color;
     }
 }
+
+@media(max-width: 1080px) {
+    .privacy-policy-container {
+        padding: 40px;
+
+        .arrow-container {
+
+            svg {
+                top: 150.6px;
+                right: 40px;
+            }
+        }
+    }
+}
+
+@media(max-width: 550px) {
+    .privacy-policy-container {
+
+        h1 {
+            font-size: 30px;
+        }
+    }
+}

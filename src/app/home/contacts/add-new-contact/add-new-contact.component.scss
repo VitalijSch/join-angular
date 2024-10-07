@@ -269,3 +269,70 @@
         animation: slideFromBottomToCenter 0.5s ease-out forwards;
     }
 }
+
+@media(max-width: 420px) {
+    .left-container {
+
+        div {
+
+            h3 {
+                font-size: 30px;
+            }
+
+            span {
+                font-size: 13px;
+            }
+        }
+    }
+
+    .right-container {
+
+        .contact-data-container {
+
+            .contact-data {
+
+                .input-container {
+                    width: 265px;
+
+                    input {
+                        padding-right: 51px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media(max-height: 750px) {
+    .hidden-container {
+        padding: 20px;
+    }
+
+    .left-container {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+    .right-container {
+        padding: 20px 48px;
+
+        .contact-data-container {
+
+            .contact-data {
+                gap: 20px;
+            }
+
+            .contact-big-icon {
+                width: 80px;
+                height: 80px;
+                top: -40px;
+            }
+        }
+    }
+}
+
+@media(min-width: 1000px) and (max-height: 740px) {
+    .left-container {
+        padding-top: 10px;
+    }
+}

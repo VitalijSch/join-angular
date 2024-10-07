@@ -23,10 +23,4 @@ export class ContactsDataComponent {
       await this.firebaseDatabaseService.deleteContact(idOfContact);
     }
   }
-
-  public toggleEditDeleteContainerMobile(): void {
-    this.homeService.toggleEditContactContainer();
-    console.log(this.homeService.showEditContactContainer)
-    this.homeService.closeEditDeleteContainer();
-  }
 }

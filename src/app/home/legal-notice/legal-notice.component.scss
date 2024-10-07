@@ -51,3 +51,26 @@
         color: $effect-color;
     }
 }
+
+@media(max-width: 1080px) {
+    .legal-notice-container {
+        padding: 40px;
+
+        .arrow-container {
+
+            svg {
+                top: 150.6px;
+                right: 40px;
+            }
+        }
+    }
+}
+
+@media(max-width: 550px) {
+    .legal-notice-container {
+
+        h1 {
+            font-size: 32px;
+        }
+    }
+}
