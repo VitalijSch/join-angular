@@ -67,12 +67,34 @@
         font-weight: 700;
         font-size: 21px;
         line-height: 25.2px;
-        @include display-flex(unset, unset, center, 4px);
+        @include display-flex(unset, center, center, 4px);
         cursor: pointer;
 
         &:hover {
             background-color: $effect-color;
             box-shadow: 0px 4px 4px 0px #00000040;
+        }
+    }
+}
+
+@media(max-width: 800px) {
+    .search-add-task-container {
+
+        .search-container {
+            width: 100%;
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+        }
+
+        button {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+
+            span {
+                display: none;
+            }
         }
     }
 }

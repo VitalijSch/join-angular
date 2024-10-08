@@ -3,7 +3,6 @@
 
 
 .board-container {
-    max-height: 928px;
     height: 100%;
     padding: 110px 96px 0px 86px;
     @include display-flex(column, unset, unset, unset);
@@ -11,6 +10,7 @@
     .top-container {
         @include display-flex(unset, space-between, center, unset);
         padding-bottom: 55px;
+        position: relative;
 
         h2 {
             font-weight: 700;
@@ -30,4 +30,21 @@
 
 .show-animation {
     animation: slideFromRightToLeft 0.5s ease-out forwards;
+}
+
+@media(max-width: 1250px) {
+    .board-container {
+        padding-right: 50px;
+        padding-left: 50px;
+    }
+}
+
+@media(max-width: 800px) {
+    .board-container {
+        padding-top: 20px;
+
+        .top-container {
+            margin-bottom: 55px;
+        }
+    }
 }

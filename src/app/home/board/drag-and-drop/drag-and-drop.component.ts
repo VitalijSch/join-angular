@@ -4,6 +4,7 @@ import { TaskComponent } from './task/task.component';
 import { BoardService } from '../../../services/board/board.service';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { Task } from '../../../interfaces/task';
+import { AddTaskService } from '../../../services/add-task/add-task.service';
 
 @Component({
   selector: 'app-drag-and-drop',
@@ -16,11 +17,18 @@ export class DragAndDropComponent {
   public firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
   public boardService: BoardService = inject(BoardService);
 
+  private addTaskService: AddTaskService = inject(AddTaskService);
+
   public async onDrop(event: CdkDragDrop<Task>): Promise<void> {
     const draggedTask = event.item.data;
     this.removeDraggedTask(draggedTask);
     this.addDraggedTaskToList(event, draggedTask);
     await this.firebaseDatabaseService.updateTaskList(this.firebaseDatabaseService.taskList);
+  }
+
+  public showAddTaskWithRightStatus(status: string): void {
+    this.addTaskService.status = status;
+    this.boardService.toggleShowAddTask();
   }
 
   private removeDraggedTask(draggedTask: any): void {
