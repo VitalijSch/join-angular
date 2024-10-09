@@ -5,11 +5,13 @@ import { BoardService } from '../../../services/board/board.service';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { Task } from '../../../interfaces/task';
 import { AddTaskService } from '../../../services/add-task/add-task.service';
+import { CommonModule } from '@angular/common';
+import { HomeService } from '../../../services/home/home.service';
 
 @Component({
   selector: 'app-drag-and-drop',
   standalone: true,
-  imports: [TaskComponent, DragDropModule],
+  imports: [TaskComponent, DragDropModule, CommonModule],
   templateUrl: './drag-and-drop.component.html',
   styleUrls: ['./drag-and-drop.component.scss']
 })
@@ -18,6 +20,7 @@ export class DragAndDropComponent {
   public boardService: BoardService = inject(BoardService);
 
   private addTaskService: AddTaskService = inject(AddTaskService);
+  private homeService: HomeService = inject(HomeService);
 
   public async onDrop(event: CdkDragDrop<Task>): Promise<void> {
     const draggedTask = event.item.data;
@@ -27,8 +30,13 @@ export class DragAndDropComponent {
   }
 
   public showAddTaskWithRightStatus(status: string): void {
+    const screenWidth = window.innerWidth;
     this.addTaskService.status = status;
-    this.boardService.toggleShowAddTask();
+    if (screenWidth <= 1080) {
+      this.homeService.navigateToRoute('addTask');
+    } else {
+      this.boardService.toggleShowAddTask();
+    }
   }
 
   private removeDraggedTask(draggedTask: any): void {

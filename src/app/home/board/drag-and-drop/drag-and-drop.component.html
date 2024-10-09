@@ -1,6 +1,7 @@
 <div class="drag-and-drop-container">
     @if(firebaseDatabaseService.taskList) {
-    <div>
+    <div id="toDoList" (cdkDropListDropped)="onDrop($event)" cdkDropList
+        [cdkDropListConnectedTo]="['inProgressList', 'awaitFeedbackList', 'doneList']" class="drag-and-drop">
         <div class="drag-and-drop-header">
             To do
             <svg (click)="showAddTaskWithRightStatus('To do')" width="24" height="25" viewBox="0 0 24 25" fill="none"
@@ -10,8 +11,7 @@
                 <path d="M16 12.5754L8 12.5754" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
             </svg>
         </div>
-        <div id="toDoList" (cdkDropListDropped)="onDrop($event)" cdkDropList
-            [cdkDropListConnectedTo]="['inProgressList', 'awaitFeedbackList', 'doneList']" class="category-container">
+        <div [ngStyle]="{'min-height': firebaseDatabaseService.taskList.toDo.length === 0 ? '50px' : '200px'}" class="category-container">
             @if(firebaseDatabaseService.taskList.toDo.length === 0) {
             <div class="no-tasks-feedback-container">
                 No tasks to do
@@ -23,7 +23,8 @@
             }
         </div>
     </div>
-    <div>
+    <div id="inProgressList" (cdkDropListDropped)="onDrop($event)" cdkDropList
+        [cdkDropListConnectedTo]="['toDoList', 'awaitFeedbackList', 'doneList']" class="drag-and-drop">
         <div class="drag-and-drop-header">
             In progress
             <svg (click)="showAddTaskWithRightStatus('In progress')" width="24" height="25" viewBox="0 0 24 25"
@@ -33,8 +34,7 @@
                 <path d="M16 12.5754L8 12.5754" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
             </svg>
         </div>
-        <div id="inProgressList" (cdkDropListDropped)="onDrop($event)" cdkDropList
-            [cdkDropListConnectedTo]="['toDoList', 'awaitFeedbackList', 'doneList']" class="category-container">
+        <div [ngStyle]="{'min-height': firebaseDatabaseService.taskList.inProgress.length === 0 ? '50px' : '200px'}" class="category-container">
             @if(firebaseDatabaseService.taskList.inProgress.length === 0) {
             <div class="no-tasks-feedback-container">
                 No tasks to do
@@ -46,7 +46,8 @@
             }
         </div>
     </div>
-    <div>
+    <div id="awaitFeedbackList" (cdkDropListDropped)="onDrop($event)" cdkDropList
+        [cdkDropListConnectedTo]="['toDoList', 'inProgressList', 'doneList']" class="drag-and-drop">
         <div class="drag-and-drop-header">
             Await feedback
             <svg (click)="showAddTaskWithRightStatus('Await feedback')" width="24" height="25" viewBox="0 0 24 25"
@@ -56,8 +57,7 @@
                 <path d="M16 12.5754L8 12.5754" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
             </svg>
         </div>
-        <div id="awaitFeedbackList" (cdkDropListDropped)="onDrop($event)" cdkDropList
-            [cdkDropListConnectedTo]="['toDoList', 'inProgressList', 'doneList']" class="category-container">
+        <div [ngStyle]="{'min-height': firebaseDatabaseService.taskList.awaitFeedback.length === 0 ? '50px' : '200px'}" class="category-container">
             @if(firebaseDatabaseService.taskList.awaitFeedback.length === 0) {
             <div class="no-tasks-feedback-container">
                 No tasks to do
@@ -69,10 +69,10 @@
             }
         </div>
     </div>
-    <div>
+    <div id="doneList" (cdkDropListDropped)="onDrop($event)" cdkDropList
+        [cdkDropListConnectedTo]="['toDoList', 'inProgressList', 'awaitFeedbackList']" class="drag-and-drop">
         <div class="drag-and-drop-header">Done</div>
-        <div id="doneList" (cdkDropListDropped)="onDrop($event)" cdkDropList
-            [cdkDropListConnectedTo]="['toDoList', 'inProgressList', 'awaitFeedbackList']" class="category-container">
+        <div [ngStyle]="{'min-height': firebaseDatabaseService.taskList.done.length === 0 ? '50px' : '200px'}" class="category-container">
             @if(firebaseDatabaseService.taskList.done.length === 0) {
             <div class="no-tasks-feedback-container">
                 No tasks to do

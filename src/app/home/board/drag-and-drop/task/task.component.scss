@@ -92,3 +92,10 @@
         }
     }
 }
+
+@media(max-width: 800px) {
+    .task-container {
+        width: 252px;
+        margin: 10px;
+    }
+}

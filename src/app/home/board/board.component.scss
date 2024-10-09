@@ -4,7 +4,7 @@
 
 .board-container {
     height: 100%;
-    padding: 110px 96px 0px 86px;
+    padding: 110px 90px 0px 60px;
     @include display-flex(column, unset, unset, unset);
 
     .top-container {
@@ -18,6 +18,11 @@
             line-height: 73.2px;
         }
     }
+}
+
+app-drag-and-drop {
+    height: 100%;
+    overflow: hidden;
 }
 
 .board-add-task-container {
@@ -41,10 +46,16 @@
 
 @media(max-width: 800px) {
     .board-container {
-        padding-top: 20px;
+        padding: 20px;
 
         .top-container {
             margin-bottom: 55px;
         }
+    }
+}
+
+@media(max-width: 350px) {
+    .board-container {
+        padding: 10px;
     }
 }

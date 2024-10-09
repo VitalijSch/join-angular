@@ -4,6 +4,7 @@ import { FirebaseDatabaseService } from '../../../services/firebase-database/fir
 import { AddTaskService } from '../../../services/add-task/add-task.service';
 import { Subscription } from 'rxjs';
 import { Task } from '../../../interfaces/task';
+import { HomeService } from '../../../services/home/home.service';
 
 @Component({
   selector: 'app-search-add-task',
@@ -19,6 +20,7 @@ export class SearchAddTaskComponent {
 
   private addTaskService: AddTaskService = inject(AddTaskService);
   private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
+  private homeService: HomeService = inject(HomeService);
 
   private subscription!: Subscription;
 
@@ -39,8 +41,13 @@ export class SearchAddTaskComponent {
   }
 
   public showAddTaskWithRightStatus(): void {
+    const screenWidth = window.innerWidth;
     this.addTaskService.status = 'To do';
-    this.boardService.toggleShowAddTask();
+    if (screenWidth <= 1080) {
+      this.homeService.navigateToRoute('addTask');
+    } else {
+      this.boardService.toggleShowAddTask();
+    }
   }
 
   public async searchTask(content: string): Promise<void> {

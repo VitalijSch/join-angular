@@ -51,9 +51,10 @@ export class AddTaskComponent {
     this.addTaskService.resetPrio();
     this.addTaskService.resetTask();
     this.setupTaskForm();
-    if (this.router.url.includes('addTask')) {
+    if (this.router.url.includes('addTask') && window.innerWidth > 1080) {
       this.addTaskService.status = 'To do';
     }
+    console.log(this.addTaskService.status)
     this.addTaskService.task.status = this.addTaskService.status;
   }
 

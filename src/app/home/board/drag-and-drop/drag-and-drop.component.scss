@@ -2,24 +2,26 @@
 @import './../../../../styles/mixins.scss';
 
 .drag-and-drop-container {
-    max-height: 728px;
     height: 100%;
     display: grid;
     grid-template-rows: 100%;
-    grid-template-columns: repeat(4, calc(25% - 30px));
-    gap: 30px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 26px;
+    padding: 0 10px;
     overflow-y: auto;
 
     &::-webkit-scrollbar {
         width: 0;
     }
 
-    div {
-        width: 244px;
-        height: 100%;
+    .drag-and-drop {
+        width: 100%;
+        height: calc(100% - 30px);
+        @include display-flex(column, unset, unset, 11px);
+        padding-bottom: 30px;
 
         .drag-and-drop-header {
-            width: 244px;
+            width: 100%;
             height: 34px;
             position: sticky;
             top: 0;
@@ -46,10 +48,10 @@
         }
 
         .category-container {
-            width: 244px;
             @include display-flex(column, unset, unset, 11px);
 
             .no-tasks-feedback-container {
+                max-width: 252px;
                 width: 100%;
                 height: 48px;
                 border: 2px dotted #A8A8A8;
@@ -68,8 +70,11 @@
 @media(max-width: 1250px) {
     .drag-and-drop-container {
 
-        .drag-and-drop-header {
-            font-size: 18px;
+        .drag-and-drop {
+
+            .drag-and-drop-header {
+                font-size: 18px;
+            }
         }
     }
 }
@@ -77,8 +82,27 @@
 @media(max-width: 1100px) {
     .drag-and-drop-container {
 
-        .drag-and-drop-header {
-            font-size: 16px;
+        .drag-and-drop {
+
+            .drag-and-drop-header {
+                font-size: 16px;
+            }
+        }
+    }
+}
+
+@media(max-width: 800px) {
+    .drag-and-drop-container {
+        grid-template-rows: repeat(4, 1fr);
+        grid-template-columns: 100%;
+
+        .drag-and-drop {
+            gap: 0;
+
+            .category-container {
+                flex-direction: unset;
+                overflow-x: auto;
+            }
         }
     }
 }
