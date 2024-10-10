@@ -26,7 +26,6 @@ app-drag-and-drop {
 }
 
 .board-add-task-container {
-    width: 1208px;
     border: unset;
     border-radius: 30px;
     box-shadow: 0px 0px 4px 0px #0000001A;
@@ -57,5 +56,15 @@ app-drag-and-drop {
 @media(max-width: 350px) {
     .board-container {
         padding: 10px;
+    }
+}
+
+@media(min-width: 1000px) and (max-height: 750px) {
+    .board-container {
+        padding-top: 10px;
+
+        .top-container {
+            padding-bottom: 10px;
+        }
     }
 }

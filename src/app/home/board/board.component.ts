@@ -19,6 +19,6 @@ export class BoardComponent {
   private addTaskService: AddTaskService = inject(AddTaskService);
 
   public ngOnInit(): void {
-    this.addTaskService.resetTask();
+    this.addTaskService.status = '';
   }
 }

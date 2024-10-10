@@ -51,11 +51,21 @@ export class AddTaskComponent {
     this.addTaskService.resetPrio();
     this.addTaskService.resetTask();
     this.setupTaskForm();
-    if (this.router.url.includes('addTask') && window.innerWidth > 1080) {
+    if (this.addTaskService.status === '') {
       this.addTaskService.status = 'To do';
     }
     console.log(this.addTaskService.status)
     this.addTaskService.task.status = this.addTaskService.status;
+  }
+
+  private setupTaskForm(): void {
+    this.taskForm = this.fb.group({
+      title: [this.addTaskService.task.title, [Validators.required, Validators.pattern(/^[a-zA-Z0-9\s\-_,\.;:()]+$/)]],
+      searchContact: [],
+      dueDate: [this.addTaskService.task.dueDate, [Validators.required]],
+      selectCategory: [this.addTaskService.task.category, [Validators.required]],
+      subtasks: ['']
+    });
   }
 
   public closeContactsAndCategory(): void {
@@ -128,15 +138,5 @@ export class AddTaskComponent {
         this.addTaskService.task.assignedTo.unshift(userContact);
       }
     }
-  }
-
-  private setupTaskForm(): void {
-    this.taskForm = this.fb.group({
-      title: [this.addTaskService.task.title, [Validators.required, Validators.pattern(/^[a-zA-Z0-9\s\-_,\.;:()]+$/)]],
-      searchContact: [],
-      dueDate: [this.addTaskService.task.dueDate, [Validators.required]],
-      selectCategory: [this.addTaskService.task.category, [Validators.required]],
-      subtasks: ['']
-    });
   }
 }
