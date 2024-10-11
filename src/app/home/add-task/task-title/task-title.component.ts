@@ -15,6 +15,13 @@ export class TaskTitleComponent {
 
   public addTaskService: AddTaskService = inject(AddTaskService);
 
+  /**
+   * Sets the title of the current task to the provided value.
+   *
+   * @public
+   * @param {string} value - The title to be set for the task.
+   * @returns {void}
+   */
   public titleValue(value: string): void {
     this.addTaskService.task.title = value;
   }

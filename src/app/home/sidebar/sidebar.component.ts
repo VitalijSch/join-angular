@@ -16,6 +16,16 @@ export class SidebarComponent {
   public firebaseAuthenticationService: FirebaseAuthenticationService = inject(FirebaseAuthenticationService);
   public router: Router = inject(Router);
 
+  /**
+   * Checks if the current router URL includes the specified path.
+   *
+   * This method compares the current router URL with the provided path.
+   * If the current URL contains the specified path, it returns the path;
+   * otherwise, it returns an empty string.
+   *
+   * @param {string} path - The path to check against the current URL.
+   * @returns {string} The specified path if it is found in the current URL; otherwise, an empty string.
+   */
   public currentUrl(path: string): string {
     if (this.router.url.includes(`${path}`)) {
       return `${path}`;

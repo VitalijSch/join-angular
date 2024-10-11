@@ -15,6 +15,13 @@ export class TaskCategoryComponent {
 
   public addTaskService: AddTaskService = inject(AddTaskService);
 
+  /**
+   * Sets the selected category for the task and updates the form control value.
+   *
+   * @public
+   * @param {string} category - The category to set for the task.
+   * @returns {void}
+   */
   public selectedCategory(category: string): void {
     this.addTaskService.toggleShowCategory();
     this.taskForm.get('selectCategory')?.setValue(`${category}`);

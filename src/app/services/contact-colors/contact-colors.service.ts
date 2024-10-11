@@ -22,6 +22,13 @@ export class ContactColorsService {
     '#FFBB2B'
   ];
 
+  /**
+ * Returns a random color from the `colors` array.
+ * 
+ * Selects a random index from the `colors` array and returns the color at that index.
+ * 
+ * @returns {string} - A randomly selected color from the array.
+ */
   public getRandomColor(): string {
     const randomIndex = Math.floor(Math.random() * this.colors.length);
     return this.colors[randomIndex];

@@ -18,10 +18,24 @@ export class HeaderComponent {
   public homeService: HomeService = inject(HomeService);
   public router: Router = inject(Router);
 
+  /**
+   * Toggles the visibility of the dropdown menu.
+   *
+   * This method switches the value of the `showDropdown` property between true and false,
+   * effectively showing or hiding the dropdown menu.
+   */
   public toggleDropdown(): void {
     this.showDropdown = !this.showDropdown;
   }
 
+  /**
+  * Handles the navigation to a specified legal path and toggles the dropdown menu.
+  *
+  * This method first toggles the dropdown visibility and then navigates to the specified path
+  * using the home service's navigation method.
+  *
+  * @param {string} path - The path to navigate to.
+  */
   public handleLegalNavigation(path: string): void {
     this.toggleDropdown();
     this.homeService.navigateToRoute(`${path}`);

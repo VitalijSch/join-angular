@@ -18,6 +18,15 @@ export class BoardComponent {
 
   private addTaskService: AddTaskService = inject(AddTaskService);
 
+  /**
+   * Initializes the component and sets the status of the add task service.
+   *
+   * This method is called once the component is initialized. It sets the
+   * status property of the `addTaskService` to an empty string, preparing
+   * the service for further use in task management.
+   *
+   * @public
+   */
   public ngOnInit(): void {
     this.addTaskService.status = '';
   }

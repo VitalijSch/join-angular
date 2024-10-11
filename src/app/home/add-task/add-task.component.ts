@@ -46,6 +46,14 @@ export class AddTaskComponent {
   private fb: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
 
+  /**
+   * Lifecycle hook that is called after the component's view has been fully initialized.
+   * This method initializes the form, moves the user to the front in contacts,
+   * and sets the task status to 'To do' if not already set.
+   *
+   * @public
+   * @returns {void}
+   */
   public ngOnInit(): void {
     this.moveUserToFrontInContacts();
     this.addTaskService.resetPrio();
@@ -54,10 +62,15 @@ export class AddTaskComponent {
     if (this.addTaskService.status === '') {
       this.addTaskService.status = 'To do';
     }
-    console.log(this.addTaskService.status)
     this.addTaskService.task.status = this.addTaskService.status;
   }
 
+  /**
+  * Sets up the task form with validation rules for title, due date, and category fields.
+  *
+  * @private
+  * @returns {void}
+  */
   private setupTaskForm(): void {
     this.taskForm = this.fb.group({
       title: [this.addTaskService.task.title, [Validators.required, Validators.pattern(/^[a-zA-Z0-9\s\-_,\.;:()]+$/)]],
@@ -68,6 +81,13 @@ export class AddTaskComponent {
     });
   }
 
+  /**
+  * Closes the contacts and category selection UI,
+  * resets the search contact field, and refreshes the searched contacts list.
+  *
+  * @public
+  * @returns {void}
+  */
   public closeContactsAndCategory(): void {
     this.addTaskService.showContacts = false;
     this.addTaskService.showCategory = false;
@@ -75,6 +95,13 @@ export class AddTaskComponent {
     this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts;
   }
 
+  /**
+  * Clears the subtask form by resetting the task and priority states,
+  * marking all contacts as unselected, and reinitializing the task form.
+  *
+  * @public
+  * @returns {void}
+  */
   public clearSubtaskForm(): void {
     this.addTaskService.resetTask();
     this.addTaskService.resetPrio();
@@ -85,6 +112,13 @@ export class AddTaskComponent {
     this.setupTaskForm();
   }
 
+  /**
+  * Creates a task if the form is valid and the selected category is not the default.
+  * It sorts the tasks by status and handles navigation with a timeout.
+  *
+  * @public
+  * @returns {Promise<void>} - A promise that resolves when the task creation process is complete.
+  */
   public async createTask(): Promise<void> {
     if (this.taskForm.valid && this.taskForm.get('selectCategory')?.value !== 'Select task category') {
       await this.firebaseDatabaseService.sortTasksByStatus(this.addTaskService.task);
@@ -93,6 +127,13 @@ export class AddTaskComponent {
     this.showErrorMessage();
   }
 
+  /**
+  * Displays error messages based on the validity of the form fields.
+  * Marks title, due date, and category as invalid if they do not meet the validation criteria.
+  *
+  * @public
+  * @returns {void}
+  */
   public showErrorMessage(): void {
     if (this.taskForm.get('title')?.invalid) {
       this.addTaskService.isTitleInvalid = true;
@@ -105,6 +146,12 @@ export class AddTaskComponent {
     }
   }
 
+  /**
+  * Checks if the current URL includes '/home/addTask'.
+  *
+  * @public
+  * @returns {boolean} - Returns true if the current URL matches, otherwise false.
+  */
   public checkCurrentUrl(): boolean {
     if (this.router.url.includes('/home/addTask')) {
       return true;
@@ -113,6 +160,13 @@ export class AddTaskComponent {
     }
   }
 
+  /**
+  * Handles the navigation to the board after a timeout,
+  * disables the element during the transition and shows a task creation message.
+  *
+  * @private
+  * @returns {void}
+  */
   private handleSetTimeoutAndNavigate(): void {
     this.homeService.disabledElement = true;
     this.showCreateTaskMessage = true;
@@ -126,6 +180,13 @@ export class AddTaskComponent {
     }, 1500);
   }
 
+  /**
+  * Moves the current user to the front of the assigned contacts list.
+  * It marks all contacts as unselected and ensures the user's contact is displayed first.
+  *
+  * @private
+  * @returns {void}
+  */
   private moveUserToFrontInContacts(): void {
     if (this.firebaseDatabaseService.contacts !== undefined) {
       this.firebaseDatabaseService.contacts.forEach(contact => {

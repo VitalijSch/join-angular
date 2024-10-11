@@ -50,11 +50,23 @@ export class HomeService {
     this.showEditDeleteContainer = false;
   }
 
+  /**
+   * Toggles the visibility of the edit/delete container for a contact.
+   * 
+   * @param {Object} event - The event object.
+   * @param {Function} event.stopPropagation - A function that stops the event from bubbling up the DOM.
+   */
   public toggleEditDeleteContainer(event: { stopPropagation: () => void; }): void {
     event.stopPropagation();
     this.showEditDeleteContainer = !this.showEditDeleteContainer;
   }
 
+  /**
+   * Sets the current contact based on the provided contact.
+   * If the provided contact is the same as the current contact, it resets the current contact.
+   * 
+   * @param {Contact} contact - The contact to set as the current contact.
+   */
   public getCurrentContact(contact: Contact): void {
     if (this.currentContact.email === contact.email) {
       this.resetCurrentContact();
@@ -66,6 +78,9 @@ export class HomeService {
     }
   }
 
+  /**
+   * Resets the current contact to default values.
+   */
   public resetCurrentContact(): void {
     this.currentContact = {
       name: '',
@@ -76,6 +91,12 @@ export class HomeService {
     };
   }
 
+  /**
+   * Triggers animations for adding a new contact.
+   * 
+   * This method manages the visibility of add contact animation 
+   * and controls when to close it based on set timeouts.
+   */
   public addContactAnimation(): void {
     setTimeout(() => {
       this.showAddNewContactAnimation = !this.showAddNewContactAnimation;

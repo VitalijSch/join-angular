@@ -14,18 +14,12 @@
             </div>
             <app-urgent></app-urgent>
             <div class="third-container">
-                <div (click)="homeService.navigateToRoute('board')" class="flex-container">
-                    <span>{{firebaseDatabaseService.tasks.length}}</span>
-                    <span>Task in<br>Board</span>
-                </div>
-                <div (click)="homeService.navigateToRoute('board')" class="flex-container">
-                    <span>{{firebaseDatabaseService.taskList.inProgress.length}}</span>
-                    <span>Task in<br>Progress</span>
-                </div>
-                <div (click)="homeService.navigateToRoute('board')" class="flex-container">
-                    <span>{{firebaseDatabaseService.taskList.awaitFeedback.length}}</span>
-                    <span>Awaiting<br>Feedback</span>
-                </div>
+                <app-tasks-board-in-progress-await-feedback
+                    [taskStatus]="'Task in<br>Board'"></app-tasks-board-in-progress-await-feedback>
+                <app-tasks-board-in-progress-await-feedback
+                    [taskStatus]="'Task in<br>Progreess'"></app-tasks-board-in-progress-await-feedback>
+                <app-tasks-board-in-progress-await-feedback
+                    [taskStatus]="'Awaiting<br>Feedback'"></app-tasks-board-in-progress-await-feedback>
             </div>
         </div>
         }

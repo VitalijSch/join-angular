@@ -14,6 +14,14 @@ export class TaskPrioComponent {
   public addTaskService: AddTaskService = inject(AddTaskService);
   private boardService: BoardService = inject(BoardService);
 
+  /**
+   * Initializes the component by resetting the priority and setting the selected priority
+   * based on the currently selected task from the board service. If no task is selected,
+   * it defaults to 'Medium' priority.
+   *
+   * @public
+   * @returns {void}
+   */
   public ngOnInit(): void {
     this.addTaskService.resetPrio();
     const task = this.boardService.selectedTask;
@@ -24,6 +32,15 @@ export class TaskPrioComponent {
     }
   }
 
+  /**
+  * Sets the selected priority based on the provided priority string.
+  * It toggles the urgency of the task if the provided priority is 'Urgent',
+  * or sets the medium or low priority accordingly.
+  *
+  * @public
+  * @param {string} prio - The priority to be selected ('Urgent', 'Medium', or 'Low').
+  * @returns {void}
+  */
   public selectedPrio(prio: string): void {
     if (prio === 'Urgent') {
       this.toggleUrgent();
@@ -36,6 +53,13 @@ export class TaskPrioComponent {
     }
   }
 
+  /**
+  * Toggles the urgent priority selection for the task.
+  * If selected, it sets the task priority to 'Urgent' and deselects medium and low priorities.
+  *
+  * @public
+  * @returns {void}
+  */
   public toggleUrgent(): void {
     this.addTaskService.selectUrgent = !this.addTaskService.selectUrgent;
     if (this.addTaskService.selectUrgent) {
@@ -45,6 +69,13 @@ export class TaskPrioComponent {
     }
   }
 
+  /**
+  * Toggles the medium priority selection for the task.
+  * If selected, it sets the task priority to 'Medium' and deselects urgent and low priorities.
+  *
+  * @public
+  * @returns {void}
+  */
   public toggleMedium(): void {
     this.addTaskService.selectMedium = !this.addTaskService.selectMedium;
     if (this.addTaskService.selectMedium) {
@@ -54,6 +85,13 @@ export class TaskPrioComponent {
     }
   }
 
+  /**
+  * Toggles the low priority selection for the task.
+  * If selected, it sets the task priority to 'Low' and deselects urgent and medium priorities.
+  *
+  * @public
+  * @returns {void}
+  */
   public toggleLow(): void {
     this.addTaskService.selectLow = !this.addTaskService.selectLow;
     if (this.addTaskService.selectLow) {

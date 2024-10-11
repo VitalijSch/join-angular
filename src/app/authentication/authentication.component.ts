@@ -14,6 +14,15 @@ import { SignupButtonComponent } from './signup-button/signup-button.component';
 export class AuthenticationComponent {
   public authenticationService: AuthenticationService = inject(AuthenticationService);
 
+  /**
+   * Initializes the component when it is created.
+   *
+   * This method is called once the component has been initialized.
+   * It triggers any animations related to the authentication service.
+   *
+   * @public
+   * @returns {void}
+   */
   public ngOnInit(): void {
     this.authenticationService.handleAnimation();
   }

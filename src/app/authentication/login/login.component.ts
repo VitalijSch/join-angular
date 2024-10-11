@@ -23,12 +23,25 @@ export class LoginComponent {
   private encryptionService: EncryptionService = inject(EncryptionService);
   private fb: FormBuilder = inject(FormBuilder);
 
+  /**
+   * Lifecycle hook that is called after the component's view has been fully initialized.
+   * This method sets up the user form, resets the password visibility, and checks if the "Remember Me" option is enabled.
+   *
+   * @public
+   * @returns {Promise<void>}
+   */
   public async ngOnInit(): Promise<void> {
     this.setupUserForm();
     this.resetPassword();
     this.checkRememberMe();
   }
 
+  /**
+  * Sets up the user form with validation rules for email and password fields.
+  *
+  * @private
+  * @returns {void}
+  */
   private setupUserForm(): void {
     this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]],
@@ -36,6 +49,13 @@ export class LoginComponent {
     });
   }
 
+  /**
+  * Resets the password visibility flags based on the user form inputs.
+  * Hides the password fields if they are empty.
+  *
+  * @public
+  * @returns {void}
+  */
   public resetPassword(): void {
     if (this.userForm.get('password')?.value === '') {
       this.authenticationService.showPassword = false;
@@ -45,10 +65,23 @@ export class LoginComponent {
     }
   }
 
+  /**
+  * Toggles the state of the "Remember Me" checkbox.
+  *
+  * @public
+  * @returns {void}
+  */
   public toggleRememberMe(): void {
     this.rememberMe = !this.rememberMe;
   }
 
+  /**
+  * Logs in the user with the provided email and password if the form is valid.
+  * Handles the "Remember Me" functionality by saving or removing login data accordingly.
+  *
+  * @public
+  * @returns {Promise<void>} - A promise that resolves when the login process is complete.
+  */
   public async loginAsUser(): Promise<void> {
     if (this.userForm.valid) {
       const email = this.userForm.get('email')?.value;
@@ -58,6 +91,13 @@ export class LoginComponent {
     }
   }
 
+  /**
+  * Logs in as a guest user.
+  * Removes any saved login data if "Remember Me" is not checked.
+  *
+  * @public
+  * @returns {Promise<void>} - A promise that resolves when the guest login process is complete.
+  */
   public async loginAsGuest(): Promise<void> {
     if (!this.rememberMe) {
       this.removeLoginDataFromLocalStorage();
@@ -65,6 +105,13 @@ export class LoginComponent {
     await this.firebaseAuthenticationService.loginAsGuest();
   }
 
+  /**
+  * Checks if the "Remember Me" option was previously set.
+  * If so, it decrypts and populates the email and password fields in the form.
+  *
+  * @private
+  * @returns {void}
+  */
   private checkRememberMe(): void {
     const encryptedEmail = localStorage.getItem('email');
     const encryptedPassword = localStorage.getItem('password');
@@ -78,6 +125,12 @@ export class LoginComponent {
     }
   }
 
+  /**
+  * Decrypts the login data stored in local storage and populates the user form fields with the decrypted values.
+  *
+  * @private
+  * @returns {void}
+  */
   private decryptLoginData(): void {
     const encryptedEmail = localStorage.getItem('email');
     const encryptedPassword = localStorage.getItem('password');
@@ -91,6 +144,15 @@ export class LoginComponent {
     }
   }
 
+  /**
+  * Handles the "Remember Me" functionality by either saving the login data to local storage
+  * or removing it based on the checkbox state.
+  *
+  * @private
+  * @param {string} email - The email entered by the user.
+  * @param {string} password - The password entered by the user.
+  * @returns {void}
+  */
   private handleRememberMe(email: string, password: string): void {
     if (this.rememberMe) {
       this.encryptLoginData(email, password);
@@ -99,6 +161,14 @@ export class LoginComponent {
     }
   }
 
+  /**
+  * Encrypts the login data (email and password) and stores it in local storage.
+  *
+  * @private
+  * @param {string} email - The email to encrypt and store.
+  * @param {string} password - The password to encrypt and store.
+  * @returns {void}
+  */
   private encryptLoginData(email: string, password: string): void {
     const encryptedEmail = this.encryptionService.encrypt(email);
     const encryptedPassword = this.encryptionService.encrypt(password);
@@ -106,6 +176,12 @@ export class LoginComponent {
     localStorage.setItem('password', encryptedPassword);
   }
 
+  /**
+  * Removes the login data (email and password) from local storage.
+  *
+  * @private
+  * @returns {void}
+  */
   private removeLoginDataFromLocalStorage(): void {
     const encryptedEmail = localStorage.getItem('email');
     const encryptedPassword = localStorage.getItem('password');

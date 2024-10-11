@@ -46,6 +46,9 @@ export class FirebaseDatabaseService {
     this.getTaskList();
   }
 
+  /**
+   * Cleans up subscriptions to Firestore snapshots when the component is destroyed.
+   */
   public ngOnDestroy(): void {
     if (this.unsubscribeContact) {
       this.unsubscribeContact();
@@ -55,6 +58,12 @@ export class FirebaseDatabaseService {
     }
   }
 
+  /**
+   * Retrieves the contact list from Firestore and updates the local contacts array.
+   * It also emits the contacts to the contacts subject and retrieves letters for contacts.
+   * 
+   * @returns {Promise<void>} - A promise that resolves when the contact retrieval is complete.
+   */
   public getContact(): Promise<void> {
     return new Promise((resolve) => {
       this.unsubscribeContact = onSnapshot(this.contactCollection(), (querySnapshot) => {
@@ -70,6 +79,12 @@ export class FirebaseDatabaseService {
     });
   }
 
+  /**
+   * Retrieves the task list from Firestore and updates the local task list.
+   * If the task list is empty, it adds a new task list.
+   * 
+   * @returns {Promise<void>} - A promise that resolves when the task list retrieval is complete.
+   */
   public getTaskList(): Promise<void> {
     return new Promise((resolve) => {
       this.unsubscribeTaskList = onSnapshot(this.taskListCollection(), (querySnapshot) => {
@@ -87,6 +102,12 @@ export class FirebaseDatabaseService {
     });
   }
 
+  /**
+   * Adds a new contact to Firestore and updates the local contacts list.
+   * 
+   * @param {Contact} contact - The contact object to add.
+   * @returns {Promise<void>} - A promise that resolves when the contact has been added.
+   */
   public async addContact(contact: Contact): Promise<void> {
     try {
       const userDocRef = doc(this.contactCollection());
@@ -99,6 +120,12 @@ export class FirebaseDatabaseService {
     }
   }
 
+  /**
+   * Adds a new task list to Firestore.
+   * 
+   * @param {TaskList} taskList - The task list object to add.
+   * @returns {Promise<void>} - A promise that resolves when the task list has been added.
+   */
   public async addTaskList(taskList: TaskList): Promise<void> {
     try {
       const userDocRef = doc(this.taskListCollection());
@@ -109,6 +136,12 @@ export class FirebaseDatabaseService {
     }
   }
 
+  /**
+   * Updates an existing contact in Firestore.
+   * 
+   * @param {Contact} contact - The contact object with updated data.
+   * @returns {Promise<void>} - A promise that resolves when the contact has been updated.
+   */
   public async updateContact(contact: Contact): Promise<void> {
     try {
       const contactDocRef = doc(this.contactCollection(), contact.id);
@@ -121,6 +154,12 @@ export class FirebaseDatabaseService {
     }
   }
 
+  /**
+   * Updates an existing task list in Firestore.
+   * 
+   * @param {TaskList} taskList - The task list object with updated data.
+   * @returns {Promise<void>} - A promise that resolves when the task list has been updated.
+   */
   public async updateTaskList(taskList: TaskList): Promise<void> {
     try {
       const taskDocRef = doc(this.taskListCollection(), taskList.id);
@@ -131,6 +170,12 @@ export class FirebaseDatabaseService {
     }
   }
 
+  /**
+   * Deletes a contact from Firestore and updates the local contacts list.
+   * 
+   * @param {string} id - The ID of the contact to delete.
+   * @returns {Promise<void>} - A promise that resolves when the contact has been deleted.
+   */
   public async deleteContact(id: string): Promise<void> {
     try {
       const customerDocRef = doc(this.contactCollection(), id);
@@ -144,6 +189,12 @@ export class FirebaseDatabaseService {
     }
   }
 
+  /**
+   * Sorts tasks by their status and updates the task list.
+   * 
+   * @param {Task} task - The task to sort.
+   * @returns {Promise<void>} - A promise that resolves when the task sorting is complete.
+   */
   public async sortTasksByStatus(task: Task): Promise<void> {
     this.taskList$.pipe(take(1)).subscribe(taskList => {
       if (task.status === 'To do') {
@@ -162,14 +213,28 @@ export class FirebaseDatabaseService {
     });
   }
 
+  /**
+   * Gets a reference to the Firestore collection of contacts.
+   * 
+   * @returns {CollectionReference<DocumentData>} - The contacts collection reference.
+   */
   private contactCollection(): CollectionReference<DocumentData> {
     return collection(this.firestore, 'contacts');
   }
 
+  /**
+   * Gets a reference to the Firestore collection of task lists.
+   * 
+   * @returns {CollectionReference<DocumentData>} - The task list collection reference.
+   */
   private taskListCollection(): CollectionReference<DocumentData> {
     return collection(this.firestore, 'taskList');
   }
 
+  /**
+   * Generates a list of unique letters from the contacts' names.
+   * Updates the letters array accordingly.
+   */
   private getLettersForContacts(): void {
     this.letters = [];
     this.contacts$.forEach(contacts => {
@@ -183,6 +248,9 @@ export class FirebaseDatabaseService {
     });
   }
 
+  /**
+   * Sorts the contacts by their names in alphabetical order.
+   */
   private sortContactsByName(): void {
     this.contacts$.forEach(contacts => {
       contacts.sort((a, b) => {

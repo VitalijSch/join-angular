@@ -27,6 +27,14 @@ export class HomeComponent {
 
   private subscriptions = new Subscription();
 
+  /**
+   * Initializes the component.
+   * 
+   * This method checks if the user is logged in, handles navigation events,
+   * and subscribes to the contacts and task list.
+   * 
+   * @returns {Promise<void>} A promise that resolves when the initialization is complete.
+   */
   public async ngOnInit(): Promise<void> {
     await this.firebaseAuthenticationService.checkIfUserIsLogged();
     this.handleNavigationEnd();
@@ -34,10 +42,18 @@ export class HomeComponent {
     this.subscribeToTaskList();
   }
 
+  /**
+  * Cleans up subscriptions when the component is destroyed.
+  */
   public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
+  /**
+  * Subscribes to the contacts observable from the Firebase database service.
+  * 
+  * Updates the local contacts list whenever the observable emits new values.
+  */
   private subscribeToContacts(): void {
     const contacts = this.firebaseDatabaseService.contacts$.subscribe(contacts => {
       this.firebaseDatabaseService.contacts = contacts;
@@ -45,6 +61,12 @@ export class HomeComponent {
     this.subscriptions.add(contacts);
   }
 
+  /**
+  * Subscribes to the task list observable from the Firebase database service.
+  * 
+  * Updates the local task list and concatenates all tasks from different statuses
+  * whenever the observable emits new values.
+  */
   private subscribeToTaskList(): void {
     const taskList = this.firebaseDatabaseService.taskList$.subscribe(taskList => {
       this.firebaseDatabaseService.taskList = taskList;
@@ -54,6 +76,11 @@ export class HomeComponent {
     this.subscriptions.add(taskList);
   }
 
+  /**
+  * Handles the navigation end event.
+  * 
+  * Subscribes to router events and scrolls the page to the top when navigation ends.
+  */
   private handleNavigationEnd(): void {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
@@ -62,6 +89,12 @@ export class HomeComponent {
     });
   }
 
+  /**
+  * Scrolls the specified container to the top.
+  * 
+  * This method is typically called after navigation to ensure that
+  * the user starts at the top of the new content.
+  */
   private scrollToTop(): void {
     const container = this.scrollContainer.nativeElement;
     if (container) {

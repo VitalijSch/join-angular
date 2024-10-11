@@ -15,9 +15,19 @@ export class TaskComponent {
   @Input() task!: Task;
 
   public boardService: BoardService = inject(BoardService);
-  
+
   private firebaseDatabaseService: FirebaseDatabaseService = inject(FirebaseDatabaseService);
 
+  /**
+   * Gets the count of checked subtasks for the currently selected task.
+   *
+   * This method iterates through the tasks in the Firebase database and
+   * counts how many subtasks are marked as checked for the task that 
+   * matches the currently selected task.
+   *
+   * @returns {number} - The count of checked subtasks.
+   * @public
+   */
   public getCheckedSubtasksCount(): number {
     let countCheckedSubtasks = 0;
     this.firebaseDatabaseService.tasks.forEach(task => {
@@ -32,6 +42,16 @@ export class TaskComponent {
     return countCheckedSubtasks;
   }
 
+  /**
+  * Displays the selected task in a larger view.
+  *
+  * This method triggers the display of a big card for the selected task 
+  * by toggling the visibility in the board service and sets the selected 
+  * task to the provided task parameter.
+  *
+  * @param {Task} task - The task to be displayed.
+  * @public
+  */
   public showSelectedTask(task: Task): void {
     this.boardService.toggleShowBigCardTask();
     this.boardService.selectedTask = task;

@@ -1,56 +1,38 @@
 @import './../../../../styles/colors.scss';
 @import './../../../../styles/mixins.scss';
 
-.to-do-and-done-container {
-    max-width: 264px;
+div {
+    max-width: 168px;
     width: 100%;
-    height: 100%;
-    @include display-flex(unset, center, center, 18px);
+    height: 168px;
     background-color: $secondary-color;
     border: unset;
     border-radius: 30px;
     box-shadow: 0px 0px 4px 0px #0000001A;
+    @include display-flex(column, center, center, unset);
     transition: transform 0.05s ease-in-out, width 0.05s ease-in-out, height 0.05s ease-in-out;
     cursor: pointer;
 
     &:hover {
         background-color: $primary-color;
         box-shadow: 0px 4px 4px 0px #00000040;
-    }
 
-    &:hover svg circle {
-        fill: $secondary-color;
-    }
-
-    &:hover .flex-container span {
-        color: $secondary-color;
-    }
-
-    &:first-child {
-
-        &:hover {
-            transform: translate(5px, -5px) scale(1.03);
+        &:nth-child(1) {
+            transform: translate(5px, 0px) scale(1.03);
         }
 
-        &:hover svg path {
-            fill: $primary-color;
+        &:nth-child(2) {
+            transform: scale(1.03);
+        }
+
+        &:nth-child(3) {
+            transform: translate(-5px, 0px) scale(1.03);
         }
     }
 
-    &:last-child {
-
-        &:hover {
-            transform: translate(-5px, -5px) scale(1.03);
-        }
-
-        &:hover svg path {
-            stroke: $primary-color;
-        }
+    &:hover span {
+        color: $secondary-color !important;
     }
-}
-
-.flex-container {
-    @include display-flex(column, unset, center, unset);
 
     span {
 
@@ -61,6 +43,7 @@
         }
 
         &:last-child {
+            text-align: center;
             font-size: 20px;
             line-height: 24px;
             color: $primary-color;
@@ -69,16 +52,10 @@
 }
 
 @media(max-width: 600px) {
-    .to-do-and-done-container {
-        width: 186px;
-
-        svg {
-            width: 40px;
-            height: 40px;
-        }
-    }
-
-    .flex-container {
+    div {
+        border-radius: 20px;
+        max-width: 116px;
+        height: 116px;
 
         span {
 
@@ -98,7 +75,13 @@
 }
 
 @media(max-width: 420px) {
-    .to-do-and-done-container {
-        width: 143px;
+    div {
+        max-width: 95px;
+    }
+}
+
+@media(min-width: 600px) and (max-height: 800px) {
+    div {
+        height: 135px;
     }
 }

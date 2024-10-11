@@ -35,7 +35,7 @@
         .stroke-container {
             position: absolute;
             top: 50%;
-            right: 0;
+            right: 10px;
             transform: translateY(-50%);
             width: 2px;
             height: 102px;
@@ -46,7 +46,6 @@
     .deadline-container {
         width: 264px;
         height: 57px;
-        padding-left: 20px;
         @include display-flex(column, unset, unset, 13px);
 
         span {
@@ -145,7 +144,7 @@
     }
 }
 
-@media(min-width: 1000px) and (max-height: 800px) {
+@media(min-width: 600px) and (max-height: 800px) {
     .second-container {
         height: 135px;
     }

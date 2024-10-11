@@ -15,6 +15,12 @@ export class TaskDueDateComponent {
 
   public addTaskService: AddTaskService = inject(AddTaskService);
 
+  /**
+   * Gets the current date in the format YYYY-MM-DD.
+   *
+   * @public
+   * @returns {string} The current date as a string in the format 'YYYY-MM-DD'.
+   */
   public getToday(): string {
     const today = new Date();
     const year = today.getFullYear();
@@ -23,10 +29,24 @@ export class TaskDueDateComponent {
     return `${year}-${month}-${day}`;
   }
 
+  /**
+  * Opens the date picker for the input element that triggered the event.
+  *
+  * @public
+  * @param {MouseEvent} event - The mouse event triggered by the user.
+  * @returns {void}
+  */
   public openDatepicker(event: MouseEvent): void {
     (event.target as HTMLInputElement).showPicker();
   }
 
+  /**
+  * Sets the due date of the task to the specified value.
+  *
+  * @public
+  * @param {string} value - The due date to set, formatted as 'YYYY-MM-DD'.
+  * @returns {void}
+  */
   public dueDateValue(value: string): void {
     this.addTaskService.task.dueDate = value;
   }

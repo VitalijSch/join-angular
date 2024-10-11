@@ -12,6 +12,13 @@ import { FormsModule } from '@angular/forms';
 export class TaskDescriptionComponent {
   public addTaskService: AddTaskService = inject(AddTaskService);
 
+  /**
+   * Sets the description of the task to the specified value.
+   *
+   * @public
+   * @param {string} value - The description to set for the task.
+   * @returns {void}
+   */
   public descriptionValue(value: string): void {
     this.addTaskService.task.description = value;
   }

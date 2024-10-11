@@ -52,6 +52,17 @@ export class EditTaskComponent {
     this.firebaseDatabaseService.taskList.done
   ];
 
+  /**
+   * Initializes the component by setting up the task form and 
+   * assigning the selected task to the add task service.
+   *
+   * This method is called when the component is initialized. It retrieves
+   * the selected task from the board service, sets it in the add task 
+   * service, and initializes the task form with the task's details.
+   *
+   * @public
+   * @returns {void}
+   */
   public ngOnInit(): void {
     const task = this.boardService.selectedTask;
     if (task) {
@@ -61,6 +72,17 @@ export class EditTaskComponent {
     this.addTaskService.task.status = this.addTaskService.status;
   }
 
+  /**
+  * Sets up the task form with validators and default values.
+  *
+  * This private method initializes the task form with form controls for 
+  * title, searchContact, dueDate, selectCategory, and subtasks. 
+  * It uses the FormBuilder service to create the form group and applies 
+  * validation rules.
+  *
+  * @private
+  * @returns {void}
+  */
   private setupTaskForm(): void {
     this.taskForm = this.fb.group({
       title: [this.addTaskService.task.title, [Validators.required, Validators.pattern(/^[a-zA-Z0-9\s\-_,\.;:()]+$/)]],
@@ -71,6 +93,16 @@ export class EditTaskComponent {
     });
   }
 
+  /**
+  * Closes the contacts and category dropdowns in the task form.
+  *
+  * This public method hides the contacts and category selection interfaces
+  * in the task form. It also resets the search contact input and updates 
+  * the searched contacts list to include all available contacts.
+  *
+  * @public
+  * @returns {void}
+  */
   public closeContactsAndCategory(): void {
     this.addTaskService.showContacts = false;
     this.addTaskService.showCategory = false;
@@ -78,6 +110,16 @@ export class EditTaskComponent {
     this.addTaskService.searchedContact = this.firebaseDatabaseService.contacts;
   }
 
+  /**
+  * Closes the edit task interface.
+  *
+  * This public method iterates over the tasks and sets the selected task 
+  * in the board service to the first task that is not the currently 
+  * selected task. It also toggles the visibility of the edit task interface.
+  *
+  * @public
+  * @returns {void}
+  */
   public closeEditTask(): void {
     this.firebaseDatabaseService.tasks.forEach(task => {
       if (task !== this.boardService.selectedTask) {
@@ -87,6 +129,17 @@ export class EditTaskComponent {
     this.boardService.toggleShowEditTask();
   }
 
+  /**
+  * Creates or updates a task based on the form data.
+  *
+  * This public asynchronous method checks if the task form is valid and 
+  * updates the relevant task in the task list if it is. It then updates 
+  * the Firebase database with the modified task list and toggles the 
+  * visibility of the edit task interface.
+  *
+  * @public
+  * @returns {Promise<void>} - A promise that resolves when the task has been created or updated.
+  */
   public async createTask(): Promise<void> {
     if (this.taskForm.valid && this.taskForm.get('selectCategory')?.value !== 'Select task category') {
       this.lists.forEach(list => {
@@ -99,6 +152,17 @@ export class EditTaskComponent {
     this.showErrorMessage();
   }
 
+  /**
+  * Displays error messages for invalid form fields.
+  *
+  * This public method checks each field of the task form for validity. 
+  * If any field is invalid, it sets the corresponding error flags in 
+  * the add task service to true, which can be used for displaying 
+  * validation messages in the UI.
+  *
+  * @public
+  * @returns {void}
+  */
   public showErrorMessage(): void {
     if (this.taskForm.get('title')?.invalid) {
       this.addTaskService.isTitleInvalid = true;

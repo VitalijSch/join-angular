@@ -20,6 +20,12 @@ export class ContactsComponent {
 
   private addTaskService: AddTaskService = inject(AddTaskService);
 
+  /**
+   * Initializes the component by resetting the current contact and clearing the task status.
+   *
+   * This method is called once the component is initialized. It uses the home service
+   * to reset the current contact and sets the status in the add task service to an empty string.
+   */
   public ngOnInit(): void {
     this.homeService.resetCurrentContact();
     this.addTaskService.status = '';
