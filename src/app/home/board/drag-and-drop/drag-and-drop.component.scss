@@ -25,6 +25,7 @@
             height: 34px;
             position: sticky;
             top: 0;
+            z-index: 100;
             @include display-flex(unset, space-between, center, unset);
             font-weight: 700;
             font-size: 20px;

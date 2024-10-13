@@ -1,4 +1,4 @@
-<div class="summary-container">
+<div [ngClass]="{'summary-animation': homeService.showSummaryAnimation}" class="summary-container">
     <div class="left-container">
         @if(firebaseDatabaseService.taskList){
         <div class="top-container">
@@ -28,7 +28,7 @@
         <span>{{getGreeting()}},<br><span class="user">{{firebaseAuthenticationService.getUserName()}}</span></span>
     </div>
 </div>
-<div class="mobile-greeting-container">
+<div [ngClass]="{'mobile-greeting-animation': homeService.showSummaryAnimation}" class="mobile-greeting-container">
     {{getGreeting()}},<br>
     <span>{{firebaseAuthenticationService.getUserName()}}</span>
 </div>

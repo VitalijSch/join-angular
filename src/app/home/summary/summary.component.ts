@@ -7,11 +7,12 @@ import { AddTaskService } from '../../services/add-task/add-task.service';
 import { ToDoAndDoneComponent } from './to-do-and-done/to-do-and-done.component';
 import { UrgentComponent } from './urgent/urgent.component';
 import { TasksBoardInProgressAwaitFeedbackComponent } from './tasks-board-in-progress-await-feedback/tasks-board-in-progress-await-feedback.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [ToDoAndDoneComponent, UrgentComponent, TasksBoardInProgressAwaitFeedbackComponent],
+  imports: [ToDoAndDoneComponent, UrgentComponent, TasksBoardInProgressAwaitFeedbackComponent, CommonModule],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss'
 })

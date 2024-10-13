@@ -28,18 +28,24 @@ export class HomeComponent {
   private subscriptions = new Subscription();
 
   /**
-   * Initializes the component.
+   * Initializes the component by checking if the user is logged in and setting up necessary subscriptions and handlers.
+   * This method is called once the component is initialized.
    * 
-   * This method checks if the user is logged in, handles navigation events,
-   * and subscribes to the contacts and task list.
+   * @async
+   * @returns {Promise<void>} Resolves when all initialization tasks are complete.
    * 
-   * @returns {Promise<void>} A promise that resolves when the initialization is complete.
+   * @description
+   *  - Checks if the user is logged in using the Firebase Authentication service.
+   *  - Handles navigation events at the end of the routing process.
+   *  - Subscribes to contact updates and task list updates.
+   *  - Initiates the greeting animation for the user.
    */
   public async ngOnInit(): Promise<void> {
     await this.firebaseAuthenticationService.checkIfUserIsLogged();
     this.handleNavigationEnd();
     this.subscribeToContacts();
     this.subscribeToTaskList();
+    this.handleGreetingAnimation();
   }
 
   /**
@@ -100,5 +106,22 @@ export class HomeComponent {
     if (container) {
       container.scrollTo({ top: 0, behavior: 'auto' });
     }
+  }
+
+  /**
+ * Triggers and controls the greeting animation by toggling the `showSummaryAnimation` property.
+ * 
+ * @private
+ * @returns {void}
+ * 
+ * @description
+ *  - Sets `showSummaryAnimation` to `true` to start the animation.
+ *  - After a 2-second delay, resets `showSummaryAnimation` to `false` to end the animation.
+ */
+  private handleGreetingAnimation(): void {
+    this.homeService.showSummaryAnimation = true;
+    setTimeout(() => {
+      this.homeService.showSummaryAnimation = false;
+    }, 2000);
   }
 }

@@ -23,18 +23,23 @@ export class DragAndDropComponent {
   private homeService: HomeService = inject(HomeService);
 
   /**
-   * Handles the drop event for dragging and dropping tasks.
-   *
-   * This asynchronous method is triggered when a task is dropped into a 
-   * different list. It removes the dragged task from its current list, 
-   * adds it to the new list based on the drop event, and updates the 
-   * task list in the Firebase database.
-   *
-   * @param {CdkDragDrop<Task>} event - The drop event containing the dragged task.
-   * @returns {Promise<void>} - A promise that resolves when the task list is updated.
-   * @public
+   * Handles the drop event for a task being dragged and dropped into a new list. 
+   * Updates the task list and syncs changes with the Firebase database.
+   * 
+   * @param {CdkDragDrop<Task>} event - The drag-and-drop event containing the dropped task and its new location.
+   * 
+   * @returns {Promise<void>} Resolves when the task has been moved and the task list updated in the database.
+   * 
+   * @description
+   *  - Triggers a search task update via the `boardService`.
+   *  - Resets the task list by clearing and reloading it from the database.
+   *  - Removes the dragged task from its original list.
+   *  - Adds the dragged task to the appropriate list based on the drop location.
+   *  - Updates the task list in the Firebase database to reflect the changes.
    */
   public async onDrop(event: CdkDragDrop<Task>): Promise<void> {
+    this.boardService.updateSearchTask(true);
+    await this.resetTaskList();
     const draggedTask = event.item.data;
     this.removeDraggedTask(draggedTask);
     this.addDraggedTaskToList(event, draggedTask);
@@ -63,6 +68,25 @@ export class DragAndDropComponent {
   }
 
   /**
+ * Resets the task list by clearing all task categories and then re-fetches the updated task list from the database.
+ * 
+ * @private
+ * @async
+ * @returns {Promise<void>} Resolves when the task list has been reset and reloaded.
+ * 
+ * @description
+ *  - Clears all tasks in the following categories: `toDo`, `inProgress`, `awaitFeedback`, and `done`.
+ *  - Calls `getTaskList()` to fetch the latest task list from the Firebase database.
+ */
+  private async resetTaskList(): Promise<void> {
+    this.firebaseDatabaseService.taskList.toDo = [];
+    this.firebaseDatabaseService.taskList.inProgress = [];
+    this.firebaseDatabaseService.taskList.awaitFeedback = [];
+    this.firebaseDatabaseService.taskList.done = [];
+    await this.firebaseDatabaseService.getTaskList();
+  }
+
+  /**
   * Removes the dragged task from all task lists.
   *
   * This private method iterates through all task lists and removes the 
@@ -79,7 +103,7 @@ export class DragAndDropComponent {
       this.firebaseDatabaseService.taskList.done
     ];
     lists.forEach(list => {
-      const taskIndex = list.findIndex(task => task === draggedTask);
+      const taskIndex = list.findIndex(task => task.title === draggedTask.title);
       if (taskIndex !== -1) {
         list.splice(taskIndex, 1)[0];
       }

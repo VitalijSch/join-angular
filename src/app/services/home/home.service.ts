@@ -19,6 +19,8 @@ export class HomeService {
 
   public disabledElement: boolean = false;
 
+  public showSummaryAnimation: boolean = false;
+
   public currentContact: Contact = {
     name: '',
     email: '',

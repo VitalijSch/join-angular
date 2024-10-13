@@ -212,6 +212,11 @@
 @media(max-width: 1080px) {
     .contacts-data-container {
         padding: 100px 20px;
+        overflow: auto;
+
+        &::-webkit-scrollbar {
+            width: 0;
+        }
 
         .add-contact-container {
             left: 20px;
