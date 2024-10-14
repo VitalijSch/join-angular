@@ -17,10 +17,10 @@
 }
 
 form {
-
+    height: calc(100% - 130px);
 
     .task-container {
-        height: 637px;
+        height: 100%;
         overflow-y: auto;
         @include display-flex(column, unset, unset, 10px);
 

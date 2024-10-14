@@ -1,5 +1,6 @@
 <div (click)="boardService.toggleShowBigCardTask()" class="hidden-container show-hidden-container">
-    <div (click)="$event.stopPropagation()" class="big-card-task-container show-animation">
+    <div (click)="$event.stopPropagation()" [ngStyle]="{'height': boardService.showEditTask ? '92%' : 'fit-content'}"
+        [class.edit-task-style]="boardService.showEditTask" class="big-card-task-container show-animation">
         @if(!boardService.showEditTask) {
         <div class="header-container">
             <span

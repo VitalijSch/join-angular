@@ -39,6 +39,7 @@
         font-weight: 700;
         font-size: 61px;
         line-height: 73.2px;
+        word-break: break-all;
     }
 
     .description,
@@ -117,6 +118,8 @@
 
                 svg {
                     border-radius: 51px;
+                    min-width: 24px;
+                    min-height: 24px;
                     cursor: pointer;
 
                     &:hover {
@@ -168,6 +171,79 @@
     }
 }
 
+app-edit-task {
+    height: 100%;
+}
+
 .show-animation {
     animation: slideFromRightToLeft 0.5s ease-out forwards;
+}
+
+@media(max-width: 550px) {
+    .big-card-task-container {
+        height: fit-content;
+        width: 90%;
+        gap: 10px;
+        padding: 32px 24px;
+
+        &::-webkit-scrollbar {
+            width: 0;
+        }
+
+        .header-container {
+
+            .category {
+                font-size: 16px;
+                line-height: 19.2px;
+            }
+        }
+
+        .title {
+            font-size: 36px;
+            line-height: 43.2px;
+        }
+
+        .description {
+            font-size: 16px;
+            line-height: 19.2px;
+        }
+
+        .description,
+        .due-date,
+        .prio,
+        .assigned-to,
+        .subtasks {
+            font-size: 16px;
+            line-height: 19.2px;
+            word-break: break-all;
+        }
+    }
+}
+
+@media(max-height: 870px) {
+    .big-card-task-container {
+        height: 90%;
+    }
+}
+
+@media(min-height: 1200px) {
+    .big-card-task-container {
+        height: fit-content !important;
+    }
+}
+
+@media(min-width: 1000px) and (max-height: 800px) {
+    .big-card-task-container {
+        gap: 10px;
+        padding: 32px 24px;
+
+        .title {
+            font-size: 36px;
+            line-height: 43.2px;
+        }
+    }
+
+    .edit-task-style {
+        padding: 32px 88px;
+    }
 }

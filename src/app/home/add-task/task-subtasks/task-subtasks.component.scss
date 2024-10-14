@@ -98,6 +98,7 @@
             }
 
             .edit-or-delete-container {
+                min-width: 59px;
                 display: none;
             }
         }
@@ -151,6 +152,31 @@
 
                 .edit-or-delete-container {
                     @include display-flex(unset, center, center, 4px);
+                }
+            }
+        }
+    }
+}
+
+@media(max-width: 550px) {
+    .category-container {
+
+        ul {
+
+            li {
+                width: 70%;
+                word-wrap: break-word;
+            }
+
+            .subtask-container {
+                height: fit-content;
+                padding: 6px 0px 6px 16px;
+            }
+
+            .edit-input-container {
+
+                input {
+                    padding-right: 75px;
                 }
             }
         }
