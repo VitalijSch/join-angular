@@ -20,7 +20,7 @@
     <div class="assigned-to-prio-container">
         <div class="assigned-to-container">
             @for (contact of task.assignedTo; track $index) {
-            <div [ngStyle]="{'background-color': contact.avatarColor, 'left': (25 * $index) + 'px'}"
+            <div [ngStyle]="{'background-color': contact.avatarColor}"
                 class="assigned-to">
                 {{contact.avatarLetters}}
             </div>
