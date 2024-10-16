@@ -37,13 +37,12 @@ export class BigCardTaskComponent {
    * @public
    */
   public async checkedSubtask(currentTask: Task, index: number): Promise<void> {
-    for (const task of this.firebaseDatabaseService.tasks) {
-      if (currentTask === task) {
-        task.subtasks[index].checked = !task.subtasks[index].checked;
-        this.boardService.selectedTask = task;
-        this.updateSelectedTaskInLists();
-        await this.firebaseDatabaseService.updateTaskList(this.firebaseDatabaseService.taskList);
-      }
+    const task = this.firebaseDatabaseService.tasks.find(t => t.title === currentTask.title);
+    if (task) {
+      task.subtasks[index].checked = !task.subtasks[index].checked;
+      this.boardService.selectedTask = task;
+      this.updateSelectedTaskInLists();
+      await this.firebaseDatabaseService.updateTaskList(this.firebaseDatabaseService.taskList);
     }
   }
 
